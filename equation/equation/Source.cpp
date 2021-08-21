@@ -101,8 +101,7 @@ void solve (double a, double b, double c, double* mem, int* is_real, int* roots_
         *(mem) = -b / (2 * a);
         *(mem + 1) = D / (2 * a);
         *(mem + 2) = -b / (2 * a);
-        *(mem + 3) = D / (2 * a);
-        printf("Complex Roots: x1 = %lf - %lf" "i and x2 = %lf + %lf" "i", -b / (2 * a), D / (2 * a), -b / (2 * a), -D / (2 * a));
+        *(mem + 3) = D / (2 * a)
     }
     return;
 }
@@ -115,12 +114,12 @@ void printRoots(double* mem, int roots_cnt, int is_real) {
     }
 
     if (roots_cnt == 1 && isnan(*mem)) {
-        printf("x belongs to R");
+        printf("x belongs to R\n");
         return;
     }
 
     if (!is_real) {
-        printf("Complex Roots: x1 = %lf - %lf" "i and x2 = %lf + %lf" "i", *mem, *(mem + 1), *(mem + 2), *(mem + 3));
+        printf("Complex Roots: x1 = %lf - %lf" "i and x2 = %lf + %lf" "i\n", *mem, *(mem + 1), *(mem + 2), *(mem + 3));
         return;
     }
 
