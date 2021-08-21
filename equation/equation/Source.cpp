@@ -47,8 +47,8 @@ int getVars (double* a, double* b, double* c) {
 }
 
 void solveLinear(double b, double c, double* mem, int* roots_cnt) {
-    if (b == 0) {
-        if (c == 0) {
+    if (b < 1E-9) {
+        if (c < 1E-9) {
             (*mem) = NAN;
             (*roots_cnt) = 1;
             return;
@@ -66,7 +66,7 @@ void solve (double a, double b, double c, double* mem, int* is_real, int* roots_
     
     
 
-    if (a == 0) {
+    if (a < 1E-9) {
         solveLinear(b, c, mem, roots_cnt);
         return;
     }
@@ -83,24 +83,22 @@ void solve (double a, double b, double c, double* mem, int* is_real, int* roots_
     }
 
     D = sqrt(D);
-
+    a = a * 2;
     if (*is_real) {
-        double x1 = (-b - D) / (2 * a);
-        double x2 = (-b + D) / (2 * a);
-        if (x1 != x2) {
-            *mem = x1;
-            *(mem + 1) = x2;
+        if (D < 1E-9) {
+            *mem = (-b - D) / a;
+            *roots_cnt = 1;
         }
         else {
-            *mem = x1;
-            *roots_cnt = 1;
+            *mem = (-b - D) / a;
+            *(mem + 1) = (-b + D) / a;
         }
     }
     else {
-        *(mem) = -b / (2 * a);
-        *(mem + 1) = D / (2 * a);
-        *(mem + 2) = -b / (2 * a);
-        *(mem + 3) = D / (2 * a)
+        *(mem) = -b / a;
+        *(mem + 1) = D / a;
+        *(mem + 2) = -b / a;
+        *(mem + 3) = D / a;
     }
     return;
 }
