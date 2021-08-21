@@ -3,7 +3,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-double eps = 1e-9;
+const double EPSILON = 1e-9;
 
 int equalToZero(double inp);
 
