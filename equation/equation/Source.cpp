@@ -1,6 +1,19 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
+#include "Header.h"
+
+
+int main() {
+    equation ();
+    getchar ();
+    return 0;
+}
+
+
+int equalToZero(double inp) {
+    if (fabs(inp) < eps) {
+        return 1;
+    }
+    return 0;
+}
 
 int getVar (double* a) {
     *a = 0;
@@ -47,8 +60,8 @@ int getVars (double* a, double* b, double* c) {
 }
 
 void solveLinear(double b, double c, double* mem, int* roots_cnt) {
-    if (b < 1E-9) {
-        if (c < 1E-9) {
+    if (equalToZero(b)) {
+        if (equalToZero(c)) {
             (*mem) = NAN;
             (*roots_cnt) = 1;
             return;
@@ -61,12 +74,13 @@ void solveLinear(double b, double c, double* mem, int* roots_cnt) {
     return;
 }
 
+
+
+
 void solve (double a, double b, double c, double* mem, int* is_real, int* roots_cnt) {
     printf("%lf %lf %lf\n", a, b, c);
     
-    
-
-    if (a < 1E-9) {
+    if (equalToZero (a)) {
         solveLinear(b, c, mem, roots_cnt);
         return;
     }
@@ -85,7 +99,7 @@ void solve (double a, double b, double c, double* mem, int* is_real, int* roots_
     D = sqrt(D);
     a = a * 2;
     if (*is_real) {
-        if (D < 1E-9) {
+        if (equalToZero (D)) {
             *mem = (-b - D) / a;
             *roots_cnt = 1;
         }
@@ -140,10 +154,4 @@ void equation() {
     solve (a, b, c, mem, &is_real, &roots_cnt);
     printRoots (mem, roots_cnt, is_real);
     return;
-}
-
-int main() {
-    equation ();
-    getchar ();
-    return 0;
 }
