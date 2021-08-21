@@ -134,18 +134,20 @@ void equation() {
     double* mem = (double*) calloc(4, sizeof(double));
     int is_real = 1, roots_cnt = 0;
     double a = NAN, b = NAN, c = NAN;
-    printf("Please, enter the coefficients.\nExample: For equation 2x^2 + 4x + 5 = 0\nWrite: 2 4 5.\n");
+    printf ("Please, enter the coefficients.\n"
+            "Example: For equation 2x^2 + 4x + 5 = 0\n"
+            "Write: 2 4 5.\n");
     
-    while (!getVars(&a, &b, &c)) {
-        printf("rewrite variables");
+    while (!getVars (&a, &b, &c)) {
+        printf ("rewrite variables");
     }
-    solve(a, b, c, mem, &is_real, &roots_cnt);
-    printRoots(mem, roots_cnt, is_real);
+    solve (a, b, c, mem, &is_real, &roots_cnt);
+    printRoots (mem, roots_cnt, is_real);
     return;
 }
 
 int main() {
-    equation();
-    getchar();
+    equation ();
+    getchar ();
     return 0;
 }
