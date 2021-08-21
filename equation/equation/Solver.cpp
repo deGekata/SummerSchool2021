@@ -51,7 +51,7 @@ int getVars (double* a, double* b, double* c) {
     return res;
 }
 
-void solveLinear(double b, double c, double* mem, int* roots_cnt) {
+void solveLinear (double b, double c, double* mem, int* roots_cnt) {
     if (equalToZero (b)) {
         if (equalToZero (c)) {
             (*mem) = NAN;
@@ -66,7 +66,7 @@ void solveLinear(double b, double c, double* mem, int* roots_cnt) {
     return;
 }
 
-void solveQuadratic(double a, double b, double c, int* is_real, double* mem, int* roots_cnt) {
+void solveQuadratic (double a, double b, double c, int* is_real, double* mem, int* roots_cnt) {
     *is_real = 1;
     double D = b * b - 4 * a * c;
     a = a * 2; //optimization for -b +- D / 2a
@@ -85,7 +85,7 @@ void solveQuadratic(double a, double b, double c, int* is_real, double* mem, int
         D = -D;
     }
 
-    D = sqrt(D); //sqrt from Discriminant
+    D = sqrt(D); //optimization for -b +- sqrt(D) / 2a
     printf("D=%lf", D);
 
     if (*is_real) {
