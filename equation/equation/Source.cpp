@@ -125,7 +125,7 @@ void printRoots(double* mem, int roots_cnt, int is_real) {
     }
 
     for (int it = 0; it < roots_cnt; ++it) {
-        printf("%lf ", *(mem + it));
+        printf("%lf ", mem[it]);
     }
     return;
 }
