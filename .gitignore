@@ -1,14 +1,16 @@
 /.vs
 
-/Debug
+Debug/
 
-/x64
+x64/
 
-/equation/equation.sln
+equation/.vs/
 
-/equation/equation/Debug
+equation/equation.sln
 
-/equation/equation/x64
+equation/equation/Debug/
+
+equation/equation/x64/
 
 *.vcxproj
 
