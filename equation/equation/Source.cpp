@@ -48,6 +48,11 @@ int getVars (double* a, double* b, double* c) {
 
 void solveLinear(double b, double c, double* mem, int* roots_cnt) {
     if (b == 0) {
+        if (c == 0) {
+            (*mem) = NAN;
+            (*roots_cnt) = 1;
+            return;
+        }
         roots_cnt = 0;
         return;
     }
@@ -59,14 +64,11 @@ void solveLinear(double b, double c, double* mem, int* roots_cnt) {
 void solve (double a, double b, double c, double* mem, int* is_real, int* roots_cnt) {
     printf("%lf %lf %lf\n", a, b, c);
     
-    if (a == 0 && b == 0 && c == 0) {
-        (*mem) = NAN;
-        (*roots_cnt) = 1;
-        return;
-    }
+    
 
     if (a == 0) {
         solveLinear(b, c, mem, roots_cnt);
+        return;
     }
 
     *is_real = 1;
@@ -109,6 +111,11 @@ void printRoots(double* mem, int roots_cnt, int is_real) {
     printf("Solve for equation (%lf)*x^2 + (%lf)*x + (c) = 0 is:\n");
     if (roots_cnt == 0) {
         printf("No roots");
+        return;
+    }
+
+    if (roots_cnt == 1 && isnan(*mem)) {
+        printf("x belongs to R");
         return;
     }
 
