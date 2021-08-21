@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
 
-
-int getVar(double* a) {
+int getVar (double* a) {
     *a = 0;
     char ch = getchar();
     short int sign = 1;
@@ -41,64 +41,104 @@ int getVar(double* a) {
 }
 
 
-int getVars(double* a, double* b, double* c) {
+int getVars (double* a, double* b, double* c) {
     int res = getVar(a) && getVar(b) && getVar(c);
     return res;
 }
 
+void solveLinear(double b, double c, double* mem, int* roots_cnt) {
+    if (b == 0) {
+        roots_cnt = 0;
+        return;
+    }
+    (*mem) = c / b;
+    (*roots_cnt) = 1;
+    return;
+}
 
-int solve(double a, double b, double c) {
+void solve (double a, double b, double c, double* mem, int* is_real, int* roots_cnt) {
     printf("%lf %lf %lf\n", a, b, c);
     
-    if (a == 0) {
-        if (b == 0) {
-            printf("rewrite coefs");
-            return 0;
-        }
-        printf("Root for linear equation: %lf", c / b);
-        return 1;
+    if (a == 0 && b == 0 && c == 0) {
+        (*mem) = NAN;
+        (*roots_cnt) = 1;
+        return;
     }
-    int real = 1;
+
+    if (a == 0) {
+        solveLinear(b, c, mem, roots_cnt);
+    }
+
+    *is_real = 1;
     double D;
     D = b * b - 4 * a * c;
     if (D < 0) {
-        real = 0;
-        printf("Roots are complex\n");
+        *roots_cnt = 4;
+        *is_real = 0;
         D = -D;
     }
     else {
-        printf("Roots are real\n");
+        *roots_cnt = 2;
     }
+
     D = sqrt(D);
 
-    if (real) {
+    if (*is_real) {
         double x1 = (-b - D) / (2 * a);
         double x2 = (-b + D) / (2 * a);
-        if (x1 != x2)
-            printf("Roots: x1 = %lf and x2 = %lf", x1, x2);
-        else
-            printf("Root: x = %lf", x1);
+        if (x1 != x2) {
+            *mem = x1;
+            *(mem + 1) = x2;
+        }
+        else {
+            *mem = x1;
+            *roots_cnt = 1;
+        }
     }
     else {
-        printf("Complex Roots: x1 = %lf - %lf" "i and x2 = %lf + %lf" "i", -b / (2 * a), D / (2 * a), -b / (2 * a), D / (2 * a));
+        *(mem) = -b / (2 * a);
+        *(mem + 1) = D / (2 * a);
+        *(mem + 2) = -b / (2 * a);
+        *(mem + 3) = D / (2 * a);
+        printf("Complex Roots: x1 = %lf - %lf" "i and x2 = %lf + %lf" "i", -b / (2 * a), D / (2 * a), -b / (2 * a), -D / (2 * a));
     }
-    return 1;
+    return;
 }
 
-void equation(double* a, double* b, double* c) {
+void printRoots(double* mem, int roots_cnt, int is_real) {
+    printf("Solve for equation (%lf)*x^2 + (%lf)*x + (c) = 0 is:\n");
+    if (roots_cnt == 0) {
+        printf("No roots");
+        return;
+    }
+
+    if (!is_real) {
+        printf("Complex Roots: x1 = %lf - %lf" "i and x2 = %lf + %lf" "i", *mem, *(mem + 1), *(mem + 2), *(mem + 3));
+        return;
+    }
+
+    for (int it = 0; it < roots_cnt; ++it) {
+        printf("%lf ", *(mem + it));
+    }
+    return;
+}
+
+void equation() {
+    double* mem = (double*)malloc(sizeof(double) * 4);
+    int is_real = 1, roots_cnt = 0;
+    double a = NAN, b = NAN, c = NAN;
     printf("Please, enter the coefficients.\nExample: For equation 2x^2 + 4x + 5 = 0\nWrite: 2 4 5.\n");
     
-    while (!getVars(a, b, c) || !solve(*a, *b, *c)) {
+    while (!getVars(&a, &b, &c)) {
         printf("rewrite variables");
     }
-    
-    
+    solve(a, b, c, mem, &is_real, &roots_cnt);
+    printRoots(mem, roots_cnt, is_real);
     return;
 }
 
 int main() {
-    double a = NAN, b = NAN, c = NAN, d = NAN;
-    equation(&a, &b, &c);
+    equation();
     getchar();
     return 0;
 }
