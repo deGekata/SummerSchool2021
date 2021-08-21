@@ -3,6 +3,7 @@
 
 
 int getVar(double* a) {
+    *a = 0;
     char ch = getchar();
     short int sign = 1;
     if (ch == '-') {
@@ -16,6 +17,7 @@ int getVar(double* a) {
     }
 
     if (!(ch == '.' || ch == '\n' || ch == ' ')) {
+        *a = NAN;
         return 0;
     }
 
@@ -29,6 +31,7 @@ int getVar(double* a) {
         }
 
         if (!(ch == '\n' || ch == ' ')) {
+            *a = NAN;
             return 0;
         }
     }
@@ -40,14 +43,21 @@ int getVar(double* a) {
 
 int getVars(double* a, double* b, double* c) {
     int res = getVar(a) && getVar(b) && getVar(c);
-    if (*a == 0) {
-        return 0;
-    }
     return res;
 }
 
 
 int solve(double a, double b, double c) {
+    printf("%lf %lf %lf\n", a, b, c);
+    
+    if (a == 0) {
+        if (b == 0) {
+            printf("rewrite coefs");
+            return 0;
+        }
+        printf("Root for linear equation: %lf", c / b);
+        return 1;
+    }
     int real = 1;
     double D;
     D = b * b - 4 * a * c;
@@ -70,21 +80,20 @@ int solve(double a, double b, double c) {
             printf("Root: x = %lf", x1);
     }
     else {
-        printf("Complex Roots: x1 = %lf - %lf" "i and x2 = %lf + %lf" "i", -b / (2 * a), d / (2 * a), -b / (2 * a), d / (2 * a));
+        printf("Complex Roots: x1 = %lf - %lf" "i and x2 = %lf + %lf" "i", -b / (2 * a), D / (2 * a), -b / (2 * a), D / (2 * a));
     }
-
+    return 1;
 }
 
 void equation(double* a, double* b, double* c) {
     printf("Please, enter the coefficients.\nExample: For equation 2x^2 + 4x + 5 = 0\nWrite: 2 4 5.\n");
-    while (!getVars(a, b, c)) {
-        if (a == 0) {
-            printf("first coefficient must not be equal to zero\n");
-        }
+    
+    while (!getVars(a, b, c) || !solve(*a, *b, *c)) {
         printf("rewrite variables");
     }
-    printf("%lf %lf %lf\n", a, b, c);
-    solve(*a, *b, *c);
+    
+    
+    return;
 }
 
 int main() {
