@@ -3,20 +3,38 @@
 #include <math.h>
 #include <stdlib.h>
 
-const double EPSILON = 1e-9;
+const double ___EPSILON = 1e-7;
 
-struct ans;
+struct Roots;
+struct Params;
 
-int equalToZero(double inp);
+Params* readVars();
 
-int getVar(double* a);
+int equalToZero (double inp);
 
-int getVars(double* a, double* b, double* c);
+int getVar (double* a);
 
-void solveLinear(double b, double c, double* mem, int* roots_cnt);
+int getVars (double* a, double* b, double* c);
 
-void solve(double a, double b, double c, double* mem, int* is_real, int* roots_cnt);
+void solveLinear (double b, double c, double* mem, int* roots_cnt);
 
-void printRoots(double* mem, int roots_cnt, int is_real);
+void solve (double a, double b, double c, double* mem, int* is_real, int* roots_cnt);
 
-void equation();
+void printRoots (double* mem, int roots_cnt, int is_real, Params* param, FILE* thread);
+
+Roots* equation (Params* params);
+
+int testAll ();
+
+int checkXAny (double a, double b, double c, Roots* roots);
+
+int checkNoneRoots (double a, double b, double c, Roots* roots);
+
+int checkComplex (double a, double b, double c, Roots* roots);
+
+int checkLinearQuadratic (double a, double b, double c, Roots* roots);
+
+
+int checkEquation (double a, double b, double c, Roots* roots);
+
+void writeLog();
