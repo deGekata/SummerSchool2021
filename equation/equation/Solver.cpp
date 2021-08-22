@@ -86,8 +86,6 @@ void solveQuadratic (double a, double b, double c, int* is_real, double* mem, in
     }
 
     D = sqrt(D); //optimization for -b +- sqrt(D) / 2a
-    printf("D=%lf", D);
-
     if (*is_real) {
         *mem = (-b - D) / a;
         *(mem + 1) = (-b + D) / a;
@@ -148,9 +146,12 @@ void equation() {
     printf ("Please, enter the coefficients.\n"
             "Example: For equation 2x^2 + 4x + 5 = 0\n"
             "Write: 2 4 5.\n");
-
-    while (!getVars(&a, &b, &c)) {
-        printf ("rewrite variables");
+    int temp = 123;
+    while (scanf ("%lf%lf%lf",&a, &b, &c) != 3) {
+        printf ("");
+        while (getchar() != '\n');
+        printf ("\rrewr");
+        printf("\rfl");
     }
     solve (a, b, c, mem, &is_real, &roots_cnt);
     printRoots (mem, roots_cnt, is_real);
