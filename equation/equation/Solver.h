@@ -5,6 +5,8 @@
 
 const double EPSILON = 1e-9;
 
+struct ans;
+
 int equalToZero(double inp);
 
 int getVar(double* a);

@@ -1,5 +1,11 @@
 #include "Solver.h"
 
+struct ans {
+    
+    int roots_cnt = 0;
+    double* mem = (double*) calloc(4, sizeof(double));
+};
+
 int equalToZero(double inp) {
     if (fabs (inp) < EPSILON) {
         return 1;
@@ -150,8 +156,7 @@ void equation() {
     while (scanf ("%lf%lf%lf",&a, &b, &c) != 3) {
         printf ("");
         while (getchar() != '\n');
-        printf ("\rrewr");
-        printf("\rfl");
+        printf ("rewrite variables\n");
     }
     solve (a, b, c, mem, &is_real, &roots_cnt);
     printRoots (mem, roots_cnt, is_real);
