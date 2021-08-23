@@ -210,6 +210,7 @@ int testAll () {
     double a = 0, b = 0, c = 0;
    
     Roots* roots;
+    //count of test groups
     for(int rep = 0; rep < 4; ++rep){
         fgetc (fp_in);//passes \r in \n\r
         char buff[100] = {};
