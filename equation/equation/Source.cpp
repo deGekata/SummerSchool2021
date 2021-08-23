@@ -1,10 +1,10 @@
 #include "Solver.h"
 
 int main () {
-    //equation (readVars());
+    //Params* params = readVars();
+    //Roots* roots = equation (params);
+    //printRoots(roots, params, stdout);
     testAll();
-    fprintf (stdout, "No roots");
     getchar ();
-
     return 0;
 }

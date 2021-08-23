@@ -5,8 +5,10 @@
 
 const double ___EPSILON = 1e-7;
 
+struct ComplexRoot;
 struct Roots;
 struct Params;
+
 
 Params* readVars();
 
@@ -16,25 +18,26 @@ int getVar (double* a);
 
 int getVars (double* a, double* b, double* c);
 
-void solveLinear (double b, double c, double* mem, int* roots_cnt);
+void solveLinear (Params* params, Roots* roots);
 
-void solve (double a, double b, double c, double* mem, int* is_real, int* roots_cnt);
+void solveQuadratic (Params* params, Roots* roots);
 
-void printRoots (double* mem, int roots_cnt, int is_real, Params* param, FILE* thread);
+void solve (Params* params, Roots* roots);
+
+void printRoots (Roots* roots, Params* param, FILE* thread);
 
 Roots* equation (Params* params);
 
 int testAll ();
 
-int checkXAny (double a, double b, double c, Roots* roots);
+int checkXAny (Params* param, Roots* roots);
 
-int checkNoneRoots (double a, double b, double c, Roots* roots);
+int checkNoneRoots (Params* param, Roots* roots);
 
-int checkComplex (double a, double b, double c, Roots* roots);
+int checkComplex (Params* param, Roots* roots);
 
-int checkLinearQuadratic (double a, double b, double c, Roots* roots);
+int checkLinearQuadratic (Params* param, Roots* roots);
 
 
-int checkEquation (double a, double b, double c, Roots* roots);
+int checkEquation (Params* param, Roots* roots);
 
-void writeLog();
