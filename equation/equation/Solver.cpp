@@ -15,18 +15,25 @@ struct ComplexRoot {
 };
 
 void makeComplexRoot (ComplexRoot* mem, double x_inp, double xi_inp) {
-    struct ComplexRoot root = ComplexRoot();
-    root.x = x_inp;
-    root.xi = xi_inp;
-    (*mem) = root;
+    struct ComplexRoot root = ComplexRoot{};
+    mem->xi = x_inp;
+    mem->xi = xi_inp;
     return;
 }
 
 
 struct Roots {
-    RootsType type;
-    ComplexRoot* mem;
+    RootsType type = NoRoots;
+    ComplexRoot* mem = NULL;
 };
+
+void freeRoots (Roots* roots) {
+    assert (roots);
+
+    free (roots->mem);
+    free (roots);
+    return;
+}
 
 void init (Roots* roots) {
     roots->mem = ( ComplexRoot* ) calloc (2, sizeof (ComplexRoot));
@@ -37,24 +44,17 @@ void init (Roots* roots) {
     }
 }
 
-void freeRoots (Roots* roots) {
-    free(roots->mem);
-    free(roots);
-    return;
-}
-
-
 struct Params {
     double a = NAN, b = NAN, c = NAN;
 };
 
 Params* readVars () {
-    Params* vars = (Params*) calloc(1, sizeof(Params));
+    Params* vars = (Params*) calloc (1, sizeof(Params));
     printf ("Please, enter the coefficients.\n"
         "Example: For equation 2x^2 + 4x + 5 = 0\n"
         "Write: 2 4 5.\n");
-    while (scanf ("%lf%lf%lf", &(*vars).a, &(*vars).b, &(*vars).c) != 3) {
-        while (getchar () != '\n');
+    while (scanf ("%lf%lf%lf", &vars->a, &vars->b, &vars->c) != 3) {
+        while (getchar () != '\n'){};//pass input buffer
         printf ("rewrite variables\n");
     }
     return vars;
@@ -111,6 +111,9 @@ int getVars (double* a, double* b, double* c) {
 }
 
 void solveLinear (Params* params, Roots* roots) {
+    assert (params);
+    assert (roots);
+
     if (equalToZero (params->b)) {
         if (equalToZero (params->c)) {
             roots->type = InfRoots;
@@ -126,6 +129,9 @@ void solveLinear (Params* params, Roots* roots) {
 }
 
 void solveQuadratic (Params* params, Roots* roots) {
+    assert (params);
+    assert (roots);
+
     double D = params->b * params->b - 4 * params->a * params->c;
     double a = params->a * 2; // optimization for -b +- D / 2a
 
@@ -154,6 +160,8 @@ void solveQuadratic (Params* params, Roots* roots) {
 }
 
 void solve (Params* param, Roots* roots) {
+    assert (param);
+    assert (roots);
 
     if (equalToZero (param->a)) {
         solveLinear (param, roots);
@@ -165,6 +173,10 @@ void solve (Params* param, Roots* roots) {
 }
 
 void printRoots (Roots* roots, Params* params, FILE* thread) {
+    assert (params);
+    assert (roots);
+    assert(thread);
+
     fprintf (thread, "Solve for equation (%.14lf)*x^2 + (%.14lf)*x + (%.14lf) = 0 is:\n", (*params).a, (*params).b, (*params).c);
     if (roots->type == NoRoots) {
         fprintf (thread, "No roots\n\n");
@@ -193,6 +205,8 @@ void printRoots (Roots* roots, Params* params, FILE* thread) {
 
 
 Roots* equation (Params* params) {
+    assert (params);
+
     Roots* res = ( Roots* ) malloc (sizeof (Roots));
     init(res);
 
@@ -256,6 +270,9 @@ int testAll () {
 }
 
 int checkEquation (Params* param, Roots* roots) {
+    assert (param);
+    assert (roots);
+
     if (checkXAny (param, roots)) {
         return 1;
     }
@@ -272,6 +289,9 @@ int checkEquation (Params* param, Roots* roots) {
 }
 
 int checkXAny (Params* param, Roots* roots) {
+    assert (param);
+    assert (roots);
+
     if (equalToZero (param->a) &&
         equalToZero (param->b) &&
         equalToZero (param->c) &&
@@ -282,6 +302,9 @@ int checkXAny (Params* param, Roots* roots) {
 }
 
 int checkNoneRoots (Params* param, Roots* roots) {
+    assert (param);
+    assert (roots);
+
     if (equalToZero (param->a) &&
         equalToZero (param->b) &&
         roots->type == NoRoots) {
@@ -291,6 +314,9 @@ int checkNoneRoots (Params* param, Roots* roots) {
 }
 
 int checkComplex (Params* param, Roots* roots) {
+    assert (param);
+    assert (roots);
+
     int iters = roots->type;
     if (roots->type == ComplexRoots) {
         iters = 2;
@@ -310,6 +336,9 @@ int checkComplex (Params* param, Roots* roots) {
 }
 
 int checkLinearQuadratic (Params* param, Roots* roots) {
+    assert (param);
+    assert (roots);
+    
     for (int it = 0; it < roots->type; ++it) {
         if (!equalToZero (param->a * roots->mem[it].x * roots->mem[it].x +
             param->b * roots->mem[it].xi +
