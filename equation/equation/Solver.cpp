@@ -15,6 +15,7 @@ struct ComplexRoot {
 };
 
 void makeComplexRoot (ComplexRoot* mem, double x_inp, double xi_inp) {
+    assert (mem);
     struct ComplexRoot root = ComplexRoot{};
     mem->xi = x_inp;
     mem->xi = xi_inp;
@@ -36,6 +37,7 @@ void freeRoots (Roots* roots) {
 }
 
 void init (Roots* roots) {
+    assert (roots);
     roots->mem = ( ComplexRoot* ) calloc (2, sizeof (ComplexRoot));
     roots->type = NoRoots;
     for (int i = 0; i < 2; ++i) {
@@ -67,48 +69,6 @@ int equalToZero (double inp) {
     return 0;
 }
 
-int getVar (double* a) {
-    *a = 0;
-    char ch = getchar ();
-    short int sign = 1;
-    if (ch == '-') {
-        sign = -1;
-        ch = getchar ();
-    }
-
-    while (ch <= '9' && ch >= '0') {
-        (*a) = (*a) * 10.0 + ( double ) (ch - '0');
-        ch = getchar ();
-    }
-
-    if (!(ch == '.' || ch == '\n' || ch == ' ')) {
-        *a = NAN;
-        return 0;
-    }
-
-    if (ch == '.') {
-        double exp = 10.0;
-        ch = getchar ();
-        while (ch <= '9' && ch >= '0') {
-            (*a) = (*a) + ( double ) (ch - '0') / exp;
-            exp = exp * 10;
-            ch = getchar ();
-        }
-
-        if (!(ch == '\n' || ch == ' ')) {
-            *a = NAN;
-            return 0;
-        }
-    }
-
-    (*a) = (*a) * sign;
-    return 1;
-}
-
-int getVars (double* a, double* b, double* c) {
-    int res = getVar (a) && getVar (b) && getVar (c);
-    return res;
-}
 
 void solveLinear (Params* params, Roots* roots) {
     assert (params);
@@ -175,9 +135,9 @@ void solve (Params* param, Roots* roots) {
 void printRoots (Roots* roots, Params* params, FILE* thread) {
     assert (params);
     assert (roots);
-    assert(thread);
+    assert (thread);
 
-    fprintf (thread, "Solve for equation (%.14lf)*x^2 + (%.14lf)*x + (%.14lf) = 0 is:\n", (*params).a, (*params).b, (*params).c);
+    fprintf (thread, "Solve for equation (%.14lf)*x^2 + (%.14lf)*x + (%.14lf) = 0 is:\n", params->a, params->b, params->c);
     if (roots->type == NoRoots) {
         fprintf (thread, "No roots\n\n");
         return;
