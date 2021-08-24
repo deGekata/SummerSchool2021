@@ -4,6 +4,8 @@ Debug/
 
 x64/
 
+Release/
+
 equation/.vs/
 
 equation/equation.sln
@@ -11,6 +13,8 @@ equation/equation.sln
 equation/equation/Debug/
 
 equation/equation/x64/
+
+equation/equation/Release/
 
 *.vcxproj
 

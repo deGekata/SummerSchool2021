@@ -1,0 +1,48 @@
+\hypertarget{_solver_8h_source}{}\doxysection{Solver.\+h}
+\label{_solver_8h_source}\index{equation/Solver.h@{equation/Solver.h}}
+\mbox{\hyperlink{_solver_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <assert.h>}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{16 \textcolor{keyword}{const} \textcolor{keywordtype}{double} \mbox{\hyperlink{_solver_8h_a6e98234fd2d74152f4b2471fbfb3d2f4}{\_\_\_EPSILON}} = 1e-\/7;}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 }
+\DoxyCodeLine{22 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_complex_root}{ComplexRoot}};}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{25 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_roots}{Roots}};}
+\DoxyCodeLine{26 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_params}{Params}};}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \mbox{\hyperlink{struct_params}{Params}}* readVars();}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{35 \textcolor{keywordtype}{int} \mbox{\hyperlink{_solver_8h_a4b06fa9eae25a7e85be81aafc38b8667}{equalToZero}} (\textcolor{keywordtype}{double} inp);}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{keywordtype}{void} solveLinear (\mbox{\hyperlink{struct_params}{Params}}* params, \mbox{\hyperlink{struct_roots}{Roots}}* roots);}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{keywordtype}{void} solveQuadratic (\mbox{\hyperlink{struct_params}{Params}}* params, \mbox{\hyperlink{struct_roots}{Roots}}* roots);}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{keywordtype}{void} solve (\mbox{\hyperlink{struct_params}{Params}}* params, \mbox{\hyperlink{struct_roots}{Roots}}* roots);}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{keywordtype}{void} printRoots (\mbox{\hyperlink{struct_roots}{Roots}}* roots, \mbox{\hyperlink{struct_params}{Params}}* param, FILE* thread);}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \mbox{\hyperlink{struct_roots}{Roots}}* equation (\mbox{\hyperlink{struct_params}{Params}}* params);}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{keywordtype}{int} testAll ();}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{keywordtype}{int} checkXAny (\mbox{\hyperlink{struct_params}{Params}}* param, \mbox{\hyperlink{struct_roots}{Roots}}* roots);}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{keywordtype}{int} checkNoneRoots (\mbox{\hyperlink{struct_params}{Params}}* param, \mbox{\hyperlink{struct_roots}{Roots}}* roots);}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \textcolor{keywordtype}{int} checkComplex (\mbox{\hyperlink{struct_params}{Params}}* param, \mbox{\hyperlink{struct_roots}{Roots}}* roots);}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{keywordtype}{int} checkLinearQuadratic (\mbox{\hyperlink{struct_params}{Params}}* param, \mbox{\hyperlink{struct_roots}{Roots}}* roots);}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{61 \textcolor{keywordtype}{int} \mbox{\hyperlink{_solver_8h_a4db5b165f7f815b32ebcb98dee7794df}{checkEquation}} (\mbox{\hyperlink{struct_params}{Params}}* param, \mbox{\hyperlink{struct_roots}{Roots}}* roots);}
+\DoxyCodeLine{62 }
+
+\end{DoxyCode}

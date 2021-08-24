@@ -1,0 +1,20 @@
+var NAVTREEINDEX0 =
+{
+"_solver_8h.html":[1,0,0,0],
+"_solver_8h.html#a4b06fa9eae25a7e85be81aafc38b8667":[1,0,0,0,1],
+"_solver_8h.html#a4db5b165f7f815b32ebcb98dee7794df":[1,0,0,0,0],
+"_solver_8h.html#a6e98234fd2d74152f4b2471fbfb3d2f4":[1,0,0,0,2],
+"_solver_8h_source.html":[1,0,0,0],
+"annotated.html":[0,0],
+"classes.html":[0,1],
+"dir_e88e591e5cf4a0dd8e3af4373184a3e1.html":[1,0,0],
+"files.html":[1,0],
+"globals.html":[1,1,0],
+"globals_func.html":[1,1,1],
+"globals_vars.html":[1,1,2],
+"index.html":[],
+"pages.html":[],
+"struct_complex_root.html":[0,0,0],
+"struct_params.html":[0,0,1],
+"struct_roots.html":[0,0,2]
+};

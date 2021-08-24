@@ -1,0 +1,87 @@
+\hypertarget{_solver_8h}{}\doxysection{equation/\+Solver.h File Reference}
+\label{_solver_8h}\index{equation/Solver.h@{equation/Solver.h}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$assert.\+h$>$}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_solver_8h_afc60c45d7082a6bf65d2f4ef04f66623}\label{_solver_8h_afc60c45d7082a6bf65d2f4ef04f66623}} 
+\mbox{\hyperlink{struct_params}{Params}} $\ast$ {\bfseries read\+Vars} ()
+\item 
+int \mbox{\hyperlink{_solver_8h_a4b06fa9eae25a7e85be81aafc38b8667}{equal\+To\+Zero}} (double inp)
+\begin{DoxyCompactList}\small\item\em Checks if inp equals to zero with \+\_\+\+\_\+\+\_\+\+EPSILON accuracy. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_solver_8h_accc1b450ecbbfc9f505446bb1b7496ec}\label{_solver_8h_accc1b450ecbbfc9f505446bb1b7496ec}} 
+void {\bfseries solve\+Linear} (\mbox{\hyperlink{struct_params}{Params}} $\ast$params, \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\item 
+\mbox{\Hypertarget{_solver_8h_a381808aa149f845434fb1c05c52d518e}\label{_solver_8h_a381808aa149f845434fb1c05c52d518e}} 
+void {\bfseries solve\+Quadratic} (\mbox{\hyperlink{struct_params}{Params}} $\ast$params, \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\item 
+\mbox{\Hypertarget{_solver_8h_ae34ecd88695af68d0b67b7179df249e3}\label{_solver_8h_ae34ecd88695af68d0b67b7179df249e3}} 
+void {\bfseries solve} (\mbox{\hyperlink{struct_params}{Params}} $\ast$params, \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\item 
+\mbox{\Hypertarget{_solver_8h_a771f047700cde409ae32bee9b7ba4702}\label{_solver_8h_a771f047700cde409ae32bee9b7ba4702}} 
+void {\bfseries print\+Roots} (\mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots, \mbox{\hyperlink{struct_params}{Params}} $\ast$param, FILE $\ast$thread)
+\item 
+\mbox{\Hypertarget{_solver_8h_a074a631b6d25dfa2365408ca64c10490}\label{_solver_8h_a074a631b6d25dfa2365408ca64c10490}} 
+\mbox{\hyperlink{struct_roots}{Roots}} $\ast$ {\bfseries equation} (\mbox{\hyperlink{struct_params}{Params}} $\ast$params)
+\item 
+\mbox{\Hypertarget{_solver_8h_ae59cd3847da599224967a173189f90e4}\label{_solver_8h_ae59cd3847da599224967a173189f90e4}} 
+int {\bfseries test\+All} ()
+\item 
+\mbox{\Hypertarget{_solver_8h_a8c731ee68f0c3fb87f493eaeea7201cf}\label{_solver_8h_a8c731ee68f0c3fb87f493eaeea7201cf}} 
+int {\bfseries check\+XAny} (\mbox{\hyperlink{struct_params}{Params}} $\ast$param, \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\item 
+\mbox{\Hypertarget{_solver_8h_a5ccd14678df0343e9dbfb8e59f139661}\label{_solver_8h_a5ccd14678df0343e9dbfb8e59f139661}} 
+int {\bfseries check\+None\+Roots} (\mbox{\hyperlink{struct_params}{Params}} $\ast$param, \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\item 
+\mbox{\Hypertarget{_solver_8h_a37ccd93214367bbe294ad045c693341e}\label{_solver_8h_a37ccd93214367bbe294ad045c693341e}} 
+int {\bfseries check\+Complex} (\mbox{\hyperlink{struct_params}{Params}} $\ast$param, \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\item 
+\mbox{\Hypertarget{_solver_8h_a4c06b390a3d86df618769c2cef109173}\label{_solver_8h_a4c06b390a3d86df618769c2cef109173}} 
+int {\bfseries check\+Linear\+Quadratic} (\mbox{\hyperlink{struct_params}{Params}} $\ast$param, \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\item 
+int \mbox{\hyperlink{_solver_8h_a4db5b165f7f815b32ebcb98dee7794df}{check\+Equation}} (\mbox{\hyperlink{struct_params}{Params}} $\ast$param, \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\begin{DoxyCompactList}\small\item\em test \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_solver_8h_a6e98234fd2d74152f4b2471fbfb3d2f4}\label{_solver_8h_a6e98234fd2d74152f4b2471fbfb3d2f4}} 
+const double {\bfseries \+\_\+\+\_\+\+\_\+\+EPSILON} = 1e-\/7
+\begin{DoxyCompactList}\small\item\em Accuracy of methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Gekata Solves quadratic equation 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_solver_8h_a4db5b165f7f815b32ebcb98dee7794df}\label{_solver_8h_a4db5b165f7f815b32ebcb98dee7794df}} 
+\index{Solver.h@{Solver.h}!checkEquation@{checkEquation}}
+\index{checkEquation@{checkEquation}!Solver.h@{Solver.h}}
+\doxysubsubsection{\texorpdfstring{checkEquation()}{checkEquation()}}
+{\footnotesize\ttfamily int check\+Equation (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_params}{Params}} $\ast$}]{param,  }\item[{\mbox{\hyperlink{struct_roots}{Roots}} $\ast$}]{roots }\end{DoxyParamCaption})}
+
+
+
+test 
+
+\begin{DoxyWarning}{Warning}
+lol 
+\end{DoxyWarning}
+\mbox{\Hypertarget{_solver_8h_a4b06fa9eae25a7e85be81aafc38b8667}\label{_solver_8h_a4b06fa9eae25a7e85be81aafc38b8667}} 
+\index{Solver.h@{Solver.h}!equalToZero@{equalToZero}}
+\index{equalToZero@{equalToZero}!Solver.h@{Solver.h}}
+\doxysubsubsection{\texorpdfstring{equalToZero()}{equalToZero()}}
+{\footnotesize\ttfamily int equal\+To\+Zero (\begin{DoxyParamCaption}\item[{double}]{inp }\end{DoxyParamCaption})}
+
+
+
+Checks if inp equals to zero with \+\_\+\+\_\+\+\_\+\+EPSILON accuracy. 
+
+\begin{DoxyWarning}{Warning}
+lol 
+\end{DoxyWarning}

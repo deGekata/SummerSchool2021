@@ -1,23 +1,38 @@
+/*!
+ * \file Solver.h
+ * \author Gekata
+ * Solves quadratic equation
+ */
+
+
+
 #pragma once
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include <assert.h>
 
+/// Accuracy of methods
 const double ___EPSILON = 1e-7;
 
+
+/*!
+    \brief Struct for complex root
+*/
 struct ComplexRoot;
+
+/// \brief Contains roots
 struct Roots;
 struct Params;
 
 
 Params* readVars();
 
+/*! 
+    \brief  Checks if inp equals to zero with ___EPSILON accuracy
+    \warning lol
+*/
 int equalToZero (double inp);
-
-int getVar (double* a);
-
-int getVars (double* a, double* b, double* c);
 
 void solveLinear (Params* params, Roots* roots);
 
@@ -39,6 +54,9 @@ int checkComplex (Params* param, Roots* roots);
 
 int checkLinearQuadratic (Params* param, Roots* roots);
 
-
+/*!
+    \brief test
+    \warning lol
+*/
 int checkEquation (Params* param, Roots* roots);
 
