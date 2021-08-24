@@ -1,8 +1,10 @@
 /.vs
 
-Debug/
+equation/Debug/
 
-x64/
+equation/x64/
+
+equation/Release/
 
 Release/
 
