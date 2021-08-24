@@ -167,7 +167,7 @@ void printRoots (Roots* roots, Params* params, FILE* thread) {
 Roots* equation (Params* params) {
     assert (params);
 
-    Roots* res = ( Roots* ) malloc (sizeof (Roots));
+    Roots* res = ( Roots* ) calloc (1, sizeof (Roots));
     init(res);
 
     solve(params, res);
