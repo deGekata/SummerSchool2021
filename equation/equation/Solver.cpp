@@ -180,10 +180,14 @@ int testAll () {
     
     int counter = 0;
     FILE* fp_in = fopen ("test.txt", "r");
+    if (fp_in == NULL) {
+        return 0;
+    }
+
     FILE* fp_out = fopen("log.txt", "w+");
     double a = 0, b = 0, c = 0;
    
-    Roots* roots;
+    Roots* roots = NULL;
     //count of test groups
     for(int rep = 0; rep < 4; ++rep){
         fgetc (fp_in);//passes \r in \n\r
@@ -194,11 +198,15 @@ int testAll () {
         printf ("%s", buff);//writes 
 
         for (int it = 0; it < counter; ++it) {
-            Params param;
+            Params param = {};
             int last_dot = 0;
-            fscanf (fp_in, "%lf%lf%lf", &(param.a), &(param.b), &(param.c));
+            if (fscanf (fp_in, "%lf%lf%lf", &(param.a), &(param.b), &(param.c)) != 3) {
+                return 0;
+            }
             
             roots = equation(&param);
+
+            // 80 - lenght of loader strings
             int prev_pos = 0, n_pos = 0;
             //begin
             n_pos = 80 * ( double ) (it + 1) / counter + 1;
