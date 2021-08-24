@@ -11,8 +11,9 @@
 #include <math.h>
 #include <stdlib.h>
 #include <assert.h>
-
-/// Accuracy of methods
+#include "pch.h"
+#include < string.h >
+ /// Accuracy of methods
 const double ___EPSILON = 1e-7;
 
 
@@ -26,9 +27,9 @@ struct Roots;
 struct Params;
 
 
-Params* readVars();
+Params* readVars ();
 
-/*! 
+/*!
     \brief  Checks if inp equals to zero with ___EPSILON accuracy
 */
 int equalToZero (double inp);

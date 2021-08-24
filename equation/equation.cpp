@@ -1,10 +1,11 @@
+#include "pch.h"
 #include "Solver.h"
 
 int main () {
     //Params* params = readVars();
     //Roots* roots = equation (params);
     //printRoots(roots, params, stdout);
-    testAll();
+    testAll ();
     getchar ();
     return 0;
 }
