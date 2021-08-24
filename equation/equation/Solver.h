@@ -30,9 +30,9 @@ Params* readVars();
 
 /*! 
     \brief  Checks if inp equals to zero with ___EPSILON accuracy
-    \warning lol
 */
 int equalToZero (double inp);
+
 
 void solveLinear (Params* params, Roots* roots);
 

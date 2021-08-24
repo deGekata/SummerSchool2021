@@ -1,5 +1,11 @@
+/*!
+ * \file Solver.h
+ * \brief Realisation for Solver.h
+ */
+
 #include "Solver.h"
 
+/// \ 
 enum RootsType {
     InfRoots = -1,
     NoRoots = 0,
@@ -24,7 +30,7 @@ void makeComplexRoot (ComplexRoot* mem, double x_inp, double xi_inp) {
 
 
 struct Roots {
-    RootsType type = NoRoots;
+    RootsType type = NoRoots; /// \brief Contain type of roots. See RootsType
     ComplexRoot* mem = NULL;
 };
 
