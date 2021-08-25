@@ -1,0 +1,262 @@
+\hypertarget{_solver_8cpp}{}\doxysection{equation/\+Solver.cpp File Reference}
+\label{_solver_8cpp}\index{equation/Solver.cpp@{equation/Solver.cpp}}
+
+
+Realisation for \mbox{\hyperlink{_solver_8h}{Solver.\+h}}.  
+
+
+{\ttfamily \#include \char`\"{}pch.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Solver.\+h\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_complex_root}{Complex\+Root}}
+\item 
+struct \mbox{\hyperlink{struct_roots}{Roots}}
+\item 
+struct \mbox{\hyperlink{struct_params}{Params}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{_solver_8cpp_a39d1a926e3706274bf9711caa9758282}{Roots\+Type}} \{ \newline
+{\bfseries Inf\+Roots} = -\/1
+, {\bfseries No\+Roots} = 0
+, {\bfseries One\+Root} = 1
+, {\bfseries Two\+Roots} = 2
+, \newline
+{\bfseries Complex\+Roots} = 3
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_solver_8cpp_a4b81f5030aa6ccc9c8617d47cf4cec6c}\label{_solver_8cpp_a4b81f5030aa6ccc9c8617d47cf4cec6c}} 
+void {\bfseries make\+Complex\+Root} (\mbox{\hyperlink{struct_complex_root}{Complex\+Root}} $\ast$mem, double real\+\_\+inp, double im\+\_\+inp)
+\item 
+\mbox{\Hypertarget{_solver_8cpp_a2d7608489e6a4a92d5e22949bce1a2e5}\label{_solver_8cpp_a2d7608489e6a4a92d5e22949bce1a2e5}} 
+void {\bfseries free\+Roots} (\mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\item 
+\mbox{\Hypertarget{_solver_8cpp_abdebad9237054e7ac6ae90e0e3ec6092}\label{_solver_8cpp_abdebad9237054e7ac6ae90e0e3ec6092}} 
+void {\bfseries init} (\mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\item 
+\mbox{\hyperlink{struct_params}{Params}} $\ast$ \mbox{\hyperlink{_solver_8cpp_a6494dcccc574c5b9e69f6be6be5b0486}{read\+Var}} ()
+\begin{DoxyCompactList}\small\item\em Read coefficients for quadratic equation. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_solver_8cpp_a4b06fa9eae25a7e85be81aafc38b8667}\label{_solver_8cpp_a4b06fa9eae25a7e85be81aafc38b8667}} 
+int {\bfseries equal\+To\+Zero} (double inp)
+\begin{DoxyCompactList}\small\item\em Checks if inp equals to zero with \+\_\+\+\_\+\+\_\+\+EPSILON accuracy. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_solver_8cpp_ab5a810fa82a4e1bf162f756cde78ca91}{solve\+Linear}} (const \mbox{\hyperlink{struct_params}{Params}} $\ast$params, \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\begin{DoxyCompactList}\small\item\em Solves linear equation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_solver_8cpp_a45b02fe28beb6930ad4880cccdb3eea7}{solve\+Quadratic}} (const \mbox{\hyperlink{struct_params}{Params}} $\ast$params, \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\begin{DoxyCompactList}\small\item\em Solves quadratic equation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_solver_8cpp_ae2727497bc5d378856b17ac292e00162}{solve}} (const \mbox{\hyperlink{struct_params}{Params}} $\ast$param, \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\begin{DoxyCompactList}\small\item\em Solves equation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_solver_8cpp_ac3b674443231fc3d3991460f0478a8b3}{print\+Roots}} (const \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots, const \mbox{\hyperlink{struct_params}{Params}} $\ast$params, FILE $\ast$thread)
+\begin{DoxyCompactList}\small\item\em Prints equation and roots. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_roots}{Roots}} $\ast$ \mbox{\hyperlink{_solver_8cpp_a7deab584102f122994b278c28b084f7c}{equation}} (const \mbox{\hyperlink{struct_params}{Params}} $\ast$params)
+\begin{DoxyCompactList}\small\item\em Solves equation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_solver_8cpp_aa665479b87577078ad4484271f0e4a42}{beaty\+Print}} (int prev\+\_\+pos, int test\+\_\+num, int test\+\_\+count)
+\begin{DoxyCompactList}\small\item\em Prints progress bar. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_solver_8cpp_ae59cd3847da599224967a173189f90e4}\label{_solver_8cpp_ae59cd3847da599224967a173189f90e4}} 
+int {\bfseries test\+All} ()
+\begin{DoxyCompactList}\small\item\em Test equations from test.\+txt file. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_solver_8cpp_a0a2bd7ab10ff7b0ce1b0ba41c13cfab3}{check\+Equation}} (const \mbox{\hyperlink{struct_params}{Params}} $\ast$param, const \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\begin{DoxyCompactList}\small\item\em Check all cases above. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_solver_8cpp_a04454f33446ae989d9fecaa1e0dea936}{check\+XAny}} (const \mbox{\hyperlink{struct_params}{Params}} $\ast$param, const \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\begin{DoxyCompactList}\small\item\em Check if X belongs to R. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_solver_8cpp_a73cdee3bbe7ff08b8c5962e27464e423}{check\+None\+Roots}} (const \mbox{\hyperlink{struct_params}{Params}} $\ast$param, const \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\begin{DoxyCompactList}\small\item\em Check if roots dont exist. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_solver_8cpp_add34b924e2c51d3c605c9a8549661a23}{check\+Complex}} (const \mbox{\hyperlink{struct_params}{Params}} $\ast$param, const \mbox{\hyperlink{struct_roots}{Roots}} $\ast$roots)
+\begin{DoxyCompactList}\small\item\em Check if Complex roots fit equation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Realisation for \mbox{\hyperlink{_solver_8h}{Solver.\+h}}. 
+
+Solves equation with power less than 2 
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{_solver_8cpp_a39d1a926e3706274bf9711caa9758282}\label{_solver_8cpp_a39d1a926e3706274bf9711caa9758282}} 
+\index{Solver.cpp@{Solver.cpp}!RootsType@{RootsType}}
+\index{RootsType@{RootsType}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{RootsType}{RootsType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{_solver_8cpp_a39d1a926e3706274bf9711caa9758282}{Roots\+Type}}}
+
+Inf\+Roots -\/ X belongs to R ~\newline
+ No\+Roots -\/ No roots ~\newline
+ One\+Root -\/ one real root ~\newline
+ Complex\+Roots -\/ two complex roots ~\newline
+ Two\+Roots -\/ two real roots ~\newline
+ 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_solver_8cpp_aa665479b87577078ad4484271f0e4a42}\label{_solver_8cpp_aa665479b87577078ad4484271f0e4a42}} 
+\index{Solver.cpp@{Solver.cpp}!beatyPrint@{beatyPrint}}
+\index{beatyPrint@{beatyPrint}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{beatyPrint()}{beatyPrint()}}
+{\footnotesize\ttfamily void beaty\+Print (\begin{DoxyParamCaption}\item[{int}]{prev\+\_\+pos,  }\item[{int}]{test\+\_\+num,  }\item[{int}]{test\+\_\+count }\end{DoxyParamCaption})}
+
+
+
+Prints progress bar. 
+
+Prints progress bar with loader and number of passed tests 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em prev\+\_\+pos} & last position of $\ast$ in progress bar \\
+\hline
+\mbox{\texttt{ in}}  & {\em test\+\_\+num} & Number of last passed test \\
+\hline
+\mbox{\texttt{ in}}  & {\em test\+\_\+count} & Total count of tests \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_solver_8cpp_add34b924e2c51d3c605c9a8549661a23}\label{_solver_8cpp_add34b924e2c51d3c605c9a8549661a23}} 
+\index{Solver.cpp@{Solver.cpp}!checkComplex@{checkComplex}}
+\index{checkComplex@{checkComplex}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{checkComplex()}{checkComplex()}}
+{\footnotesize\ttfamily int check\+Complex (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_params}{Params}} $\ast$}]{param,  }\item[{const \mbox{\hyperlink{struct_roots}{Roots}} $\ast$}]{roots }\end{DoxyParamCaption})}
+
+
+
+Check if Complex roots fit equation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em param} & Equation parameters \\
+\hline
+\mbox{\texttt{ in}}  & {\em roots} & Possible roots of equation \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_solver_8cpp_a0a2bd7ab10ff7b0ce1b0ba41c13cfab3}\label{_solver_8cpp_a0a2bd7ab10ff7b0ce1b0ba41c13cfab3}} 
+\index{Solver.cpp@{Solver.cpp}!checkEquation@{checkEquation}}
+\index{checkEquation@{checkEquation}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{checkEquation()}{checkEquation()}}
+{\footnotesize\ttfamily int check\+Equation (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_params}{Params}} $\ast$}]{param,  }\item[{const \mbox{\hyperlink{struct_roots}{Roots}} $\ast$}]{roots }\end{DoxyParamCaption})}
+
+
+
+Check all cases above. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em param} & Equation parameters \\
+\hline
+\mbox{\texttt{ in}}  & {\em roots} & Possible roots of equation \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_solver_8cpp_a73cdee3bbe7ff08b8c5962e27464e423}\label{_solver_8cpp_a73cdee3bbe7ff08b8c5962e27464e423}} 
+\index{Solver.cpp@{Solver.cpp}!checkNoneRoots@{checkNoneRoots}}
+\index{checkNoneRoots@{checkNoneRoots}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{checkNoneRoots()}{checkNoneRoots()}}
+{\footnotesize\ttfamily int check\+None\+Roots (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_params}{Params}} $\ast$}]{param,  }\item[{const \mbox{\hyperlink{struct_roots}{Roots}} $\ast$}]{roots }\end{DoxyParamCaption})}
+
+
+
+Check if roots dont exist. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em param} & Equation parameters \\
+\hline
+\mbox{\texttt{ in}}  & {\em roots} & Possible roots of equation \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_solver_8cpp_a04454f33446ae989d9fecaa1e0dea936}\label{_solver_8cpp_a04454f33446ae989d9fecaa1e0dea936}} 
+\index{Solver.cpp@{Solver.cpp}!checkXAny@{checkXAny}}
+\index{checkXAny@{checkXAny}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{checkXAny()}{checkXAny()}}
+{\footnotesize\ttfamily int check\+XAny (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_params}{Params}} $\ast$}]{param,  }\item[{const \mbox{\hyperlink{struct_roots}{Roots}} $\ast$}]{roots }\end{DoxyParamCaption})}
+
+
+
+Check if X belongs to R. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em param} & Equation parameters \\
+\hline
+\mbox{\texttt{ in}}  & {\em roots} & Possible roots of equation \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_solver_8cpp_a7deab584102f122994b278c28b084f7c}\label{_solver_8cpp_a7deab584102f122994b278c28b084f7c}} 
+\index{Solver.cpp@{Solver.cpp}!equation@{equation}}
+\index{equation@{equation}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{equation()}{equation()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_roots}{Roots}} $\ast$ equation (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_params}{Params}} $\ast$}]{params }\end{DoxyParamCaption})}
+
+
+
+Solves equation. 
+
+Solves equation and returns pointer to \mbox{\hyperlink{struct_roots}{Roots}} 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em params} & Equation coefficients \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_solver_8cpp_ac3b674443231fc3d3991460f0478a8b3}\label{_solver_8cpp_ac3b674443231fc3d3991460f0478a8b3}} 
+\index{Solver.cpp@{Solver.cpp}!printRoots@{printRoots}}
+\index{printRoots@{printRoots}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{printRoots()}{printRoots()}}
+{\footnotesize\ttfamily void print\+Roots (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_roots}{Roots}} $\ast$}]{roots,  }\item[{const \mbox{\hyperlink{struct_params}{Params}} $\ast$}]{param,  }\item[{FILE $\ast$}]{thread }\end{DoxyParamCaption})}
+
+
+
+Prints equation and roots. 
+
+Prints equation and roots to a certain thread 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em roots} & Are used for printing \\
+\hline
+\mbox{\texttt{ in}}  & {\em param} & Are used for printing \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em thread} & Print roots to certain thread \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_solver_8cpp_a6494dcccc574c5b9e69f6be6be5b0486}\label{_solver_8cpp_a6494dcccc574c5b9e69f6be6be5b0486}} 
+\index{Solver.cpp@{Solver.cpp}!readVar@{readVar}}
+\index{readVar@{readVar}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{readVar()}{readVar()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_params}{Params}} $\ast$ read\+Var (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Read coefficients for quadratic equation. 
+
+Returns \mbox{\hyperlink{struct_params}{Params}} filled with a, b, c \mbox{\Hypertarget{_solver_8cpp_ae2727497bc5d378856b17ac292e00162}\label{_solver_8cpp_ae2727497bc5d378856b17ac292e00162}} 
+\index{Solver.cpp@{Solver.cpp}!solve@{solve}}
+\index{solve@{solve}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{solve()}{solve()}}
+{\footnotesize\ttfamily void solve (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_params}{Params}} $\ast$}]{params,  }\item[{\mbox{\hyperlink{struct_roots}{Roots}} $\ast$}]{roots }\end{DoxyParamCaption})}
+
+
+
+Solves equation. 
+
+Solves quadratic equation with power less than 2 ~\newline
+ writes roots to \char`\"{}roots\char`\"{} argument 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em params} & \mbox{\hyperlink{struct_params}{Params}} of quadratic equation for solving \\
+\hline
+\mbox{\texttt{ out}}  & {\em roots} & Returns filled roots \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_solver_8cpp_ab5a810fa82a4e1bf162f756cde78ca91}\label{_solver_8cpp_ab5a810fa82a4e1bf162f756cde78ca91}} 
+\index{Solver.cpp@{Solver.cpp}!solveLinear@{solveLinear}}
+\index{solveLinear@{solveLinear}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{solveLinear()}{solveLinear()}}
+{\footnotesize\ttfamily void solve\+Linear (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_params}{Params}} $\ast$}]{params,  }\item[{\mbox{\hyperlink{struct_roots}{Roots}} $\ast$}]{roots }\end{DoxyParamCaption})}
+
+
+
+Solves linear equation. 
+
+writes roots to \char`\"{}roots\char`\"{} argument \mbox{\Hypertarget{_solver_8cpp_a45b02fe28beb6930ad4880cccdb3eea7}\label{_solver_8cpp_a45b02fe28beb6930ad4880cccdb3eea7}} 
+\index{Solver.cpp@{Solver.cpp}!solveQuadratic@{solveQuadratic}}
+\index{solveQuadratic@{solveQuadratic}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{solveQuadratic()}{solveQuadratic()}}
+{\footnotesize\ttfamily void solve\+Quadratic (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_params}{Params}} $\ast$}]{params,  }\item[{\mbox{\hyperlink{struct_roots}{Roots}} $\ast$}]{roots }\end{DoxyParamCaption})}
+
+
+
+Solves quadratic equation. 
+
+writes roots to \char`\"{}roots\char`\"{} argument 

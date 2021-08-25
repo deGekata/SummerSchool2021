@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>EQUATION: equation/Solver.h Source File</title>
+<title>equation: equation/Solver.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">EQUATION<span id="projectnumber">&#160;1.0</span>
+   <div id="projectname">equation<span id="projectnumber">&#160;1.0</span>
    </div>
   </td>
  </tr>
@@ -91,48 +91,62 @@ $(document).ready(function(){initNavTree('_solver_8h_source.html',''); initResiz
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;math.h&gt;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;assert.h&gt;</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="_solver_8h.html#a6e98234fd2d74152f4b2471fbfb3d2f4">   16</a></span><span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code hl_variable" href="_solver_8h.html#a6e98234fd2d74152f4b2471fbfb3d2f4">___EPSILON</a> = 1e-7;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;pch.h&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt; string.h &gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="_solver_8h.html#a6e98234fd2d74152f4b2471fbfb3d2f4">   17</a></span><span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code hl_variable" href="_solver_8h.html#a6e98234fd2d74152f4b2471fbfb3d2f4">___EPSILON</a> = 1e-7;</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">struct </span><a class="code hl_struct" href="struct_complex_root.html">ComplexRoot</a>;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">struct </span><a class="code hl_struct" href="struct_roots.html">Roots</a>;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">struct </span><a class="code hl_struct" href="struct_params.html">Params</a>;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><a class="code hl_struct" href="struct_params.html">Params</a>* readVars();</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keywordtype">int</span> <a class="code hl_function" href="_solver_8h.html#a4b06fa9eae25a7e85be81aafc38b8667">equalToZero</a> (<span class="keywordtype">double</span> inp);</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keywordtype">void</span> solveLinear (<a class="code hl_struct" href="struct_params.html">Params</a>* params, <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keywordtype">void</span> solveQuadratic (<a class="code hl_struct" href="struct_params.html">Params</a>* params, <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keywordtype">void</span> solve (<a class="code hl_struct" href="struct_params.html">Params</a>* params, <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="keywordtype">void</span> printRoots (<a class="code hl_struct" href="struct_roots.html">Roots</a>* roots, <a class="code hl_struct" href="struct_params.html">Params</a>* param, FILE* thread);</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><a class="code hl_struct" href="struct_roots.html">Roots</a>* equation (<a class="code hl_struct" href="struct_params.html">Params</a>* params);</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keywordtype">int</span> testAll ();</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">struct </span><a class="code hl_struct" href="struct_complex_root.html">ComplexRoot</a>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">struct </span><a class="code hl_struct" href="struct_roots.html">Roots</a>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">struct </span><a class="code hl_struct" href="struct_params.html">Params</a>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><a class="code hl_struct" href="struct_params.html">Params</a>* <a class="code hl_function" href="_solver_8h.html#a6494dcccc574c5b9e69f6be6be5b0486">readVar</a> ();</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keywordtype">int</span> <a class="code hl_function" href="_solver_8h.html#a4b06fa9eae25a7e85be81aafc38b8667">equalToZero</a> (<span class="keywordtype">double</span> inp);</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keywordtype">int</span> checkXAny (<a class="code hl_struct" href="struct_params.html">Params</a>* param, <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keywordtype">int</span> checkNoneRoots (<a class="code hl_struct" href="struct_params.html">Params</a>* param, <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keywordtype">int</span> checkComplex (<a class="code hl_struct" href="struct_params.html">Params</a>* param, <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keywordtype">void</span> <a class="code hl_function" href="_solver_8h.html#ab5a810fa82a4e1bf162f756cde78ca91">solveLinear</a> (<span class="keyword">const</span> <a class="code hl_struct" href="struct_params.html">Params</a>* params, <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keywordtype">int</span> checkLinearQuadratic (<a class="code hl_struct" href="struct_params.html">Params</a>* param, <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keywordtype">int</span> <a class="code hl_function" href="_solver_8h.html#a4db5b165f7f815b32ebcb98dee7794df">checkEquation</a> (<a class="code hl_struct" href="struct_params.html">Params</a>* param, <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keywordtype">void</span> <a class="code hl_function" href="_solver_8h.html#a45b02fe28beb6930ad4880cccdb3eea7">solveQuadratic</a> (<span class="keyword">const</span> <a class="code hl_struct" href="struct_params.html">Params</a>* params, <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
-<div class="ttc" id="a_solver_8h_html_a4b06fa9eae25a7e85be81aafc38b8667"><div class="ttname"><a href="_solver_8h.html#a4b06fa9eae25a7e85be81aafc38b8667">equalToZero</a></div><div class="ttdeci">int equalToZero(double inp)</div><div class="ttdoc">Checks if inp equals to zero with ___EPSILON accuracy.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:65</div></div>
-<div class="ttc" id="a_solver_8h_html_a4db5b165f7f815b32ebcb98dee7794df"><div class="ttname"><a href="_solver_8h.html#a4db5b165f7f815b32ebcb98dee7794df">checkEquation</a></div><div class="ttdeci">int checkEquation(Params *param, Roots *roots)</div><div class="ttdoc">test</div><div class="ttdef"><b>Definition:</b> Solver.cpp:240</div></div>
-<div class="ttc" id="a_solver_8h_html_a6e98234fd2d74152f4b2471fbfb3d2f4"><div class="ttname"><a href="_solver_8h.html#a6e98234fd2d74152f4b2471fbfb3d2f4">___EPSILON</a></div><div class="ttdeci">const double ___EPSILON</div><div class="ttdoc">Accuracy of methods.</div><div class="ttdef"><b>Definition:</b> Solver.h:16</div></div>
-<div class="ttc" id="astruct_complex_root_html"><div class="ttname"><a href="struct_complex_root.html">ComplexRoot</a></div><div class="ttdef"><b>Definition:</b> Solver.cpp:12</div></div>
-<div class="ttc" id="astruct_params_html"><div class="ttname"><a href="struct_params.html">Params</a></div><div class="ttdef"><b>Definition:</b> Solver.cpp:49</div></div>
-<div class="ttc" id="astruct_roots_html"><div class="ttname"><a href="struct_roots.html">Roots</a></div><div class="ttdef"><b>Definition:</b> Solver.cpp:26</div></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keywordtype">void</span> <a class="code hl_function" href="_solver_8h.html#a9a2d51185dde6f4cdfc8526d41e15990">solve</a> (<span class="keyword">const</span> <a class="code hl_struct" href="struct_params.html">Params</a>* params, <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="keywordtype">void</span> <a class="code hl_function" href="_solver_8h.html#ad427d2472457c9b2ea66930be044d905">printRoots</a> (<span class="keyword">const</span> <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots, <span class="keyword">const</span> <a class="code hl_struct" href="struct_params.html">Params</a>* param, FILE* thread);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><a class="code hl_struct" href="struct_roots.html">Roots</a>* <a class="code hl_function" href="_solver_8h.html#a7deab584102f122994b278c28b084f7c">equation</a> (<span class="keyword">const</span> <a class="code hl_struct" href="struct_params.html">Params</a>* params);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="keywordtype">void</span> <a class="code hl_function" href="_solver_8h.html#aa665479b87577078ad4484271f0e4a42">beatyPrint</a> (<span class="keywordtype">int</span> prev_pos, <span class="keywordtype">int</span> test_num, <span class="keywordtype">int</span> test_count);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="keywordtype">int</span> <a class="code hl_function" href="_solver_8h.html#ae59cd3847da599224967a173189f90e4">testAll</a> ();</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="keywordtype">int</span> <a class="code hl_function" href="_solver_8h.html#a04454f33446ae989d9fecaa1e0dea936">checkXAny</a> (<span class="keyword">const</span> <a class="code hl_struct" href="struct_params.html">Params</a>* param, <span class="keyword">const</span>  <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="keywordtype">int</span> <a class="code hl_function" href="_solver_8h.html#a73cdee3bbe7ff08b8c5962e27464e423">checkNoneRoots</a> (<span class="keyword">const</span> <a class="code hl_struct" href="struct_params.html">Params</a>* param, <span class="keyword">const</span> <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="keywordtype">int</span> <a class="code hl_function" href="_solver_8h.html#add34b924e2c51d3c605c9a8549661a23">checkComplex</a> (<span class="keyword">const</span> <a class="code hl_struct" href="struct_params.html">Params</a>* param, <span class="keyword">const</span> <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="keywordtype">int</span> <a class="code hl_function" href="_solver_8h.html#a0a2bd7ab10ff7b0ce1b0ba41c13cfab3">checkEquation</a> (<span class="keyword">const</span> <a class="code hl_struct" href="struct_params.html">Params</a>* param, <span class="keyword">const</span> <a class="code hl_struct" href="struct_roots.html">Roots</a>* roots);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="ttc" id="a_solver_8h_html_a04454f33446ae989d9fecaa1e0dea936"><div class="ttname"><a href="_solver_8h.html#a04454f33446ae989d9fecaa1e0dea936">checkXAny</a></div><div class="ttdeci">int checkXAny(const Params *param, const Roots *roots)</div><div class="ttdoc">Check if X belongs to R.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:276</div></div>
+<div class="ttc" id="a_solver_8h_html_a0a2bd7ab10ff7b0ce1b0ba41c13cfab3"><div class="ttname"><a href="_solver_8h.html#a0a2bd7ab10ff7b0ce1b0ba41c13cfab3">checkEquation</a></div><div class="ttdeci">int checkEquation(const Params *param, const Roots *roots)</div><div class="ttdoc">Check all cases above.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:257</div></div>
+<div class="ttc" id="a_solver_8h_html_a45b02fe28beb6930ad4880cccdb3eea7"><div class="ttname"><a href="_solver_8h.html#a45b02fe28beb6930ad4880cccdb3eea7">solveQuadratic</a></div><div class="ttdeci">void solveQuadratic(const Params *params, Roots *roots)</div><div class="ttdoc">Solves quadratic equation.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:104</div></div>
+<div class="ttc" id="a_solver_8h_html_a4b06fa9eae25a7e85be81aafc38b8667"><div class="ttname"><a href="_solver_8h.html#a4b06fa9eae25a7e85be81aafc38b8667">equalToZero</a></div><div class="ttdeci">int equalToZero(double inp)</div><div class="ttdoc">Checks if inp equals to zero with ___EPSILON accuracy.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:78</div></div>
+<div class="ttc" id="a_solver_8h_html_a6494dcccc574c5b9e69f6be6be5b0486"><div class="ttname"><a href="_solver_8h.html#a6494dcccc574c5b9e69f6be6be5b0486">readVar</a></div><div class="ttdeci">Params * readVar()</div><div class="ttdoc">Read coefficients for quadratic equation.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:66</div></div>
+<div class="ttc" id="a_solver_8h_html_a6e98234fd2d74152f4b2471fbfb3d2f4"><div class="ttname"><a href="_solver_8h.html#a6e98234fd2d74152f4b2471fbfb3d2f4">___EPSILON</a></div><div class="ttdeci">const double ___EPSILON</div><div class="ttdoc">Accuracy of methods.</div><div class="ttdef"><b>Definition:</b> Solver.h:17</div></div>
+<div class="ttc" id="a_solver_8h_html_a73cdee3bbe7ff08b8c5962e27464e423"><div class="ttname"><a href="_solver_8h.html#a73cdee3bbe7ff08b8c5962e27464e423">checkNoneRoots</a></div><div class="ttdeci">int checkNoneRoots(const Params *param, const Roots *roots)</div><div class="ttdoc">Check if roots dont exist.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:289</div></div>
+<div class="ttc" id="a_solver_8h_html_a7deab584102f122994b278c28b084f7c"><div class="ttname"><a href="_solver_8h.html#a7deab584102f122994b278c28b084f7c">equation</a></div><div class="ttdeci">Roots * equation(const Params *params)</div><div class="ttdoc">Solves equation.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:181</div></div>
+<div class="ttc" id="a_solver_8h_html_a9a2d51185dde6f4cdfc8526d41e15990"><div class="ttname"><a href="_solver_8h.html#a9a2d51185dde6f4cdfc8526d41e15990">solve</a></div><div class="ttdeci">void solve(const Params *params, Roots *roots)</div><div class="ttdoc">Solves equation.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:136</div></div>
+<div class="ttc" id="a_solver_8h_html_aa665479b87577078ad4484271f0e4a42"><div class="ttname"><a href="_solver_8h.html#aa665479b87577078ad4484271f0e4a42">beatyPrint</a></div><div class="ttdeci">void beatyPrint(int prev_pos, int test_num, int test_count)</div><div class="ttdoc">Prints progress bar.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:192</div></div>
+<div class="ttc" id="a_solver_8h_html_ab5a810fa82a4e1bf162f756cde78ca91"><div class="ttname"><a href="_solver_8h.html#ab5a810fa82a4e1bf162f756cde78ca91">solveLinear</a></div><div class="ttdeci">void solveLinear(const Params *params, Roots *roots)</div><div class="ttdoc">Solves linear equation.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:86</div></div>
+<div class="ttc" id="a_solver_8h_html_ad427d2472457c9b2ea66930be044d905"><div class="ttname"><a href="_solver_8h.html#ad427d2472457c9b2ea66930be044d905">printRoots</a></div><div class="ttdeci">void printRoots(const Roots *roots, const Params *param, FILE *thread)</div><div class="ttdoc">Prints equation and roots.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:149</div></div>
+<div class="ttc" id="a_solver_8h_html_add34b924e2c51d3c605c9a8549661a23"><div class="ttname"><a href="_solver_8h.html#add34b924e2c51d3c605c9a8549661a23">checkComplex</a></div><div class="ttdeci">int checkComplex(const Params *param, const Roots *roots)</div><div class="ttdoc">Check if Complex roots fit equation.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:301</div></div>
+<div class="ttc" id="a_solver_8h_html_ae59cd3847da599224967a173189f90e4"><div class="ttname"><a href="_solver_8h.html#ae59cd3847da599224967a173189f90e4">testAll</a></div><div class="ttdeci">int testAll()</div><div class="ttdoc">Test equations from test.txt file.</div><div class="ttdef"><b>Definition:</b> Solver.cpp:208</div></div>
+<div class="ttc" id="astruct_complex_root_html"><div class="ttname"><a href="struct_complex_root.html">ComplexRoot</a></div><div class="ttdef"><b>Definition:</b> Solver.cpp:26</div></div>
+<div class="ttc" id="astruct_params_html"><div class="ttname"><a href="struct_params.html">Params</a></div><div class="ttdef"><b>Definition:</b> Solver.cpp:62</div></div>
+<div class="ttc" id="astruct_roots_html"><div class="ttname"><a href="struct_roots.html">Roots</a></div><div class="ttdef"><b>Definition:</b> Solver.cpp:39</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

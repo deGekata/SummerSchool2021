@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['solver_2eh_0',['Solver.h',['../_solver_8h.html',1,'']]]
+  ['equation_2ecpp_0',['equation.cpp',['../equation_8cpp.html',1,'']]]
 ];

@@ -1,11 +1,19 @@
 /*!
- * \file Solver.h
+ * \file Solver.cpp
  * \brief Realisation for Solver.h
+ * \details Solves equation with power less than 2
  */
 #include "pch.h"
 #include "Solver.h"
 
- /// \ 
+/*!
+* \details InfRoots - X belongs to R \n 
+*   NoRoots - No roots \n 
+*   OneRoot - one real root \n 
+*   ComplexRoots - two complex roots \n 
+*   TwoRoots - two real roots \n 
+
+*/
 enum RootsType {
     InfRoots = -1,
     NoRoots = 0,
@@ -16,14 +24,14 @@ enum RootsType {
 
 
 struct ComplexRoot {
-    double x = NAN;
-    double xi = NAN;
+    double real = NAN;
+    double im = NAN;
 };
 
-void makeComplexRoot (ComplexRoot* mem, double x_inp, double xi_inp) {
+void makeComplexRoot (ComplexRoot* mem, double real_inp, double im_inp) {
     assert (mem);
-    memcpy(&(mem->x), &x_inp, sizeof(double));
-    memcpy (&(mem->xi), &xi_inp, sizeof (double));
+    mem->real = real_inp;
+    mem->im = im_inp;
     return;
 }
 
@@ -46,8 +54,8 @@ void init (Roots* roots) {
     roots->mem = ( ComplexRoot* ) calloc (2, sizeof (ComplexRoot));
     roots->type = NoRoots;
     for (int i = 0; i < 2; ++i) {
-        roots->mem[i].x = NAN;
-        roots->mem[i].xi = NAN;
+        roots->mem[i].real = NAN;
+        roots->mem[i].im = NAN;
     }
 }
 
@@ -55,7 +63,7 @@ struct Params {
     double a = NAN, b = NAN, c = NAN;
 };
 
-Params* readVars () {
+Params* readVar () {
     Params* vars = ( Params* ) calloc (1, sizeof (Params));
     printf ("Please, enter the coefficients.\n"
         "Example: For equation 2x^2 + 4x + 5 = 0\n"
@@ -75,7 +83,7 @@ int equalToZero (double inp) {
 }
 
 
-void solveLinear (Params* params, Roots* roots) {
+void solveLinear (const Params* params, Roots* roots) {
     assert (params);
     assert (roots);
 
@@ -93,7 +101,7 @@ void solveLinear (Params* params, Roots* roots) {
     return;
 }
 
-void solveQuadratic (Params* params, Roots* roots) {
+void solveQuadratic (const Params* params, Roots* roots) {
     assert (params);
     assert (roots);
 
@@ -116,8 +124,8 @@ void solveQuadratic (Params* params, Roots* roots) {
 
     D = sqrt (D); // optimization for -b +- sqrt(D) / 2a
     if (roots->type == TwoRoots) {
-        makeComplexRoot (roots->mem, (-params->b - D) / a, 0);
-        makeComplexRoot (roots->mem + 1, (-params->b + D) / a, 0);
+        makeComplexRoot (&roots->mem[0], (-params->b - D) / a, 0);
+        makeComplexRoot (&roots->mem[1], (-params->b + D) / a, 0);
     } else {
         makeComplexRoot (&roots->mem[0], -params->b / a, D / a);
         makeComplexRoot (&roots->mem[1], -params->b / a, -D / a);
@@ -125,7 +133,7 @@ void solveQuadratic (Params* params, Roots* roots) {
     return;
 }
 
-void solve (Params* param, Roots* roots) {
+void solve (const Params* param, Roots* roots) {
     assert (param);
     assert (roots);
 
@@ -138,7 +146,7 @@ void solve (Params* param, Roots* roots) {
     return;
 }
 
-void printRoots (Roots* roots, Params* params, FILE* thread) {
+void printRoots (const Roots* roots, const Params* params, FILE* thread) {
     assert (params);
     assert (roots);
     assert (thread);
@@ -158,19 +166,19 @@ void printRoots (Roots* roots, Params* params, FILE* thread) {
         fprintf (thread, "Complex Roots: x1 = %.14lf - %.14lf"
             "i and x2 = %.14lf + %.14lf"
             "i\n\n",
-            roots->mem[0].x, roots->mem[0].xi, roots->mem[1].x, roots->mem[1].xi);
+            roots->mem[0].real, roots->mem[0].im, roots->mem[1].real, roots->mem[1].im);
         return;
     }
     int roots_cnt = roots->type;
     for (int root_it = 0; root_it < roots_cnt; ++root_it) {
-        fprintf (thread, "%.14lf ", roots->mem[root_it].x);
+        fprintf (thread, "x%d=%.14lf ", root_it, roots->mem[root_it].real);
     }
     fprintf (thread, "\n\n");
     return;
 }
 
 
-Roots* equation (Params* params) {
+Roots* equation (const Params* params) {
     assert (params);
 
     Roots* res = ( Roots* ) calloc (1, sizeof (Roots));
@@ -179,6 +187,21 @@ Roots* equation (Params* params) {
     solve (params, res);
 
     return res;
+}
+
+void beatyPrint (int prev_pos, int test_num, int test_count) {
+    int n_pos = 80 * ( double ) (test_num + 1) / test_count + 1;
+    if (n_pos != prev_pos) {
+        printf ("\r[");
+        for (int stars = 80 * ( double ) (test_num + 1) / test_count + 1; stars >= 0; --stars) {
+            printf ("*");
+        }
+        for (int stars = 80 - 80 * (test_num + 1) / test_count; stars > 0; --stars) {
+            printf ("-");
+        }
+        printf ("]");
+        printf (" %d / %d", test_num + 1, test_count);
+    }
 }
 
 
@@ -195,7 +218,7 @@ int testAll () {
 
     Roots* roots = NULL;
     //count of test groups
-    for (int rep = 0; rep < 4; ++rep) {
+    for (int repeat = 0; repeat < 4; ++repeat) {
         fgetc (fp_in);//passes \r in \n\r
         char buff[100] = {};
         fgets (buff, 100, fp_in);
@@ -203,6 +226,7 @@ int testAll () {
         printf ("%d\n", counter);
         printf ("%s", buff);//writes 
 
+        int prev_pos = 0;
         for (int it = 0; it < counter; ++it) {
             Params param = {};
             int last_dot = 0;
@@ -212,21 +236,8 @@ int testAll () {
 
             roots = equation (&param);
 
-            // 80 - lenght of loader strings
-            int prev_pos = 0, n_pos = 0;
-            //begin
-            n_pos = 80 * ( double ) (it + 1) / counter + 1;
-            if (n_pos != prev_pos) {
-                printf ("\r[");
-                for (int stars = 80 * ( double ) (it + 1) / counter + 1; stars >= 0; --stars) {
-                    printf ("*");
-                }
-                for (int stars = 80 - 80 * (it + 1) / counter; stars > 0; --stars) {
-                    printf ("-");
-                }
-                printf ("]");
-                printf (" %d / %d", it + 1, counter);
-            }
+            beatyPrint(prev_pos, it, counter);
+
             if (!checkEquation (&param, roots)) {
                 fprintf (fp_out, "ERROR: ");
                 fprintf (stdout, "ERROR: \n");
@@ -235,7 +246,7 @@ int testAll () {
             freeRoots (roots);
         }
 
-        printf ("\rCompleted                                                                                   \n\n");
+        printf ("\rCompleted %*c \n\n", 200, ' ');
     }
     fclose (fp_in);
     fclose (fp_out);
@@ -243,7 +254,7 @@ int testAll () {
     return 1;
 }
 
-int checkEquation (Params* param, Roots* roots) {
+int checkEquation (const Params* param, const Roots* roots) {
     assert (param);
     assert (roots);
 
@@ -262,7 +273,7 @@ int checkEquation (Params* param, Roots* roots) {
     return 0;
 }
 
-int checkXAny (Params* param, Roots* roots) {
+int checkXAny (const Params* param, const Roots* roots) {
     assert (param);
     assert (roots);
 
@@ -275,7 +286,7 @@ int checkXAny (Params* param, Roots* roots) {
     return 0;
 }
 
-int checkNoneRoots (Params* param, Roots* roots) {
+int checkNoneRoots (const Params* param, const  Roots* roots) {
     assert (param);
     assert (roots);
 
@@ -287,7 +298,7 @@ int checkNoneRoots (Params* param, Roots* roots) {
     return 0;
 }
 
-int checkComplex (Params* param, Roots* roots) {
+int checkComplex (const Params* param, const Roots* roots) {
     assert (param);
     assert (roots);
 
@@ -297,26 +308,12 @@ int checkComplex (Params* param, Roots* roots) {
     }
     for (int it = 0; it < iters; ++it) {
         //optimization for a*(m + ki)^2 + b*(m + ki) + c
-        if (!equalToZero (roots->mem[it].xi * (param->b + 2 * roots->mem[it].x * param->a)) ||
+        if (!equalToZero (roots->mem[it].im * (param->b + 2 * roots->mem[it].real * param->a)) ||
             !equalToZero (
-            (roots->mem[it].x - roots->mem[it].xi) * (roots->mem[it].x + roots->mem[it].xi) * param->a
-            + roots->mem[it].x * param->b
+            (roots->mem[it].real - roots->mem[it].im) * (roots->mem[it].real + roots->mem[it].im) * param->a
+            + roots->mem[it].real * param->b
             + param->c
             )) {
-            return 0;
-        }
-    }
-    return 1;
-}
-
-int checkLinearQuadratic (Params* param, Roots* roots) {
-    assert (param);
-    assert (roots);
-
-    for (int it = 0; it < roots->type; ++it) {
-        if (!equalToZero (param->a * roots->mem[it].x * roots->mem[it].x +
-            param->b * roots->mem[it].xi +
-            param->c)) {
             return 0;
         }
     }

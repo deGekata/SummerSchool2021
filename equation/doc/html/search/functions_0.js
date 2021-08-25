@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['checkequation_0',['checkEquation',['../_solver_8h.html#a4db5b165f7f815b32ebcb98dee7794df',1,'Solver.cpp']]]
+  ['beatyprint_0',['beatyPrint',['../_solver_8cpp.html#aa665479b87577078ad4484271f0e4a42',1,'beatyPrint(int prev_pos, int test_num, int test_count):&#160;Solver.cpp'],['../_solver_8h.html#aa665479b87577078ad4484271f0e4a42',1,'beatyPrint(int prev_pos, int test_num, int test_count):&#160;Solver.cpp']]]
 ];
