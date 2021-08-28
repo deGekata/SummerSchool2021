@@ -4,18 +4,16 @@
  * \brief Solves quadratic equation
  */
 
-
-
 #pragma once
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 #include "pch.h"
-#include < string.h >
+
  /// Accuracy of methods
 const double ___EPSILON = 1e-7;
-
 
 /*!
 *   \brief Complex root with real and imaginari part
@@ -39,7 +37,7 @@ struct Params;
 *   \brief Read coefficients for quadratic equation
 *   \details Returns Params filled with a, b, c
 */
-Params* readVar ();
+Params* readVars ();
 
 /*!
     \brief  Checks if inp equals to zero with ___EPSILON accuracy
@@ -93,9 +91,6 @@ Roots* equation (const Params* params);
 *   @param[in] prev_pos last position of * in progress bar
 *   @param[in] test_num Number of last passed test
 *   @param[in] test_count Total count of tests
-*
-*
-*
 */
 void beatyPrint (int prev_pos, int test_num, int test_count);
 

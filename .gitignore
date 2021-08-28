@@ -1,10 +1,16 @@
 equation/.vs
 equation/Debug
+
+Onegin/.vs
+Onegin/Debug
+
 *.filters
 *.vcxproj
 *.sln
 *.rc
 *.ico
+
+
 
 
 ### VisualStudio ###

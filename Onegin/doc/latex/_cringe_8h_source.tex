@@ -1,0 +1,155 @@
+\hypertarget{_cringe_8h_source}{}\doxysection{Cringe.\+h}
+\mbox{\hyperlink{_cringe_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#pragma warning(disable : 4996)}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{const} \textcolor{keywordtype}{int} std\_strlen = 2000;}
+\DoxyCodeLine{11 \textcolor{keyword}{const} \textcolor{keywordtype}{int} const\_str\_count = 15;}
+\DoxyCodeLine{12 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_line}{Line}} \{}
+\DoxyCodeLine{13     \textcolor{keywordtype}{int} line\_len;}
+\DoxyCodeLine{14     \textcolor{keywordtype}{char}* p;}
+\DoxyCodeLine{15 \};}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_line_node}{LineNode}} \{}
+\DoxyCodeLine{18     \mbox{\hyperlink{struct_line}{Line}}* line;}
+\DoxyCodeLine{19     \mbox{\hyperlink{struct_line_node}{LineNode}}* next;}
+\DoxyCodeLine{20 \};}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keywordtype}{void} clearList (\mbox{\hyperlink{struct_line_node}{LineNode}}* node) \{}
+\DoxyCodeLine{23     \mbox{\hyperlink{struct_line_node}{LineNode}}* cur\_node = NULL;}
+\DoxyCodeLine{24     \textcolor{keywordflow}{while} (node != NULL) \{}
+\DoxyCodeLine{25         cur\_node = node-\/>next;}
+\DoxyCodeLine{26         free (node);}
+\DoxyCodeLine{27         node = cur\_node;}
+\DoxyCodeLine{28     \}}
+\DoxyCodeLine{29     \textcolor{keywordflow}{return};}
+\DoxyCodeLine{30 \}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \mbox{\hyperlink{struct_line_node}{LineNode}}* mergeList (\mbox{\hyperlink{struct_line_node}{LineNode}}* first, \mbox{\hyperlink{struct_line_node}{LineNode}}* second)\{}
+\DoxyCodeLine{33     \textcolor{keywordflow}{if} (first == NULL)\{}
+\DoxyCodeLine{34         \textcolor{keywordflow}{return} second;}
+\DoxyCodeLine{35     \}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     \textcolor{keywordflow}{if} (second == NULL) \{}
+\DoxyCodeLine{38         \textcolor{keywordflow}{return} first;}
+\DoxyCodeLine{39     \}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41     \mbox{\hyperlink{struct_line_node}{LineNode}}* begin = first;}
+\DoxyCodeLine{42     \textcolor{keywordflow}{while}(first-\/>next != NULL)\{}
+\DoxyCodeLine{43         first = first-\/>next;}
+\DoxyCodeLine{44     \}}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46     first-\/>next = second;}
+\DoxyCodeLine{47     \textcolor{keywordflow}{return} begin;}
+\DoxyCodeLine{48 \}}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 \textcolor{keywordtype}{int} get\_prior (\mbox{\hyperlink{struct_line}{Line}}* inp, \textcolor{keywordtype}{int} ind, \textcolor{keywordtype}{int} is\_reversed) \{}
+\DoxyCodeLine{51     \textcolor{keywordflow}{if} (!is\_reversed) \{}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53         \textcolor{keywordflow}{if} (ind >= inp-\/>line\_len) \{}
+\DoxyCodeLine{54             \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{55         \}}
+\DoxyCodeLine{56         \textcolor{keywordflow}{return} inp-\/>p[ind] + 1;}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60         \textcolor{keywordflow}{if} (ind >= inp-\/>line\_len) \{}
+\DoxyCodeLine{61             \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{62         \}}
+\DoxyCodeLine{63         \textcolor{keywordflow}{return} inp-\/>p[inp-\/>line\_len -\/ ind -\/ 1] + 1;}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65     \}}
+\DoxyCodeLine{66 \}}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68 \mbox{\hyperlink{struct_line_node}{LineNode}}* sortStringsRadix (\mbox{\hyperlink{struct_line_node}{LineNode}}* lines, \textcolor{keywordtype}{int} strings\_cnt, \textcolor{keywordtype}{int} str\_pos, \textcolor{keywordtype}{int} max\_str\_pos, \textcolor{keywordtype}{int} is\_reversed) \{}
+\DoxyCodeLine{69     \textcolor{keywordflow}{if} (str\_pos > max\_str\_pos)\{}
+\DoxyCodeLine{70         \textcolor{keywordflow}{return} lines;}
+\DoxyCodeLine{71     \}}
+\DoxyCodeLine{72     }
+\DoxyCodeLine{73     \textcolor{keywordtype}{int}* buff = ( \textcolor{keywordtype}{int}* ) calloc (257, \textcolor{keyword}{sizeof} (\textcolor{keywordtype}{int}));}
+\DoxyCodeLine{74     \mbox{\hyperlink{struct_line_node}{LineNode}}** buckets = (\mbox{\hyperlink{struct_line_node}{LineNode}}**) calloc (257, \textcolor{keyword}{sizeof} (\mbox{\hyperlink{struct_line_node}{LineNode}}*));}
+\DoxyCodeLine{75     }
+\DoxyCodeLine{76     \mbox{\hyperlink{struct_line_node}{LineNode}}* cursor  = lines;}
+\DoxyCodeLine{77     \mbox{\hyperlink{struct_line_node}{LineNode}}* temp;}
+\DoxyCodeLine{78     \textcolor{keywordflow}{while} (cursor != NULL) }
+\DoxyCodeLine{79     \{}
+\DoxyCodeLine{80         \textcolor{keywordtype}{int} prior = get\_prior (cursor-\/>line, str\_pos, is\_reversed);}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82         \textcolor{keywordflow}{if}(buckets[prior] == NULL)\{}
+\DoxyCodeLine{83             buckets[prior] = cursor;}
+\DoxyCodeLine{84             cursor = cursor-\/>next;}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86         \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{87             temp = cursor-\/>next;}
+\DoxyCodeLine{88             cursor-\/>next = buckets[prior];}
+\DoxyCodeLine{89             cursor = temp;}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91         \}}
+\DoxyCodeLine{92     \}}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} it = 0; it < 257; ++it)\{}
+\DoxyCodeLine{97         printf (\textcolor{stringliteral}{"{}\%d \%d\(\backslash\)n"{}}, *(buckets[it]-\/>line-\/>p));}
+\DoxyCodeLine{98     \}}
+\DoxyCodeLine{99     \textcolor{comment}{/*int count = 0;}}
+\DoxyCodeLine{100 \textcolor{comment}{    int temp;}}
+\DoxyCodeLine{101 \textcolor{comment}{    for (int it = 0; it < 257; ++it) \{}}
+\DoxyCodeLine{102 \textcolor{comment}{        temp = buff[it];}}
+\DoxyCodeLine{103 \textcolor{comment}{        buff[it] = count;}}
+\DoxyCodeLine{104 \textcolor{comment}{        count += temp;}}
+\DoxyCodeLine{105 \textcolor{comment}{    \}}}
+\DoxyCodeLine{106 \textcolor{comment}{}}
+\DoxyCodeLine{107 \textcolor{comment}{    printf ("{}\%d \%d\(\backslash\)n"{}, 0, buff[0]);}}
+\DoxyCodeLine{108 \textcolor{comment}{    for (int it = 90; it < 130; ++it) \{}}
+\DoxyCodeLine{109 \textcolor{comment}{        printf ("{}\%d \%d\(\backslash\)n"{}, it, buff[it]);}}
+\DoxyCodeLine{110 \textcolor{comment}{    \}}}
+\DoxyCodeLine{111 \textcolor{comment}{    for (int str\_num = 0; str\_num < strings\_cnt; ++str\_num) \{}}
+\DoxyCodeLine{112 \textcolor{comment}{        int n\_pos = buff[get\_prior (lines + str\_num, str\_pos, is\_reversed)];}}
+\DoxyCodeLine{113 \textcolor{comment}{        printf ("{}\%d \%c\(\backslash\)n"{}, n\_pos, *((lines + str\_num)-\/>p));}}
+\DoxyCodeLine{114 \textcolor{comment}{        temp\_lines[n\_pos] = lines[str\_num];}}
+\DoxyCodeLine{115 \textcolor{comment}{        ++buff[get\_prior (lines + str\_num, str\_pos, is\_reversed)];}}
+\DoxyCodeLine{116 \textcolor{comment}{    \}}}
+\DoxyCodeLine{117 \textcolor{comment}{}}
+\DoxyCodeLine{118 \textcolor{comment}{    for (int i = 0; i < strings\_cnt; ++i) \{}}
+\DoxyCodeLine{119 \textcolor{comment}{        printf ("{}\%s"{}, temp\_lines[i].p);}}
+\DoxyCodeLine{120 \textcolor{comment}{    \}}}
+\DoxyCodeLine{121 \textcolor{comment}{}}
+\DoxyCodeLine{122 \textcolor{comment}{}}
+\DoxyCodeLine{123 \textcolor{comment}{    std::swap (temp\_lines, lines);}}
+\DoxyCodeLine{124 \textcolor{comment}{    for (int it = 0; it < 257; ++it) \{}}
+\DoxyCodeLine{125 \textcolor{comment}{        buff[it] = 0;}}
+\DoxyCodeLine{126 \textcolor{comment}{    \}*/}}
+\DoxyCodeLine{127     printf (\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{128     \textcolor{comment}{//free (temp\_lines);}}
+\DoxyCodeLine{129     \textcolor{keywordflow}{return};}
+\DoxyCodeLine{130 \};}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132 }
+\DoxyCodeLine{133 \textcolor{keywordtype}{void} readOnegin (FILE* inp, \mbox{\hyperlink{struct_line_node}{LineNode}}** lines, \textcolor{keywordtype}{int}* lines\_cnt) \{}
+\DoxyCodeLine{134     *lines\_cnt = 0;}
+\DoxyCodeLine{135     lines = ( \mbox{\hyperlink{struct_line_node}{LineNode}}** ) calloc (1, \textcolor{keyword}{sizeof} (\mbox{\hyperlink{struct_line_node}{LineNode}}*));}
+\DoxyCodeLine{136     \mbox{\hyperlink{struct_line_node}{LineNode}}* cursor = (*lines);}
+\DoxyCodeLine{137     \textcolor{keywordtype}{char}* buff = ( \textcolor{keywordtype}{char}* ) calloc (std\_strlen, \textcolor{keyword}{sizeof} (\textcolor{keywordtype}{char}));}
+\DoxyCodeLine{138     \textcolor{keywordflow}{while} (!feof (inp)) \{}
+\DoxyCodeLine{139         fgets (buff, 200, inp);}
+\DoxyCodeLine{140         *cursor-\/>line = \{\};}
+\DoxyCodeLine{141         cursor-\/>line-\/>line\_len= strlen (buff) -\/ 1;}
+\DoxyCodeLine{142         cursor-\/>line-\/>p = (\textcolor{keywordtype}{char}*) calloc ( (*lines)[*lines\_cnt].line-\/>line\_len, \textcolor{keyword}{sizeof}(char));}
+\DoxyCodeLine{143         memcpy ( cursor-\/>line-\/>p, buff, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char}) * (cursor-\/>line-\/>line\_len) );}
+\DoxyCodeLine{144         cursor-\/>next = (\mbox{\hyperlink{struct_line_node}{LineNode}}*) calloc (1, \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_line_node}{LineNode}}));}
+\DoxyCodeLine{145         ++(*lines\_cnt);}
+\DoxyCodeLine{146         free(buff);}
+\DoxyCodeLine{147         buff = ( \textcolor{keywordtype}{char}* ) calloc (std\_strlen, \textcolor{keyword}{sizeof} (\textcolor{keywordtype}{char}));}
+\DoxyCodeLine{148     \}}
+\DoxyCodeLine{149     -\/-\/(*lines\_cnt);}
+\DoxyCodeLine{150     free (buff);}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153     \textcolor{keywordflow}{return};}
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155 \}}
+
+\end{DoxyCode}

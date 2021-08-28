@@ -8,7 +8,7 @@ var _solver_8h =
     [ "equalToZero", "_solver_8h.html#a4b06fa9eae25a7e85be81aafc38b8667", null ],
     [ "equation", "_solver_8h.html#a7deab584102f122994b278c28b084f7c", null ],
     [ "printRoots", "_solver_8h.html#ad427d2472457c9b2ea66930be044d905", null ],
-    [ "readVar", "_solver_8h.html#a6494dcccc574c5b9e69f6be6be5b0486", null ],
+    [ "readVars", "_solver_8h.html#afc60c45d7082a6bf65d2f4ef04f66623", null ],
     [ "solve", "_solver_8h.html#a9a2d51185dde6f4cdfc8526d41e15990", null ],
     [ "solveLinear", "_solver_8h.html#ab5a810fa82a4e1bf162f756cde78ca91", null ],
     [ "solveQuadratic", "_solver_8h.html#a45b02fe28beb6930ad4880cccdb3eea7", null ],
