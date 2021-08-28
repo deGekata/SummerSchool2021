@@ -46,30 +46,32 @@ int comparatorStraight (const void* lhs, const void* rhs) {
 }
 
 void makeMagicPrint (FILE* fp_in, FILE* fp_out) {
-    char* buff;
-    MyStrPairArr* mas =  readPoem(fp_in, &buff);
+    Text* mas =  readPoem(fp_in);
 
-    myQsort(mas->p, mas->len, sizeof(MyStrPair), comparatorStraight);
+    myQsort(mas->strings, mas->lines_cnt, sizeof(MyStrPair), comparatorStraight);
 
-    for(int it = 0; it < mas->len; ++it){
-        fprintf(fp_out, (mas->p + it)->begin);
+    for(int it = 0; it < mas->lines_cnt; ++it){
+        fprintf(fp_out, (mas->strings + it)->begin);
         fprintf(fp_out, "\n");
     }
     fprintf(fp_out, "\n");
 
-    qsort(mas->p, mas->len, sizeof(MyStrPair), comparatorReversed);
+    qsort(mas->strings, mas->lines_cnt, sizeof(MyStrPair), comparatorReversed);
     
-    for(int it = 0; it < mas->len; ++it){
-        fprintf(fp_out, (mas->p + it)->begin);
+    for(int it = 0; it < mas->lines_cnt; ++it){
+        fprintf(fp_out, (mas->strings + it)->begin);
         fprintf(fp_out, "\n");
     }
     fprintf(fp_out, "\n");
     
     int offset = 0;
-    for(int it = 0; it < mas->len; ++it) {
-        offset += fprintf(fp_out, (buff + 1 + offset)) + 1;
+    for(int it = 0; it < mas->lines_cnt; ++it) {
+        offset += fprintf(fp_out, (mas->raw_line + 1 + offset)) + 1;
         fprintf(fp_out, "\n");
     }
+
+    destructor(mas);
+    free(mas);
 
     return;
 }

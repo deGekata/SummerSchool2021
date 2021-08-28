@@ -5,9 +5,14 @@
 int main() {
     FILE* fp_in = fopen("input.txt", "r");
 
-    FILE* fp_out = fopen("output.txt", "w+");
+    if(!fp_in) {
+        printf("no such file");
+        return 0;
+    }
+
+    FILE* fp_out = fopen("output.txt", "w");
     makeMagicPrint(fp_in, fp_out);
 
     return 0;
-}
+}   
 
