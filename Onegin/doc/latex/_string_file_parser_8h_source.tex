@@ -1,4 +1,4 @@
-\hypertarget{_string_file_parser_8h_source}{}\doxysection{String\+File\+Parser.\+h}
+\hypertarget{_string_file_parser_8h_source}{}\doxysection{C\+:/\+Users/\+Gekata/\+Desktop/\+Git\+Projects/\+Summer\+School2021/\+Onegin/\+String\+File\+Parser.h}
 \mbox{\hyperlink{_string_file_parser_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{1 }
@@ -8,16 +8,31 @@
 \DoxyCodeLine{10 \textcolor{preprocessor}{\#include <sys\(\backslash\)stat.h>}}
 \DoxyCodeLine{11 \textcolor{preprocessor}{\#include <stdio.h>}}
 \DoxyCodeLine{12 }
-\DoxyCodeLine{16 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_my_str_pair}{MyStrPair}}\{}
+\DoxyCodeLine{16 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_my_str_pair}{MyStrPair}} \{}
 \DoxyCodeLine{17     \textcolor{keywordtype}{char}* begin;}
 \DoxyCodeLine{18     \textcolor{keywordtype}{char}* r\_begin;}
 \DoxyCodeLine{19 \};}
 \DoxyCodeLine{20 }
-\DoxyCodeLine{24 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_my_str_pair_arr}{MyStrPairArr}}\{}
-\DoxyCodeLine{25     \mbox{\hyperlink{struct_my_str_pair}{MyStrPair}}* p;}
-\DoxyCodeLine{26     \textcolor{keywordtype}{int} len;}
-\DoxyCodeLine{27 \};}
-\DoxyCodeLine{28 }
-\DoxyCodeLine{32 \mbox{\hyperlink{struct_my_str_pair_arr}{MyStrPairArr}}* \mbox{\hyperlink{_string_file_parser_8h_a3bca0de26a5e0c86a893769f78b32617}{readPoem}} (FILE* inp, \textcolor{keywordtype}{char}** buff);}
+\DoxyCodeLine{24 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_text}{Text}} \{}
+\DoxyCodeLine{25     \mbox{\hyperlink{struct_my_str_pair}{MyStrPair}}* strings;}
+\DoxyCodeLine{26     \textcolor{keywordtype}{size\_t} lines\_cnt;}
+\DoxyCodeLine{27     \textcolor{keywordtype}{size\_t} text\_len;}
+\DoxyCodeLine{28     \textcolor{keywordtype}{char}* raw\_line;}
+\DoxyCodeLine{29 \};}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{34 \mbox{\hyperlink{struct_text}{Text}}* \mbox{\hyperlink{_string_file_parser_8h_a69f76aa60ecc8ade3ec17ea86ef0ad0c}{readPoem}} (FILE* inp);}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{39 \textcolor{keywordtype}{int} \mbox{\hyperlink{_string_file_parser_8h_ab206b3e4418b8a33d76e3f847e6054fc}{getFileSize}} (FILE* inp);}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{44 \textcolor{keywordtype}{char}* \mbox{\hyperlink{_string_file_parser_8h_a0695793b34919325f8785df7b3f5f29e}{createFileBuff}} (\textcolor{keywordtype}{size\_t} file\_size);}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{49 \textcolor{keywordtype}{int} \mbox{\hyperlink{_string_file_parser_8h_ad4caea11a15d6ed4563e8f0bc714fbc5}{countLines}} (\textcolor{keywordtype}{char}* text, \textcolor{keywordtype}{size\_t} file\_size);}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{54 \textcolor{keywordtype}{void} \mbox{\hyperlink{_string_file_parser_8h_aa1f8ac91b03a7a89b34e36ada5f5327a}{buildStrPointers}} (\mbox{\hyperlink{struct_text}{Text}}* text);}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{59 \textcolor{keywordtype}{void} \mbox{\hyperlink{_string_file_parser_8h_ae68f2040dfed5d55d10f6e6939ac2d99}{fillText}} (\mbox{\hyperlink{struct_text}{Text}}* text, FILE* inp);}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 \textcolor{keywordtype}{void} destructor(\mbox{\hyperlink{struct_text}{Text}}* text);}
 
 \end{DoxyCode}

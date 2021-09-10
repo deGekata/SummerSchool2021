@@ -1,5 +1,5 @@
-\hypertarget{_string_file_parser_8h}{}\doxysection{String\+File\+Parser.\+h File Reference}
-\label{_string_file_parser_8h}\index{StringFileParser.h@{StringFileParser.h}}
+\hypertarget{_string_file_parser_8h}{}\doxysection{C\+:/\+Users/\+Gekata/\+Desktop/\+Git\+Projects/\+Summer\+School2021/\+Onegin/\+String\+File\+Parser.h File Reference}
+\label{_string_file_parser_8h}\index{C:/Users/Gekata/Desktop/GitProjects/SummerSchool2021/Onegin/StringFileParser.h@{C:/Users/Gekata/Desktop/GitProjects/SummerSchool2021/Onegin/StringFileParser.h}}
 
 
 Parses poem from file.  
@@ -14,14 +14,33 @@ Parses poem from file.
 \item 
 struct \mbox{\hyperlink{struct_my_str_pair}{My\+Str\+Pair}}
 \begin{DoxyCompactList}\small\item\em struct with pointers to begin and r\+\_\+begin \end{DoxyCompactList}\item 
-struct \mbox{\hyperlink{struct_my_str_pair_arr}{My\+Str\+Pair\+Arr}}
-\begin{DoxyCompactList}\small\item\em Container for \mbox{\hyperlink{struct_my_str_pair}{My\+Str\+Pair}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+struct \mbox{\hyperlink{struct_text}{Text}}
+\begin{DoxyCompactList}\small\item\em container for text string \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{_string_file_parser_8h_a3bca0de26a5e0c86a893769f78b32617}\label{_string_file_parser_8h_a3bca0de26a5e0c86a893769f78b32617}} 
-\mbox{\hyperlink{struct_my_str_pair_arr}{My\+Str\+Pair\+Arr}} $\ast$ {\bfseries read\+Poem} (FILE $\ast$inp, char $\ast$$\ast$buff)
-\begin{DoxyCompactList}\small\item\em reads Poem from inp to buff, returns pointers to strings from buff \end{DoxyCompactList}\end{DoxyCompactItemize}
+\mbox{\Hypertarget{_string_file_parser_8h_a69f76aa60ecc8ade3ec17ea86ef0ad0c}\label{_string_file_parser_8h_a69f76aa60ecc8ade3ec17ea86ef0ad0c}} 
+\mbox{\hyperlink{struct_text}{Text}} $\ast$ {\bfseries read\+Poem} (FILE $\ast$inp)
+\begin{DoxyCompactList}\small\item\em reads Poem from inp to buff, returns pointers to strings from buff \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_string_file_parser_8h_ab206b3e4418b8a33d76e3f847e6054fc}\label{_string_file_parser_8h_ab206b3e4418b8a33d76e3f847e6054fc}} 
+int {\bfseries get\+File\+Size} (FILE $\ast$inp)
+\begin{DoxyCompactList}\small\item\em Get file size from file properties. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_string_file_parser_8h_a0695793b34919325f8785df7b3f5f29e}\label{_string_file_parser_8h_a0695793b34919325f8785df7b3f5f29e}} 
+char $\ast$ {\bfseries create\+File\+Buff} (size\+\_\+t file\+\_\+size)
+\begin{DoxyCompactList}\small\item\em creates special format buffer for \mbox{\hyperlink{struct_text}{Text}} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_string_file_parser_8h_ad4caea11a15d6ed4563e8f0bc714fbc5}\label{_string_file_parser_8h_ad4caea11a15d6ed4563e8f0bc714fbc5}} 
+int {\bfseries count\+Lines} (char $\ast$text, size\+\_\+t file\+\_\+size)
+\begin{DoxyCompactList}\small\item\em count lines from text and replaces ~\newline
+ with \textbackslash{}0 \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_string_file_parser_8h_aa1f8ac91b03a7a89b34e36ada5f5327a}\label{_string_file_parser_8h_aa1f8ac91b03a7a89b34e36ada5f5327a}} 
+void {\bfseries build\+Str\+Pointers} (\mbox{\hyperlink{struct_text}{Text}} $\ast$text)
+\begin{DoxyCompactList}\small\item\em Builds String pointers for Text.\+strings field. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_string_file_parser_8h_ae68f2040dfed5d55d10f6e6939ac2d99}\label{_string_file_parser_8h_ae68f2040dfed5d55d10f6e6939ac2d99}} 
+void {\bfseries fill\+Text} (\mbox{\hyperlink{struct_text}{Text}} $\ast$text, FILE $\ast$inp)
+\begin{DoxyCompactList}\small\item\em constructor for \mbox{\hyperlink{struct_text}{Text}} from inp file \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_string_file_parser_8h_a77eb19f72dfcac424961e805bb3b827e}\label{_string_file_parser_8h_a77eb19f72dfcac424961e805bb3b827e}} 
+void {\bfseries destructor} (\mbox{\hyperlink{struct_text}{Text}} $\ast$text)
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}

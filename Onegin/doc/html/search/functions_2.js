@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['makemagicprint_0',['makeMagicPrint',['../_string_sorter_8h.html#a8c52351fbdb31d4d2c5e112abfd3a677',1,'StringSorter.cpp']]],
-  ['memswap_1',['memSwap',['../my_qsort_8h.html#a89fe4079b0a41b4e3ce51be53d5a499a',1,'myQsort.cpp']]],
-  ['myqsort_2',['myQsort',['../my_qsort_8h.html#a5e49261e95aaa88734cfe3875f3a5521',1,'myQsort.cpp']]]
+  ['filltext_0',['fillText',['../_string_file_parser_8h.html#ae68f2040dfed5d55d10f6e6939ac2d99',1,'StringFileParser.cpp']]]
 ];

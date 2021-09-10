@@ -28,27 +28,54 @@ int comparatorReversed (const void* lhs, const void* rhs) {
     return *getSym (l, pos) == '\0' && *getSym (r, pos) != '\0';  
 }
 
-int comparatorStraight (const void* lhs, const void* rhs) {
-    assert(lhs);
-    assert(rhs);
+//int comparatorStraight (const void* lhs, const void* rhs) {
+//    assert(lhs);
+//    assert(rhs);
+//
+//    MyStrPair* l = (MyStrPair*) lhs;  
+//    MyStrPair* r = (MyStrPair*) rhs;
+//
+//    int pos = 0;
+//    while ( *getSym (l, pos) != '\0' && *getSym (r, pos) != '\0') {
+//        if ( *getSym (l, pos) != *getSym (r, pos) ) 
+//            return *getSym (l, pos) < *getSym (r, pos);
+//        ++pos;
+//    }
+//    
+//    return *getSym (l, pos) == '\0' && *getSym (r, pos) != '\0';  
+//}
 
-    MyStrPair* l = (MyStrPair*) lhs;  
-    MyStrPair* r = (MyStrPair*) rhs;
+int comparatorStraight(const void* s_void, const void* t_void)
+{
+    MyStrPair* l = (MyStrPair*) s_void;  
+    MyStrPair* r = (MyStrPair*) t_void;
+    char* s = (char*) l->begin;
+    char* t = (char*) r->begin;
+    while (*s != '\0' && *t != '\0')
+    {
+        if (*s < *t) {
+            return -1;
 
-    int pos = 0;
-    while ( *getSym (l, pos) != '\0' && *getSym (r, pos) != '\0') {
-        if ( *getSym (l, pos) != *getSym (r, pos) ) 
-            return *getSym (l, pos) < *getSym (r, pos);
-        ++pos;
+        } else if (*s > *t) {
+            return 1;
+        
+        } else {
+            ++s;
+            ++t;
+        }
     }
-    
-    return *getSym (l, pos) == '\0' && *getSym (r, pos) != '\0';  
+    if (*s == '\0' && *t != '\0')
+        return -1;
+    if (*t == '\0' && *s != '\0')
+        return 1;
+
+    return 0;
 }
 
 void makeMagicPrint (FILE* fp_in, FILE* fp_out) {
     Text* mas =  readPoem(fp_in);
 
-    myQsort(mas->strings, mas->lines_cnt, sizeof(MyStrPair), comparatorStraight);
+    qsort(mas->strings, mas->lines_cnt, sizeof(MyStrPair), comparatorStraight );
 
     for(int it = 0; it < mas->lines_cnt; ++it){
         fprintf(fp_out, (mas->strings + it)->begin);
@@ -56,7 +83,7 @@ void makeMagicPrint (FILE* fp_in, FILE* fp_out) {
     }
     fprintf(fp_out, "\n");
 
-    qsort(mas->strings, mas->lines_cnt, sizeof(MyStrPair), comparatorReversed);
+    myQsort(mas->strings, mas->lines_cnt, sizeof(MyStrPair), comparatorReversed);
     
     for(int it = 0; it < mas->lines_cnt; ++it){
         fprintf(fp_out, (mas->strings + it)->begin);

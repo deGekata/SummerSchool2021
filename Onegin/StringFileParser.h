@@ -57,3 +57,6 @@ void buildStrPointers (Text* text);
  * \brief constructor for Text from inp file
  */
 void fillText (Text* text, FILE* inp);
+
+
+void destructor(Text* text);

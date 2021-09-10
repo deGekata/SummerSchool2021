@@ -3,7 +3,12 @@ var NAVTREEINDEX0 =
 "_cringe_8h.html":[1,0,0],
 "_cringe_8h_source.html":[1,0,0],
 "_string_file_parser_8h.html":[1,0,2],
-"_string_file_parser_8h.html#a3bca0de26a5e0c86a893769f78b32617":[1,0,2,2],
+"_string_file_parser_8h.html#a0695793b34919325f8785df7b3f5f29e":[1,0,2,4],
+"_string_file_parser_8h.html#a69f76aa60ecc8ade3ec17ea86ef0ad0c":[1,0,2,7],
+"_string_file_parser_8h.html#aa1f8ac91b03a7a89b34e36ada5f5327a":[1,0,2,2],
+"_string_file_parser_8h.html#ab206b3e4418b8a33d76e3f847e6054fc":[1,0,2,6],
+"_string_file_parser_8h.html#ad4caea11a15d6ed4563e8f0bc714fbc5":[1,0,2,3],
+"_string_file_parser_8h.html#ae68f2040dfed5d55d10f6e6939ac2d99":[1,0,2,5],
 "_string_file_parser_8h_source.html":[1,0,2],
 "_string_sorter_8h.html":[1,0,3],
 "_string_sorter_8h.html#a38111b08f4b0b2e80268f35314f55037":[1,0,3,2],
@@ -25,5 +30,5 @@ var NAVTREEINDEX0 =
 "struct_line.html":[0,0,0],
 "struct_line_node.html":[0,0,1],
 "struct_my_str_pair.html":[0,0,2],
-"struct_my_str_pair_arr.html":[0,0,3]
+"struct_text.html":[0,0,3]
 };

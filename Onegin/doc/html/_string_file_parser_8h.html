@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Onegin: StringFileParser.h File Reference</title>
+<title>Onegin: C:/Users/Gekata/Desktop/GitProjects/SummerSchool2021/Onegin/StringFileParser.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -85,7 +85,7 @@ $(document).ready(function(){initNavTree('_string_file_parser_8h.html',''); init
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">StringFileParser.h File Reference</div></div>
+  <div class="headertitle"><div class="title">C:/Users/Gekata/Desktop/GitProjects/SummerSchool2021/Onegin/StringFileParser.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -103,16 +103,40 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_my_str_pair.html">MyStrPair</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">struct with pointers to begin and r_begin  <a href="struct_my_str_pair.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_my_str_pair_arr.html">MyStrPairArr</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Container for <a class="el" href="struct_my_str_pair.html" title="struct with pointers to begin and r_begin">MyStrPair</a>.  <a href="struct_my_str_pair_arr.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_text.html">Text</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">container for text string  <a href="struct_text.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3bca0de26a5e0c86a893769f78b32617"><td class="memItemLeft" align="right" valign="top"><a id="a3bca0de26a5e0c86a893769f78b32617" name="a3bca0de26a5e0c86a893769f78b32617"></a>
-<a class="el" href="struct_my_str_pair_arr.html">MyStrPairArr</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>readPoem</b> (FILE *inp, char **buff)</td></tr>
-<tr class="memdesc:a3bca0de26a5e0c86a893769f78b32617"><td class="mdescLeft">&#160;</td><td class="mdescRight">reads Poem from inp to buff, returns pointers to strings from buff <br /></td></tr>
-<tr class="separator:a3bca0de26a5e0c86a893769f78b32617"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69f76aa60ecc8ade3ec17ea86ef0ad0c"><td class="memItemLeft" align="right" valign="top"><a id="a69f76aa60ecc8ade3ec17ea86ef0ad0c" name="a69f76aa60ecc8ade3ec17ea86ef0ad0c"></a>
+<a class="el" href="struct_text.html">Text</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>readPoem</b> (FILE *inp)</td></tr>
+<tr class="memdesc:a69f76aa60ecc8ade3ec17ea86ef0ad0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">reads Poem from inp to buff, returns pointers to strings from buff <br /></td></tr>
+<tr class="separator:a69f76aa60ecc8ade3ec17ea86ef0ad0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab206b3e4418b8a33d76e3f847e6054fc"><td class="memItemLeft" align="right" valign="top"><a id="ab206b3e4418b8a33d76e3f847e6054fc" name="ab206b3e4418b8a33d76e3f847e6054fc"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>getFileSize</b> (FILE *inp)</td></tr>
+<tr class="memdesc:ab206b3e4418b8a33d76e3f847e6054fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get file size from file properties. <br /></td></tr>
+<tr class="separator:ab206b3e4418b8a33d76e3f847e6054fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0695793b34919325f8785df7b3f5f29e"><td class="memItemLeft" align="right" valign="top"><a id="a0695793b34919325f8785df7b3f5f29e" name="a0695793b34919325f8785df7b3f5f29e"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>createFileBuff</b> (size_t file_size)</td></tr>
+<tr class="memdesc:a0695793b34919325f8785df7b3f5f29e"><td class="mdescLeft">&#160;</td><td class="mdescRight">creates special format buffer for <a class="el" href="struct_text.html" title="container for text string">Text</a> <br /></td></tr>
+<tr class="separator:a0695793b34919325f8785df7b3f5f29e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4caea11a15d6ed4563e8f0bc714fbc5"><td class="memItemLeft" align="right" valign="top"><a id="ad4caea11a15d6ed4563e8f0bc714fbc5" name="ad4caea11a15d6ed4563e8f0bc714fbc5"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>countLines</b> (char *text, size_t file_size)</td></tr>
+<tr class="memdesc:ad4caea11a15d6ed4563e8f0bc714fbc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">count lines from text and replaces <br  />
+ with \0 <br /></td></tr>
+<tr class="separator:ad4caea11a15d6ed4563e8f0bc714fbc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1f8ac91b03a7a89b34e36ada5f5327a"><td class="memItemLeft" align="right" valign="top"><a id="aa1f8ac91b03a7a89b34e36ada5f5327a" name="aa1f8ac91b03a7a89b34e36ada5f5327a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>buildStrPointers</b> (<a class="el" href="struct_text.html">Text</a> *text)</td></tr>
+<tr class="memdesc:aa1f8ac91b03a7a89b34e36ada5f5327a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds String pointers for Text.strings field. <br /></td></tr>
+<tr class="separator:aa1f8ac91b03a7a89b34e36ada5f5327a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae68f2040dfed5d55d10f6e6939ac2d99"><td class="memItemLeft" align="right" valign="top"><a id="ae68f2040dfed5d55d10f6e6939ac2d99" name="ae68f2040dfed5d55d10f6e6939ac2d99"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>fillText</b> (<a class="el" href="struct_text.html">Text</a> *text, FILE *inp)</td></tr>
+<tr class="memdesc:ae68f2040dfed5d55d10f6e6939ac2d99"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor for <a class="el" href="struct_text.html" title="container for text string">Text</a> from inp file <br /></td></tr>
+<tr class="separator:ae68f2040dfed5d55d10f6e6939ac2d99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77eb19f72dfcac424961e805bb3b827e"><td class="memItemLeft" align="right" valign="top"><a id="a77eb19f72dfcac424961e805bb3b827e" name="a77eb19f72dfcac424961e805bb3b827e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>destructor</b> (<a class="el" href="struct_text.html">Text</a> *text)</td></tr>
+<tr class="separator:a77eb19f72dfcac424961e805bb3b827e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Parses poem from file. </p>

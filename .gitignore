@@ -1,8 +1,13 @@
+### My ignore files ###
+
 equation/.vs
 equation/Debug
 
 Onegin/.vs
 Onegin/Debug
+
+Stack/.vs
+Stack/Debug
 
 *.filters
 *.vcxproj
