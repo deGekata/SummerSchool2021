@@ -12,6 +12,8 @@ using namespace std;
 
 int main() {   
     
-
+    SafeStack* st = createStack ();
+    printf("%d   %d   %d   %d ", st->size);
+    getchar ();
     return 0;
 }
