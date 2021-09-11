@@ -8,31 +8,21 @@
 static int is_initialised = false;
 
 
+enum MODE {
+    ACCESS     = -1,
+    INIT       =  0,
+};
 
-unsigned int hashFunc(const char * str)
-{
 
-    unsigned int hash = 0;
-
-    for (; *str; str++)
-    {
-        hash += (unsigned char)(*str);
-        hash += (hash << 10);
-        hash ^= (hash >> 6);
-    }
-    hash += (hash << 3);
-    hash ^= (hash >> 11);
-    hash += (hash << 15);
-
-    return hash;
-
-}
+unsigned int hashFunc(const char * str);
 
 static struct MyStack;
 
 static struct SafeStack;
 
-static SafeStack* descriptor(int identifier);
+static struct InstancePair;
+
+static SafeStack* descriptor(int identifier, MODE mode);
 
 int top (MyStack* st);
 
