@@ -73,7 +73,7 @@ SafeStack* createStack_(int call_line, const char* caller_func, const char* call
     stack->capacity = 1;
     stack->arr = (int*) calloc (stack->capacity, sizeof( *stack->arr ));
 
-    makeApplyHashes_(stack);
+    makeApplyHash_(stack);
     /*stack->data_hash = hashFunc (0, (const char*) ( &(stack->size)  ), sizeof( stack->size )      );
     stack->arr_hash  = hashFunc (0, (const char*) ( stack->arr     ), sizeof( stack->size + 2 )  );
     stack->hash      = hashFunc (0, (const char*) ( &(stack->data_hash)), sizeof( stack->data_hash) * 2 );*/
@@ -84,7 +84,7 @@ SafeStack* createStack_(int call_line, const char* caller_func, const char* call
     stack->arr[0] = stack->arr[1] = CANARY_SPECIAL_NUMBER;
     stack->f_canary = stack->s_canary = CANARY_SPECIAL_NUMBER;
 
-    makeApplyHashes_(stack);
+    makeApplyHash_(stack);
     /*stack->data_hash = hashFunc ((const char*) ( &(stack->size)  )   , sizeof( stack->size )        , 0);
     stack->arr_hash  = hashFunc ((const char*) ( stack->arr     )    , sizeof( stack->size + 2 )    , 0);
     stack->hash      = hashFunc ((const char*) ( &(stack->data_hash)), sizeof( stack->data_hash) * 2, 0);*/
@@ -121,14 +121,14 @@ void push_(SafeStack* st, int value, int call_line, const char* caller_func, con
     st->arr[ st->size ] = value;
     st->size += 1;
 
-    makeApplyHashes_(st);
+    makeApplyHash_(st);
 
 #elif PROTECTION_LEVEL == FULL_PROTECTION
     st->arr[ st->size + 1] = value;
     st->arr[ st->size + 2 ] = CANARY_SPECIAL_NUMBER;
     st->size += 1;
 
-    makeApplyHashes_(st);
+    makeApplyHash_(st);
 #endif
 
 }
@@ -162,7 +162,7 @@ void pop_(SafeStack* st, int call_line, const char* caller_func, const char* cal
     --st->size;
 
 #if PROTECTION_LEVEL == HASH
-    makeApplyHashes_(st);
+    makeApplyHash_(st);
 
 #elif PROTECTION_LEVEL == CANARY
     st->arr[ st->size + 1] = CANARY_SPECIAL_NUMBER;   
@@ -170,7 +170,7 @@ void pop_(SafeStack* st, int call_line, const char* caller_func, const char* cal
 #elif PROTECTION_LEVEL == FULL_PROTECTION
     st->arr[ st->size + 1] = CANARY_SPECIAL_NUMBER;
 
-    makeApplyHashes_(st);
+    makeApplyHash_(st);
 #endif
 
     return;
@@ -251,7 +251,7 @@ int resize_(SafeStack* st, int n_capacity, int call_line, const char* caller_fun
             st->capacity = n_capacity;
 
             #if PROTECTION_LEVEL == HASH
-                makeApplyHashes_(st);
+                makeApplyHash_(st);
             #endif
 
             return 1;
@@ -268,7 +268,7 @@ int resize_(SafeStack* st, int n_capacity, int call_line, const char* caller_fun
             st->capacity = n_capacity;
             st->arr[st->size + 1] = CANARY_SPECIAL_NUMBER;
             #if PROTECTION_LEVEL == FULL_PROTECTION
-                makeApplyHashes_(st);
+                makeApplyHash_(st);
             #endif
 
         } else {
@@ -286,7 +286,7 @@ int resize_(SafeStack* st, int n_capacity, int call_line, const char* caller_fun
             st->size = n_capacity;
 
             #if PROTECTION_LEVEL == HASH
-                makeApplyHashes_(st);
+                makeApplyHash_(st);
             #endif
             return 1;
 
@@ -305,7 +305,7 @@ int resize_(SafeStack* st, int n_capacity, int call_line, const char* caller_fun
             st->arr[st->capacity + 1] = CANARY_SPECIAL_NUMBER;
 
             #if PROTECTION_LEVEL == FULL_PROTECTION
-                makeApplyHashes_(st);
+                makeApplyHash_(st);
             #endif
 
         } else {
@@ -317,26 +317,69 @@ int resize_(SafeStack* st, int n_capacity, int call_line, const char* caller_fun
     return 1;
 }
 
-void fillStats(SafeStackStats* stats, int prototype) {
-    
-}
 
-int is_not_valid_(SafeStack* ptr) {
+
+#if PROTECTION_LEVEL != NO_PROTECTION
+void fillStats(SafeStackStats* stats, int prototype) {
+
+    stats->ptr_ch = prototype | (1 << 0); 
+    
+    if(stack->size < 0) ret &= (1 << 1);
+    if(stack->capacity < 0) ret &= (1 << 2);
+    if(stack->arr == 0) ret &= (1 << 3);
+    if(stack->capacity < stack->size) ret &= (1 << 4);
+    
+#if PROTECTION_LEVEL == HASH or PROTECTION_LEVEL == FULL_PROTECTION
+    SafeStackHashes* st_hash = makeHash_(stack);
+    if (stack->hash != st_hash->hash) ret &= (1 << 5);
+    if (stack->arr_hash != st_hash->arr_hash) ret &= (1 << 6);
+    if (stack->data_hash != st_hash->data_hash) ret &= (1 << 7);
+#endif
+
+#if PROTECTION_LEVEL == CANARY or PROTECTION_LEVEL == FULL_PROTECTION
+    if(stack->f_canary != CANARY_SPECIAL_NUMBER) ret &= (1 << 8);
+    if(stack->s_canary != CANARY_SPECIAL_NUMBER) ret &= (1 << 9);
+    if(stack->arr[0] != CANARY_SPECIAL_NUMBER) ret &= (1 << 10);
+    if(stack->arr[stack->size + 1] != CANARY_SPECIAL_NUMBER) ret &= (1 << 11);
+#endif    
+}
+#endif
+
+
+
+
+
+#if PROTECTION_LEVEL != NO_PROTECTION
+int is_not_valid_(SafeStack* stack) {
     int ret = 0;
-    if(ptr == NULL) { 
+    if(stack == NULL) { 
         ret &= (1 << 0); 
         return ret;
     }
     
-    if(ptr->size < 0) ret &= (1 << 1);
-    if(ptr->capacity < 0) ret &= (1 << 2);
-    if(ptr->capacity < ptr->size) ret &= (1 << 3);
+    if(stack->size < 0) ret &= (1 << 1);
+    if(stack->capacity < 0) ret &= (1 << 2);
+    if(stack->arr == 0) ret &= (1 << 3);
+    if(stack->capacity < stack->size) ret &= (1 << 4);
     
 #if PROTECTION_LEVEL == HASH or PROTECTION_LEVEL == FULL_PROTECTION
-    if()    
+    SafeStackHashes* st_hash = makeHash_(stack);
+    if (stack->hash != st_hash->hash) ret &= (1 << 5);
+    if (stack->arr_hash != st_hash->arr_hash) ret &= (1 << 6);
+    if (stack->data_hash != st_hash->data_hash) ret &= (1 << 7);
 #endif
-}
 
+#if PROTECTION_LEVEL == CANARY or PROTECTION_LEVEL == FULL_PROTECTION
+    if(stack->f_canary != CANARY_SPECIAL_NUMBER) ret &= (1 << 8);
+    if(stack->s_canary != CANARY_SPECIAL_NUMBER) ret &= (1 << 9);
+    if(stack->arr[0] != CANARY_SPECIAL_NUMBER) ret &= (1 << 10);
+    if(stack->arr[stack->size + 1] != CANARY_SPECIAL_NUMBER) ret &= (1 << 11);
+#endif
+
+}
+#endif
+
+#if PROTECTION_LEVEL != NO_PROTECTION
 void my_assert_(SafeStack* ptr, const char* var_name, int assert_line, const char* low_function_caller, const char* caller_func_source, const char* caller_func, int call_line) {
     int ret_val = is_not_valid_(ptr);
     if(ret_val) {
@@ -347,6 +390,8 @@ void my_assert_(SafeStack* ptr, const char* var_name, int assert_line, const cha
     }
     return;
 }
+#endif
+
 //static SafeStack* descriptor (MyStack* prototype, MODE mode) {
 //    //assert(prototype);
 //
