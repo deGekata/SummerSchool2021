@@ -26,8 +26,8 @@ int main() {
         printf("%d\n", st->arr[i]);
     }
     printf("--------endarray\n\n");
-
-
+    //st->data_hash = 0;
+    //*(((int*)st) + 3) = 1;
     pushStack(st, 15);
     printf("top return: %d\n", top(st));
     printf("---------array:\n");
@@ -57,7 +57,7 @@ int main() {
     printf("\n\n ----------------POPS---------------\n");
     resize(st, adder);
 
-
+    
     printf("pop return: %d\n", top(st));
     printf("--------array:\n");
     for(int i = 0; i < st->size + adder; ++i) {

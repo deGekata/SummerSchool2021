@@ -2,15 +2,11 @@
 
 #undef CANARY_SPECIAL_NUMBER
 
-#undef CANARY_SPECIAL_NUMBER
-
 #undef BLOCK_SIZE
 
 #undef REALLOC_BAR
 
-#undef CANARY_SPECIAL_NUMBER
-
-#undef VOID_STACK_RETURN
+#undef EMPTY_STACK_RETURN
 
 #undef NULL_SPECIAL_PTR
 
@@ -26,12 +22,13 @@
 
 #undef is_VALID
 
-#define BLOCK_SIZE 1024
-#define REALLOC_BAR 128
-#define CANARY_SPECIAL_NUMBER 0xFee1Dead
-#define VOID_STACK_RETURN 0xF2EE
+typedef char my_type;
+static const char const* type_name_ = "char"; 
+
+#define EMPTY_STACK_RETURN 0xF2EE
 #define NULL_SPECIAL_PTR (int*)0xbad
 
+#define CANARY_SPECIAL_NUMBER 0xFee1Dead
 
 #define NO_PROTECTION 0
 #define CANARY 1
