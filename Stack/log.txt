@@ -1,8 +1,10 @@
-Stack<char> [0000016ED4E69D30] created at 
-	 main() at C:\Users\Yaric-PC\Desktop\Prom_prog\SummerSchool2021\Stack\source.cpp(15)
+Stack<char> st [00000091A3AFF888] in 
+	top_ from C:\Users\Yaric-PC\Desktop\Prom_prog\SummerSchool2021\Stack\MyStack.cpp(113) 
+	created at 	 main() at C:\Users\Yaric-PC\Desktop\Prom_prog\SummerSchool2021\Stack\source.cpp(16)
 {
-		size                          : 0000000000000001 (ok)
-		capacity                      : 0000000000000100 (ok)
+		size                          : 0000000000000003 (ok)
+		capacity                      : 0000000000000003 (ok)
 		size > capacity               : 0000000000000000 (ok)
-		hash                          : 00000000789773f0 (ERROR)
+		hash                          : c37a21b1124789cf (ERROR)
 		Array data will not be provided due to hash error
+}

@@ -2,9 +2,9 @@
 
 
 #if PROTECTION_LEVEL == HASH or PROTECTION_LEVEL == FULL_PROTECTION
-int64_t hashFunc_(const char * str, int len, int64_t init) {
+int64_t hashFunc_(const char * str, size_t len, int64_t init) {
     unsigned long long int hash = init;
-    for (int it = 0; it < len; str++, it++) {
+    for (size_t it = 0; it < len; str++, it++) {
         hash += (unsigned char)(*str);
         hash += (hash << 20);
         hash ^= (hash >> 12);
@@ -21,11 +21,12 @@ int64_t hashFunc_(const char * str, int len, int64_t init) {
 #if PROTECTION_LEVEL == 0
 SafeStack* createStack_() {
 #else 
-SafeStack* createStack_(call_INFO) {
+SafeStack* createStack_(SafeStack* st, call_INFO) {
 #endif
-
-    SafeStack* stack = (SafeStack*) calloc (1, sizeof(*stack));
-    assert(stack);
+    assert(st);
+    SafeStack* stack = st;
+    //(SafeStack*) calloc (1, sizeof(*stack));
+    //assert(stack);
 
     #if PROTECTION_LEVEL != 0
         stack->info = (StackCreationInfo*) calloc(1, sizeof(StackCreationInfo));
@@ -439,17 +440,18 @@ void Dump_stack_(SafeStack* st,
     
     const char* block_offset = "";
 
-    if (stat->ptr_ch) {
-        fprintf(log_file, "Stack<%s>  \"%s\" ptr is NULL in \n"
-           "\t %s() at %s(%d)\n", type_name_, var_name, low_function_caller, caller_func_source, st->info->caller_func_source, st->info->call_line);
-        fprintf(log_file, "Stack<%s> \"%s\" ptr is NULL in \n"
-           "\t %s() at %s(%d)\n", type_name_, var_name, low_function_caller, caller_func_source, st->info->caller_func_source, st->info->call_line);
+    //if (stat->ptr_ch) {
+    //    fprintf(log_file, "Stack<%s>  \"%s\" ptr is NULL in \n"
+    //       "\t %s() at %s(%d)\n", type_name_, var_name, low_function_caller, caller_func_source, st->info->caller_func_source, st->info->call_line);
+    //    fprintf(log_file, "Stack<%s> \"%s\" ptr is NULL in \n"
+    //       "\t %s() at %s(%d)\n", type_name_, var_name, low_function_caller, caller_func_source, st->info->caller_func_source, st->info->call_line);
 
-        return;
-    }
+    //    return;
+    //}
 
-    fprintf(log_file, "Stack<%s> [%p] created at \n"
-           "\t %s() at %s(%d)\n", type_name_, st, st->info->caller_func, st->info->caller_func_source, st->info->call_line);
+    fprintf(log_file, "Stack<%s> %s [%p] in \n"
+           "\t%s from %s(%d) \n"
+           "\tcreated at \t %s() at %s(%d)\n", type_name_, var_name , st, low_function_caller, low_function_caller_source, assert_line, st->info->caller_func, st->info->caller_func_source, st->info->call_line);
     
     fprintf(log_file, "{\n");
 
@@ -465,7 +467,7 @@ void Dump_stack_(SafeStack* st,
     
 #if PROTECTION_LEVEL == HASH or PROTECTION_LEVEL == FULL_PROTECTION
     message = (  stat->hash_ch == 0    ? ok_message : error_message);
-    fprintf(log_file, "%shash%*.s: %.16lx (%s)\n", block_offset, 30 - 4, "", st->hash, message);
+    fprintf(log_file, "%shash%*.s: %.16llx (%s)\n", block_offset, 30 - 4, "", st->hash, message);
 
     if (message == error_message) {
         fprintf(log_file, "%sArray data will not be provided due to hash error\n", block_offset);

@@ -65,9 +65,9 @@ struct SafeStack {
 
 
 #if PROTECTION_LEVEL == NO_PROTECTION
-SafeStack* createStack_();
+SafeStack* createStack_(SafeStack* st);
 #else 
-SafeStack* createStack_(call_INFO);
+SafeStack* createStack_(SafeStack* st, call_INFO);
 #endif
 
 #if PROTECTION_LEVEL == NO_PROTECTION

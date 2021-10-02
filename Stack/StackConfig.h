@@ -23,8 +23,8 @@
 #undef is_VALID
 
 typedef char my_type;
-static const char const* type_name_ = "char";
-static const char const* log_file_location = "log.txt";
+static const char* type_name_ = "char";
+static const char* log_file_location = "log.txt";
 #define PRINTF_TYPE_SPEC "c"
 
 #pragma warning (disable: 4996)
@@ -69,14 +69,14 @@ const int arr_s_canary_err = (1 << 9);
 #define get_ELEM(ptr, ind) ((my_type*)((char*)(ptr->arr) + sizeof(uint64_t)) + ind)
 
 #if PROTECTION_LEVEL == 0
-    #define createStack() createStack_()
+    #define createStack(st) createStack_(st)
     #define pushStack(stack, value) push_(stack, value)
     #define top(stack) top_(st)
     #define pop(stack) pop_(stack)
     #define freeStack(stack) freeStack_(stack)
     #define resize(stack, n_capacity) resize_(stack, n_capacity)
 #else
-    #define createStack() createStack_(call_ARGS)
+    #define createStack(st) createStack_(st, call_ARGS)
     #define pushStack(st, value) push_(st, value, call_ARGS)
     #define top(st) top_(st, call_ARGS)
     #define pop(stack) pop_(stack, call_ARGS)
