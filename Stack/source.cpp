@@ -19,7 +19,7 @@ int main() {
     #else
         int adder = 0;
     #endif
-    pushStack(st, 10);
+    pushStack(st, 'l');
     printf("top return: %d\n", top(st));
     printf("--------array:\n");
     for(int i = 0; i < st->size + adder; ++i) {
@@ -28,7 +28,7 @@ int main() {
     printf("--------endarray\n\n");
     //st->data_hash = 0;
     //*(((int*)st) + 3) = 1;
-    pushStack(st, 15);
+    pushStack(st, 'o');
     printf("top return: %d\n", top(st));
     printf("---------array:\n");
     for(int i = 0; i < st->size + adder; ++i) {
@@ -37,7 +37,7 @@ int main() {
     printf("--------endarray\n\n");
 
 
-    pushStack(st, 50);
+    pushStack(st, 'l');
     printf("top return: %d\n", top(st));
     printf("----------array:\n");
     for(int i = 0; i < st->size + adder; ++i) {
@@ -55,11 +55,11 @@ int main() {
     printf("--------endarray\n\n");
 
     printf("\n\n ----------------POPS---------------\n");
-    resize(st, adder);
-
-    *(((int*)st) + 3) = 1;
-    
-    printf("pop return: %d\n", top(st));
+    resize(st, adder + 1);
+    int a = 2;
+    *(((int*)st) + 3) = 100;
+    //st->size = 100;
+       printf("pop return: %d\n", top(st));
     printf("--------array:\n");
     for(int i = 0; i < st->size + adder; ++i) {
         printf("%d\n", st->arr[i]);

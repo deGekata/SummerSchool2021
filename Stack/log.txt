@@ -1,0 +1,8 @@
+Stack<char> [0000016ED4E69D30] created at 
+	 main() at C:\Users\Yaric-PC\Desktop\Prom_prog\SummerSchool2021\Stack\source.cpp(15)
+{
+		size                          : 0000000000000001 (ok)
+		capacity                      : 0000000000000100 (ok)
+		size > capacity               : 0000000000000000 (ok)
+		hash                          : 00000000789773f0 (ERROR)
+		Array data will not be provided due to hash error
