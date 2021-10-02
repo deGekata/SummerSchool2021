@@ -10,7 +10,7 @@ Stack/.vs
 Stack/Debug
 
 *.filters
-*.vcxproj
+### *.vcxproj ###
 ###*.sln ###
 *.rc
 *.ico
