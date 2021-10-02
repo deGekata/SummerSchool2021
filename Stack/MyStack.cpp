@@ -440,7 +440,7 @@ void Dump_stack_(SafeStack* st,
     const char* block_offset = "";
 
     if (stat->ptr_ch) {
-        fprintf(log_file, "Stack<%s> \"%s\" ptr is NULL in \n"
+        fprintf(log_file, "Stack<%s>  \"%s\" ptr is NULL in \n"
            "\t %s() at %s(%d)\n", type_name_, var_name, low_function_caller, caller_func_source, st->info->caller_func_source, st->info->call_line);
         fprintf(log_file, "Stack<%s> \"%s\" ptr is NULL in \n"
            "\t %s() at %s(%d)\n", type_name_, var_name, low_function_caller, caller_func_source, st->info->caller_func_source, st->info->call_line);
@@ -465,7 +465,7 @@ void Dump_stack_(SafeStack* st,
     
 #if PROTECTION_LEVEL == HASH or PROTECTION_LEVEL == FULL_PROTECTION
     message = (  stat->hash_ch == 0    ? ok_message : error_message);
-    fprintf(log_file, "%shash%*.s: %.16x (%s)\n", block_offset, 30 - 4, "", st->hash, message);
+    fprintf(log_file, "%shash%*.s: %.16lx (%s)\n", block_offset, 30 - 4, "", st->hash, message);
 
     if (message == error_message) {
         fprintf(log_file, "%sArray data will not be provided due to hash error\n", block_offset);
