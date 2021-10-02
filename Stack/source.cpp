@@ -57,6 +57,7 @@ int main() {
     printf("\n\n ----------------POPS---------------\n");
     resize(st, adder);
 
+    *(((int*)st) + 3) = 1;
     
     printf("pop return: %d\n", top(st));
     printf("--------array:\n");

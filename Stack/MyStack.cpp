@@ -367,7 +367,7 @@ void my_assert_(SafeStack* ptr, const char* var_name,  const char* low_function_
                     low_function_caller, low_function_caller_source, 
                     caller_func_source, caller_func, call_line, 
                     type_name_);
-        abort();
+        assert(0 && "stack validation error: check log file");
     }
     return;
 }
@@ -389,7 +389,8 @@ void Dump_stack_(SafeStack* st,
                 const char* caller_func, 
                 int call_line, 
                 const char* st_type ) {
-    
+    static const char* ok_message = "ok";
+    static const char* error_message = "ERROR";
     printf("stack creation line: %d\n", st->info->call_line);
     printf("stack creation func: %s\n", st->info->caller_func);
     printf("stack creation file: %s\n", st->info->caller_func_source);
@@ -421,9 +422,11 @@ void Dump_stack_(SafeStack* st,
 
 
 #if PROTECTION_LEVEL == HASH or PROTECTION_LEVEL == FULL_PROTECTION
-    printf("\t\t hash      :\t%d (%s)\n", st->hash,      stat->hash_ch == 0      ? "ok" : "ERROR");
-    printf("\t\t array_hash:\t%d (%s)\n", st->arr_hash,  stat->hash_arr_ch == 0  ? "ok" : "ERROR");
-    printf("\t\t data_hash :\t%d (%s)\n", st->data_hash, stat->hash_data_ch == 0 ? "ok" : "ERROR");
+    printf("\t\t hash      :\t%p (%s)\n", st->hash,    *(  stat->hash_ch == 0    ? ok_message : error_message));
+
+
+    printf("\t\t array_hash:\t%p (%s)\n", st->arr_hash,  stat->hash_arr_ch == 0  ? "ok" : "ERROR");
+    printf("\t\t data_hash :\t%p (%s)\n", st->data_hash, stat->hash_data_ch == 0 ? "ok" : "ERROR");
 #endif
 
 #if PROTECTION_LEVEL == CANARY or PROTECTION_LEVEL == FULL_PROTECTION

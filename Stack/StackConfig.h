@@ -30,6 +30,11 @@ static const char const* type_name_ = "char";
 
 #define CANARY_SPECIAL_NUMBER 0xFee1Dead
 
+const int no_protection = 0;
+const int canary = 1;
+const int hash = 2;
+const int full_protection = 3;
+const int protection_level = full_protection;
 #define NO_PROTECTION 0
 #define CANARY 1
 #define HASH 2
