@@ -11,7 +11,7 @@ Stack/Debug
 
 *.filters
 *.vcxproj
-*.sln
+###*.sln ###
 *.rc
 *.ico
 
