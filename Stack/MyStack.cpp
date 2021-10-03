@@ -19,7 +19,7 @@ int64_t hashFunc_(const char * str, size_t len, int64_t init) {
 #endif
 
 #if PROTECTION_LEVEL == 0
-SafeStack* createStack_() {
+SafeStack* createStack_(SafeStack* st) {
 #else 
 SafeStack* createStack_(SafeStack* st, call_INFO) {
 #endif
@@ -30,7 +30,8 @@ SafeStack* createStack_(SafeStack* st, call_INFO) {
 
     #if PROTECTION_LEVEL != 0
         stack->info = (StackCreationInfo*) calloc(1, sizeof(StackCreationInfo));
-        assert(stack->info && "No extra memory");
+        if (stack->info == 0) return 0;
+        //assert(stack->info && "No extra memory");
         stack->info->caller_func_source = caller_func_source;
         stack->info->caller_func = caller_func;
         stack->info->call_line = call_line;
@@ -39,34 +40,21 @@ SafeStack* createStack_(SafeStack* st, call_INFO) {
     stack->arr = (my_type*)NULL_SPECIAL_PTR;
     stack->capacity = stack->size = 0;
 
-#if PROTECTION_LEVEL == CANARY 
-    /*stack->arr = (my_type*) calloc (sizeof(stack->f_canary) * 2, sizeof( char ));
-    *get_ELEM(stack, 0) = *get_ELEM(stack, 1) = CANARY_SPECIAL_NUMBER;
-    stack->f_canary = stack->s_canary = CANARY_SPECIAL_NUMBER;*/
-
-#endif
-
 #if PROTECTION_LEVEL == HASH
     makeApplyHash_(stack);
 #endif     
 
 #if PROTECTION_LEVEL == FULL_PROTECTION
-    //stack->arr = (my_type*) calloc (sizeof(stack->f_canary) * 2, sizeof( int64_t ));
     assert(stack->arr && "No memory space");
-    //*(int64_t*)(stack->arr) = *(int64_t*)((char*)stack->arr + sizeof(uint64_t)) = CANARY_SPECIAL_NUMBER;
-    
+  
     stack->f_canary = stack->s_canary = CANARY_SPECIAL_NUMBER;
     
-    //printf("f_arr create caaaanary %x\n\n", *(int64_t*)(stack->arr));
-    //printf("s_arr create caaaanary %x\n\n", *(int64_t*)((char*)stack->arr + sizeof(uint64_t)));
-
     makeApplyHash_(stack);
 #endif  
        
     return stack;
 }
 
-//TODO
 #if PROTECTION_LEVEL == 0
 void push_(SafeStack* st, my_type value){
 #else 
@@ -160,13 +148,6 @@ void freeStack_(SafeStack* st, call_INFO) {
     
     #if PROTECTION_LEVEL != NO_PROTECTION 
         st->size = -1;
-
-        //#if PROTECTION_LEVEL == CANARY or PROTECTION_LEVEL == FULL_PROTECTION
-        //    memset(st->arr, 0xcdcd, st->capacity + 2);
-        //#else
-        //    memset(st->arr, 0xcdcd, st->capacity);
-        //#endif
-
         st->capacity = -1;
     #endif
 
@@ -315,8 +296,6 @@ int resize_(SafeStack* st, int n_capacity, call_INFO) {
     return 1;
 }
 
-
-
 #if PROTECTION_LEVEL != NO_PROTECTION
     #define INCORRECT 1
 void fillStats(SafeStackStats* stats, int prototype) {
@@ -344,10 +323,6 @@ void fillStats(SafeStackStats* stats, int prototype) {
 }
     #undef INCORRECT
 #endif
-
-
-
-
 
 #if PROTECTION_LEVEL != NO_PROTECTION
 int is_not_valid_(SafeStack* stack) {
@@ -393,16 +368,12 @@ void my_assert_(SafeStack* ptr, const char* var_name,  const char* low_function_
                     low_function_caller, low_function_caller_source, 
                     caller_func_source, caller_func, call_line, 
                     type_name_);
+        free(stats);
         assert(0 && "stack validation error: check log file");
     }
     return;
 }
 #endif
-
-
-
-
-
 
 #if PROTECTION_LEVEL != 0
 void Dump_stack_(SafeStack* st, 
@@ -416,7 +387,10 @@ void Dump_stack_(SafeStack* st,
                 int call_line, 
                 const char* st_type ) {
 
-    FILE* log_file = fopen(log_file_location, "w+");   
+    FILE* log_file = fopen(log_file_location, "a+");
+    if(log_file == 0) {
+        printf("Unable to open log file");
+    }
     setbuf(log_file, 0);
     const char* ok_message = "ok\0";
     const char* error_message = "ERROR\0";
@@ -451,9 +425,9 @@ void Dump_stack_(SafeStack* st,
 
     fprintf(log_file, "Stack<%s> %s [%p] in \n"
            "\t%s from %s(%d) \n"
-           "\tcreated at \t %s() at %s(%d)\n", type_name_, var_name , st, low_function_caller, low_function_caller_source, assert_line, st->info->caller_func, st->info->caller_func_source, st->info->call_line);
+           "\tcreated at \t %s() at %s(%d)\n{\n", type_name_, var_name , st, low_function_caller, low_function_caller_source, assert_line, st->info->caller_func, st->info->caller_func_source, st->info->call_line);
     
-    fprintf(log_file, "{\n");
+    //fprintf(log_file, "{\n");
 
     block_offset = "\t\t";
 
@@ -469,13 +443,13 @@ void Dump_stack_(SafeStack* st,
     message = (  stat->hash_ch == 0    ? ok_message : error_message);
     fprintf(log_file, "%shash%*.s: %.16llx (%s)\n", block_offset, 30 - 4, "", st->hash, message);
 
-    if (message == error_message) {
+    /*if (message == error_message) {
         fprintf(log_file, "%sArray data will not be provided due to hash error\n", block_offset);
         fprintf(log_file, "}\n");
 
         fclose(log_file);
         return;
-    }            
+    }     */       
 
     //printf("\t\t array_hash:\t%p (%s)\n", st->arr_hash,  stat->hash_arr_ch == 0  ? "ok" : "ERROR");
     //printf("\t\t data_hash :\t%p (%s)\n", st->data_hash, stat->hash_data_ch == 0 ? "ok" : "ERROR");
@@ -496,7 +470,7 @@ void Dump_stack_(SafeStack* st,
         fprintf(log_file, "%s{ array is empty }\n", block_offset);
     }
     
-    if (stat->arr_ch == 0 && stat->size_ch == 0 && stat->capacity_ch == 0 && stat->size_cap_ch == 0) {
+    if (1 || stat->arr_ch == 0 && stat->size_ch == 0 && stat->capacity_ch == 0 && stat->size_cap_ch == 0) {
         block_offset = "\t\t\t\t ";
         fprintf(log_file, "%s{\n", block_offset);
 

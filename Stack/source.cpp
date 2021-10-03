@@ -58,8 +58,9 @@ int main() {
     printf("\n\n ----------------POPS---------------\n");
     resize(&st, adder + 1);
     int a = 2;
-    *(((int*)&st) + 3) = 100;
+    //*(((int*)&st) + 3) = 100;
     //st->size = 100;
+    (&st)->capacity = -1;
        printf("pop return: %d\n", top(&st));
     printf("--------array:\n");
     for(int i = 0; i < (&st)->size + adder; ++i) {

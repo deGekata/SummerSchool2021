@@ -40,7 +40,6 @@ static const char* log_file_location = "log.txt";
 //const int full_protection = 3;
 //const int protection_level = full_protection;
 
-
 const int null_ptr_err     = (1 << 0);
 const int size_err         = (1 << 1);
 const int capacity_err     = (1 << 2);
@@ -59,13 +58,9 @@ const int arr_s_canary_err = (1 << 9);
 
 #define PROTECTION_LEVEL FULL_PROTECTION
 
-
-
-
-#define is_NOT_VALID(ptr) is_not_valid_(ptr)
-#define my_ASSERT(ptr) my_assert_(ptr, #ptr, __FILE__, __FUNCTION__, __LINE__, caller_func_source, caller_func, call_line, type_name_)
-#define call_INFO const char* caller_func_source, const char* caller_func, int call_line
 #define call_ARGS __FILE__, __FUNCTION__, __LINE__
+#define call_INFO const char* caller_func_source, const char* caller_func, int call_line
+#define my_ASSERT(ptr) my_assert_(ptr, #ptr, call_ARGS, caller_func_source, caller_func, call_line, type_name_)
 #define get_ELEM(ptr, ind) ((my_type*)((char*)(ptr->arr) + sizeof(uint64_t)) + ind)
 
 #if PROTECTION_LEVEL == 0

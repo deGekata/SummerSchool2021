@@ -1,10 +1,52 @@
-Stack<char> st [00000091A3AFF888] in 
+Stack<char> st [00000046B2CFF478] in 
 	top_ from C:\Users\Yaric-PC\Desktop\Prom_prog\SummerSchool2021\Stack\MyStack.cpp(113) 
 	created at 	 main() at C:\Users\Yaric-PC\Desktop\Prom_prog\SummerSchool2021\Stack\source.cpp(16)
 {
 		size                          : 0000000000000003 (ok)
 		capacity                      : 0000000000000003 (ok)
 		size > capacity               : 0000000000000000 (ok)
-		hash                          : c37a21b1124789cf (ERROR)
+		hash                          : 3484403c6de6d80d (ERROR)
 		Array data will not be provided due to hash error
+}
+Stack<char> st [000000C9B88FFB78] in 
+	top_ from C:\Users\Yaric-PC\Desktop\Prom_prog\SummerSchool2021\Stack\MyStack.cpp(101) 
+	created at 	 main() at C:\Users\Yaric-PC\Desktop\Prom_prog\SummerSchool2021\Stack\source.cpp(16)
+{
+		size                          : 0000000000000003 (ok)
+		capacity                      : -0000000000000001 (ERROR)
+		size > capacity               : 0000000000000000 (ERROR)
+		hash                          : 7f347e844bcb5ad2 (ERROR)
+		first data canary             : 00000000FEE1DEAD (ok)
+		second data canary            : 00000000FEE1DEAD (ok)
+		arr                           :[000002AAD6FD0310](ok)
+}
+Stack<char> st [000000D94E0FF458] in 
+	top_ from C:\Users\Yaric-PC\Desktop\Prom_prog\SummerSchool2021\Stack\MyStack.cpp(101) 
+	created at 	 main() at C:\Users\Yaric-PC\Desktop\Prom_prog\SummerSchool2021\Stack\source.cpp(16)
+{
+		size                          : 0000000000000003 (ok)
+		capacity                      : -0000000000000001 (ERROR)
+		size > capacity               : 0000000000000000 (ERROR)
+		hash                          : 26f87dd9a869d657 (ERROR)
+		first data canary             : 00000000FEE1DEAD (ok)
+		second data canary            : 00000000FEE1DEAD (ok)
+		arr                           :[0000024968F3D5B0](ok)
+Stack<char> st [000000867DDCF548] in 
+	top_ from C:\Users\Yaric-PC\Desktop\Prom_prog\SummerSchool2021\Stack\MyStack.cpp(101) 
+	created at 	 main() at C:\Users\Yaric-PC\Desktop\Prom_prog\SummerSchool2021\Stack\source.cpp(16)
+{
+		size                          : 0000000000000003 (ok)
+		capacity                      : -0000000000000001 (ERROR)
+		size > capacity               : 0000000000000000 (ERROR)
+		hash                          : fbac32e3d2a4ab5f (ERROR)
+		first data canary             : 00000000FEE1DEAD (ok)
+		second data canary            : 00000000FEE1DEAD (ok)
+		arr                           :[000001F85C6DFD00](ok)
+				 {
+				  [-0000000001] = 00000000FEE1DEAD (poison)
+				  [+0000000000] = l (ok)
+				  [+0000000001] = o (ok)
+				  [+0000000002] = l (ok)
+				  [-0000000001] = 00000000FEE1DEAD (poison)
+				 }
 }
