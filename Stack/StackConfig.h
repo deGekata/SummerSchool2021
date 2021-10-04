@@ -57,7 +57,7 @@ const int arr_s_canary_err = (1 << 9);
 #define HASH 2
 #define FULL_PROTECTION 3
 
-#define PROTECTION_LEVEL FULL_PROTECTION
+#define PROTECTION_LEVEL CANARY
 
 
 
@@ -66,7 +66,7 @@ const int arr_s_canary_err = (1 << 9);
 #define my_ASSERT(ptr) my_assert_(ptr, #ptr, __FILE__, __FUNCTION__, __LINE__, caller_func_source, caller_func, call_line, type_name_)
 #define call_INFO const char* caller_func_source, const char* caller_func, int call_line
 #define call_ARGS __FILE__, __FUNCTION__, __LINE__
-#define get_ELEM(ptr, ind) ((my_type*)((char*)(ptr->arr) + sizeof(uint64_t)) + ind)
+#define get_ELEM(ptr, ind) ((my_type*)((char*)((ptr)->arr) + sizeof(uint64_t)) + ind)
 
 #if PROTECTION_LEVEL == 0
     #define createStack(st) createStack_(st)

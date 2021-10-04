@@ -116,34 +116,20 @@ int64_t hashFunc_(const char* str, int len, int64_t init = 0);
 
 #if PROTECTION_LEVEL != NO_PROTECTION
 int is_not_valid_(SafeStack* ptr);
-#endif
 
-#if PROTECTION_LEVEL != NO_PROTECTION
-void my_assert_(SafeStack* ptr, const char* var_name, const char* low_function_caller_source, const char* low_function_caller, int assert_line, call_INFO, const char* st_base_type);
-#endif
+int my_assert_(SafeStack* ptr, const char* var_name, const char* low_function_caller_source, const char* low_function_caller, int assert_line, call_INFO, const char* st_base_type);
 
-#if PROTECTION_LEVEL != NO_PROTECTION
 void fillStats(SafeStackStats* stats, int prototype);
+
+void Dump_stack_(SafeStack* st, 
+                 SafeStackStats* stat, 
+                 const char* var_name, 
+                 int assert_line, 
+                 const char* low_function_caller, 
+                 const char* low_function_caller_source,
+                 const char* caller_func_source, 
+                 const char* caller_func, 
+                 int call_line, 
+                 const char* st_type );
+
 #endif
-
-#if PROTECTION_LEVEL != NO_PROTECTION
-    void Dump_stack_(SafeStack* st, 
-                SafeStackStats* stat, 
-                const char* var_name, 
-                int assert_line, 
-                const char* low_function_caller, 
-                const char* low_function_caller_source,
-                const char* caller_func_source, 
-                const char* caller_func, 
-                int call_line, 
-                const char* st_type );
-#endif
-
-
-
-//enum MODE {
-//    ACCESS     = -1,
-//    INIT       =  0,
-//};
-
-

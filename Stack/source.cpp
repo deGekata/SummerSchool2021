@@ -21,10 +21,10 @@ int main() {
         int adder = 0;
     #endif
     pushStack(&st, 'l');
-    printf("top return: %d\n", top(&st));
+    printf("top return: %" PRINTF_TYPE_SPEC "\n", top(&st));
     printf("--------array:\n");
     for(int i = 0; i < (&st)->size + adder; ++i) {
-        printf("%d\n", (&st)->arr[i]);
+        printf("%" PRINTF_TYPE_SPEC "\n", *get_ELEM((&st), i));
     }
     printf("--------endarray\n\n");
     //st->data_hash = 0;
@@ -33,7 +33,7 @@ int main() {
     printf("top return: %d\n", top(&st));
     printf("---------array:\n");
     for(int i = 0; i < (&st)->size + adder; ++i) {
-        printf("%d\n", (&st)->arr[i]);
+        printf("%" PRINTF_TYPE_SPEC "\n", *get_ELEM((&st), i));
     }
     printf("--------endarray\n\n");
 
@@ -42,7 +42,7 @@ int main() {
     printf("top return: %d\n", top(&st));
     printf("----------array:\n");
     for(int i = 0; i < (&st)->size + adder; ++i) {
-        printf("%d\n", (&st)->arr[i]);
+        printf("%" PRINTF_TYPE_SPEC "\n", *get_ELEM((&st), i));
     }
     printf("--------endarray\n\n");
 
@@ -51,19 +51,22 @@ int main() {
     printf("top return: %d\n", top(&st));
     printf("---------array:\n");
     for(int i = 0; i < (&st)->size + adder; ++i) {
-        printf("%d\n", (&st)->arr[i]);
+        printf("%" PRINTF_TYPE_SPEC "\n", *get_ELEM((&st), i));
     }
     printf("--------endarray\n\n");
 
     printf("\n\n ----------------POPS---------------\n");
     resize(&st, adder + 1);
     int a = 2;
-    *(((int*)&st) + 3) = 100;
+    //*(((int*)&st) + 3) = 100;
+    st.capacity = 0;
+    st.size = 0;
+    st.arr = (my_type*)NULL_SPECIAL_PTR;
     //st->size = 100;
        printf("pop return: %d\n", top(&st));
     printf("--------array:\n");
     for(int i = 0; i < (&st)->size + adder; ++i) {
-        printf("%d\n", (&st)->arr[i]);
+        printf("%" PRINTF_TYPE_SPEC "\n", *get_ELEM((&st), i));
     }
     printf("--------endarray\n\n");
     pop(&st);
