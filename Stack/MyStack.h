@@ -1,14 +1,9 @@
-#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
 #include "StackConfig.h"
 #include "stdint.h"
-
-
-
-
 
 #if PROTECTION_LEVEL != 0
 struct SafeStackStats {
@@ -17,11 +12,12 @@ struct SafeStackStats {
 #endif
 
 #if PROTECTION_LEVEL == CANARY or PROTECTION_LEVEL == FULL_PROTECTION
+
     int f_canary_ch, s_canary_ch, arr_f_canary_ch, arr_s_canary_ch;
+
 #endif
 
     int capacity_ch, size_ch, size_cap_ch, arr_ch, ptr_ch;
-
 };
 #endif
 
@@ -65,53 +61,49 @@ struct SafeStack {
 
 
 #if PROTECTION_LEVEL == NO_PROTECTION
-SafeStack* createStack_(SafeStack* st);
+    SafeStack* createStack_(SafeStack* st);
 #else 
-SafeStack* createStack_(SafeStack* st, call_INFO);
+    SafeStack* createStack_(SafeStack* st, call_INFO);
 #endif
 
 #if PROTECTION_LEVEL == NO_PROTECTION
-int resize_(SafeStack * st, int n_capacity);
+    int resize_(SafeStack * st, int n_capacity);
 #else
-int resize_(SafeStack* st, int n_capacity, call_INFO);
+    int resize_(SafeStack* st, int n_capacity, call_INFO);
 #endif
 
 #if PROTECTION_LEVEL == NO_PROTECTION
-void freeStack_(SafeStack* st);
+    void freeStack_(SafeStack* st);
 #else 
-void freeStack_(SafeStack* st, call_INFO);
+    void freeStack_(SafeStack* st, call_INFO);
 #endif
 
 #if PROTECTION_LEVEL == NO_PROTECTION
-void push_(SafeStack* st, my_type value);
+    void push_(SafeStack* st, my_type value);
 #else 
-void push_(SafeStack* st, my_type value, call_INFO);
+    void push_(SafeStack* st, my_type value, call_INFO);
 #endif
 
 void shrink_(SafeStack* st);
 
 #if PROTECTION_LEVEL == NO_PROTECTION
-my_type top_(SafeStack* st);
+    my_type top_(SafeStack* st);
 #else 
-my_type top_(SafeStack* st, call_INFO);
+    my_type top_(SafeStack* st, call_INFO);
 #endif
 
 #if PROTECTION_LEVEL == 0
-void pop_(SafeStack* st);
+    my_type pop_(SafeStack* st);
 #else 
-void pop_(SafeStack* st, call_INFO);
+    my_type pop_(SafeStack* st, call_INFO);
 #endif
 
 #if PROTECTION_LEVEL == HASH or PROTECTION_LEVEL == FULL_PROTECTION
-SafeStackHashes* makeHash_(SafeStack* st);
-#endif
+    SafeStackHashes* makeHash_(SafeStack* st);
 
-#if PROTECTION_LEVEL == HASH or PROTECTION_LEVEL == FULL_PROTECTION
-void makeApplyHash_(SafeStack* st);
-#endif
+    void makeApplyHash_(SafeStack* st);
 
-#if defined HASH or defined FULL_PROTECTION
-int64_t hashFunc_(const char* str, int len, int64_t init = 0);
+    int64_t hashFunc_(const char* str, size_t len, int64_t init = 0);
 #endif
 
 #if PROTECTION_LEVEL != NO_PROTECTION

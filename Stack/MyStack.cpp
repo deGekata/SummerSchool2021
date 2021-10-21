@@ -125,31 +125,36 @@ my_type top_(SafeStack* st, call_INFO) {
 }
 
 #if PROTECTION_LEVEL == 0
-void pop_(SafeStack* st) {
+my_type pop_(SafeStack* st) {
 #else 
-void pop_(SafeStack* st, call_INFO) {
+my_type pop_(SafeStack* st, call_INFO) {
     my_ASSERT(st); 
 #endif
     
-    if(st->size <= 0) return;
+    if(st->size <= 0) return EMPTY_STACK_RETURN;
 
     --st->size;
+    
+    my_type ret_val;
 
 #if PROTECTION_LEVEL == HASH
     makeApplyHash_(st);
-
+    ret_val = st->arr[st->size];
+    return ret_val;
 #elif PROTECTION_LEVEL == CANARY
     //st->arr[ st->size + 1] = CANARY_SPECIAL_NUMBER;
     //*(stack) = *(stack + sizeof(uint64_t)) = CANARY_SPECIAL_NUMBER;
-    *get_ELEM(st, st->size + 1) = CANARY_SPECIAL_NUMBER;
+     ret_val = *get_ELEM(st, st->size + 1);
+    *(int64_t)get_ELEM(st, st->size + 1) = CANARY_SPECIAL_NUMBER;
 
 #elif PROTECTION_LEVEL == FULL_PROTECTION
     //st->arr[ st->size + 1] = CANARY_SPECIAL_NUMBER;
+    ret_val = *get_ELEM(st, st->size + 1);
     *(int64_t*)get_ELEM(st, st->size + 1) = CANARY_SPECIAL_NUMBER;
     makeApplyHash_(st);
 #endif
-
-    return;
+    return ret_val;
+    
 }
 
 #if PROTECTION_LEVEL == 0
@@ -217,6 +222,7 @@ int resize_(SafeStack* st, int n_capacity, call_INFO) {
     if(n_capacity > st->capacity) {
 
     #if PROTECTION_LEVEL == HASH or PROTECTION_LEVEL == NO_PROTECTION
+
         if(st->arr == (my_type*)NULL_SPECIAL_PTR) {
                 st->arr = (my_type*) calloc(n_capacity, sizeof(my_type));
                 //*(int64_t*)(st->arr) = *(int64_t*)((char*)st->arr + sizeof(uint64_t)) = CANARY_SPECIAL_NUMBER;
@@ -226,6 +232,7 @@ int resize_(SafeStack* st, int n_capacity, call_INFO) {
                 #endif
                 return 1;
         }
+
         my_type* buff = (my_type*) realloc(st->arr, n_capacity * sizeof(my_type));
 
         if(buff != NULL){
@@ -243,6 +250,7 @@ int resize_(SafeStack* st, int n_capacity, call_INFO) {
         }
 
     #elif PROTECTION_LEVEL == CANARY or PROTECTION_LEVEL == FULL_PROTECTION
+
         if(st->arr == (my_type*)NULL_SPECIAL_PTR) {
                  st->arr = (my_type*) calloc(n_capacity * sizeof(my_type) + sizeof(uint64_t) * 2, sizeof(char));
                  *(int64_t*)(st->arr) = *(int64_t*)((char*)st->arr + sizeof(uint64_t)) = CANARY_SPECIAL_NUMBER;

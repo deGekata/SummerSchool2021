@@ -1,0 +1,50 @@
+\hypertarget{_string_sorter_8h}{}\doxysection{C\+:/\+Users/\+Gekata/\+Desktop/\+Git\+Projects/\+Summer\+School2021/\+Onegin/\+String\+Sorter.h File Reference}
+\label{_string_sorter_8h}\index{C:/Users/Gekata/Desktop/GitProjects/SummerSchool2021/Onegin/StringSorter.h@{C:/Users/Gekata/Desktop/GitProjects/SummerSchool2021/Onegin/StringSorter.h}}
+
+
+Sorts poem.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$assert.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include \char`\"{}String\+File\+Parser.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_string_sorter_8h_a38111b08f4b0b2e80268f35314f55037}\label{_string_sorter_8h_a38111b08f4b0b2e80268f35314f55037}} 
+char $\ast$ {\bfseries get\+Sym} (\mbox{\hyperlink{struct_my_str_pair}{My\+Str\+Pair}} $\ast$inp, int pos)
+\begin{DoxyCompactList}\small\item\em get symbol on position pos from inp \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_string_sorter_8h_a962dbe4a036f5ecd804755886ca684e0}\label{_string_sorter_8h_a962dbe4a036f5ecd804755886ca684e0}} 
+int {\bfseries comparator\+Reversed} (const void $\ast$lhs, const void $\ast$rhs)
+\begin{DoxyCompactList}\small\item\em Reversed comparator for strings. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_string_sorter_8h_a7474795994abd3877cd6a6d22395652d}\label{_string_sorter_8h_a7474795994abd3877cd6a6d22395652d}} 
+int {\bfseries comparator\+Straight} (const void $\ast$lhs, const void $\ast$rhs)
+\begin{DoxyCompactList}\small\item\em Straight comparator for strings. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_string_sorter_8h_a8c52351fbdb31d4d2c5e112abfd3a677}{make\+Magic\+Print}} (FILE $\ast$fp\+\_\+in, FILE $\ast$fp\+\_\+out)
+\begin{DoxyCompactList}\small\item\em Magicaly prints Poem 3 times. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Sorts poem. 
+
+\begin{DoxyAuthor}{Author}
+Gekata 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_string_sorter_8h_a8c52351fbdb31d4d2c5e112abfd3a677}\label{_string_sorter_8h_a8c52351fbdb31d4d2c5e112abfd3a677}} 
+\index{StringSorter.h@{StringSorter.h}!makeMagicPrint@{makeMagicPrint}}
+\index{makeMagicPrint@{makeMagicPrint}!StringSorter.h@{StringSorter.h}}
+\doxysubsubsection{\texorpdfstring{makeMagicPrint()}{makeMagicPrint()}}
+{\footnotesize\ttfamily void make\+Magic\+Print (\begin{DoxyParamCaption}\item[{FILE $\ast$}]{fp\+\_\+in,  }\item[{FILE $\ast$}]{fp\+\_\+out }\end{DoxyParamCaption})}
+
+
+
+Magicaly prints Poem 3 times. 
+
+Firstly prints straight-\/sorted, secondly prints reverse-\/sorted, finaly prints source text 

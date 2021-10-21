@@ -1,16 +1,10 @@
-Stack<char> st [003DFDEC] in 
-	top_ from C:\Users\Gekata\Desktop\GitProjects\SummerSchool2021\Stack\MyStack.cpp(114) 
-	created at 	 main() at C:\Users\Gekata\Desktop\GitProjects\SummerSchool2021\Stack\source.cpp(16)
+Stack<char> st [00AFFE2C] in 
+	resize_ from C:\Users\Gekata\Desktop\GitProjects\SummerSchool2021\Stack\MyStack.cpp(212) 
+	created at 	 main() at C:\Users\Gekata\Desktop\GitProjects\SummerSchool2021\Stack\source.cpp(14)
 {
-		size                          : 0000000000000001 (ok)
-		capacity                      : 0000000000000001 (ok)
+		size                          : 0000000000000004 (ok)
+		capacity                      : 0000000000000004 (ok)
 		size > capacity               : 0000000000000000 (ok)
-		first data canary             : FEE1DEAD ((null))
-		second data canary            : FEE1DEAD ((null))
-		arr                           :[009D5278](ok)
-				 {
-				  [-0000000001] = FEE1DEAD ((null))
-				  [+0000000000] = l (ok)
-				  [-0000000001] = 00FEE1AD ((null))
-				 }
+		hash                          : 7b4461b6ffc8c975 (ERROR)
+		Array data will not be provided due to hash error
 }
