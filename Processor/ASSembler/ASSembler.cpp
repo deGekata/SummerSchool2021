@@ -1,8 +1,18 @@
 #include "ASSembler.hpp"
 
-bool is_args_mathing(uint8_t flag, uint8_t reference) {
-    printf("%hd %hd, %d checking match\n\n", uint32_t(flag), uint32_t(reference), int(((flag) & reference) != 0));
-    return ((flag) & reference) != 0;
+bool is_args_mathing(int64_t command, uint8_t flag) {
+    // printf("%hd %hd, %d checking match\n\n", uint32_t(flag), uint32_t(reference), int(((flag) & reference) != 0));
+    switch (command) {
+    case /* constant-expression */:
+        /* code */
+        break;
+    
+    default:
+        break;
+    }
+
+
+    return ((flag) );//& reference) != 0;
 }
 
 void write_command(MyString* programm, size_t prev_ip_command, int command_id, int8_t command_flags) {
@@ -34,7 +44,7 @@ void write_args(MyString* programm, size_t* ip_offset, command_args* command_arg
 }
 
 
-bool parse_write_args(MyString* program,
+void parse_write_args(MyString* program,
                       int64_t   command,
                       int8_t    args_cunt, 
                       uint8_t   args_type,
@@ -55,20 +65,20 @@ bool parse_write_args(MyString* program,
     command_args* command_arg_buff;
     for (int8_t args_num = 0; args_num < args_cunt; ++args_num) {
             *offset = skip_delimiters(string, *offset);
-            printf("left str %s\n", string->begin + *offset);
-            printf("offset before fill_command %d\n", *offset);
+            printf("left str %s\n", string->begin + *offset);   //
+            printf("offset before fill_command %d\n", *offset); //
             command_arg_buff = fill_command_arg(string, offset);
-            printf("left str2 %s\n", string->begin + *offset);
+            printf("left str2 %s\n", string->begin + *offset);  //
             if(!command_arg_buff) return 0;
             *command_flags |= command_arg_buff->flags;
-            printf("left str3 %s\n", string->begin + *offset);
-            printf("%hu flags  %d\n\n", command_arg_buff->flags, command_arg_buff->constant);
-            if(is_args_mathing(command_arg_buff->flags, args_type)) {
+            printf("left str3 %s\n", string->begin + *offset);  //
+            printf("%hu flags  %d\n\n", command_arg_buff->flags, command_arg_buff->constant); //
+            if(is_args_mathing(command, command_arg_buff->flags)) {
                 write_args(program, ip_offset, command_arg_buff);
                 // *offset = get_lexem_offset(string, *offset);
-                printf("%d new offset\n\n", *offset);
+                printf("%d new offset\n\n", *offset); //
             } else {
-                printf("----------not matching\n\n\n");
+                printf("----------not matching\n\n\n"); //
                 return false;
             }
             free(command_arg_buff);
