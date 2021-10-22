@@ -2,7 +2,7 @@
 
 int64_t commands_hashes[CMD_MAX];
 
-#define DEF_CMD(cmd, NUM, ARGS_CUNT, code) \
+#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, CODE) \
     commands_hashes[NUM] = hashFunc_(#cmd, strlen(#cmd), 0);\
     printf("%ld\n\n", hashFunc_(#cmd, strlen(#cmd), 0));
 
@@ -35,7 +35,7 @@ int64_t hashFunc_(const char * str, size_t len, int64_t init) {
 
 
 inline bool is_delimiter(char elem) {
-    return (elem == ' ') || (elem == '\0');
+    return (elem == ' ');// || (elem == '\0');
 }
 
 
@@ -44,7 +44,7 @@ inline bool is_delimiter(char elem) {
 //     return text;
 // }
 
-#define DEF_CMD(cmd, NUM, ARGS_CUNT, code)  \
+#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)  \
     if(hash == commands_hashes[NUM]) {      \
         return NUM; \
     } else 
@@ -64,10 +64,7 @@ int64_t get_command_id(MyString* string, size_t* offset) {
     int64_t hash = hashFunc_(string->begin + begin, *offset - begin, 0);
 
     #include "../CMD_DEF.hpp"
-    { //else 
-    }
-
-    if(*offset > 0) {
+    if (string->size > 1 && string->begin[string->size - 1] == ':') { 
         return CMD_MARK;
     }
 
@@ -80,7 +77,12 @@ command_args* fill_command_arg(MyString* string, size_t* offset) {
     command_args* ret_args = (command_args*) calloc(1, sizeof(*ret_args));
 
 //scanf_ret = sscanf(string->begin + *offset, "%1[[]%1[abcd]x%1[+]%d%1[]]%n", &delim, reg_sym, &delim, &ret_args->constant, &delim, &n);
-    
+    *offset = skip_delimiters(string, *offset);
+    if(*offset == string->size) {
+        ret_args->flags |= empty;
+    }
+
+
     int n = 0;
     int scanf_ret;
     char* reg_sym = (char*) calloc(2, sizeof(char));
@@ -90,8 +92,8 @@ command_args* fill_command_arg(MyString* string, size_t* offset) {
     //try [
     scanf_ret = sscanf(string->begin + *offset,"%1[[]", delim);
     if(scanf_ret == 1) {
-        ret_args->flags = ret_args->flags | mem;
         *offset += 1;
+        ret_args->flags = ret_args->flags | mem;
     }
 
     //try reg + const   
@@ -128,29 +130,60 @@ command_args* fill_command_arg(MyString* string, size_t* offset) {
 
 MEM_CHECK:
     // printf("%hu flags %hu", ret_args->flags, ret_args->flags & mem);
+
+    // check ] on end
     if(ret_args->flags & mem) {
         scanf_ret = sscanf(string->begin + *offset,"%1[]]", delim);
         printf("delim: %s\n", delim);
         if(scanf_ret != 1) {
+            free(delim);
+            free(reg_sym);
             free(ret_args);
             return NULL;
         }
-        *offset += n;
+
+        *offset += 1;
         ret_args->flags |= mem;
     }
+    
+    // parse mark:
+    printf("parse_mark\n\n");
+    if (!ret_args->flags) {
+        size_t mark_offset = get_lexem_offset(string, *offset);
+        for(size_t sym_num = *offset; sym_num < mark_offset; ++sym_num) {
+            if(!(
+                    ('a' <= string->begin[sym_num] && string->begin[sym_num] <= 'z' ) ||
+                    ('A' <= string->begin[sym_num] && string->begin[sym_num] <= 'Z' ) ||
+                    ('0' <= string->begin[sym_num] && string->begin[sym_num] <= '9' )
+                )) { 
+                    printf("parse_mark gavno '%c' \n\n",  string->begin[sym_num]);
+                    
+                    free(delim);
+                    free(reg_sym);
+                    free(ret_args);
+                    return NULL;
+                }
+        }
+        ret_args->flags |= mark;
+        ret_args->mark_name = (MyString*) calloc(1, sizeof(*ret_args->mark_name));
+        ret_args->mark_name->begin = string->begin + *offset;
+        ret_args->mark_name->size = *offset - mark_offset + 1;
+
+    }
+
     return ret_args;
 
 }
 
 
 size_t skip_delimiters(MyString* string, size_t offset) {
-    while ( is_delimiter(string->begin[offset]) &&  offset < string->size) ++offset;
+    while ( is_delimiter(string->begin[offset]) && (string->begin[offset] != '\0') &&  offset < string->size) ++offset;
     
     return offset;
 }
 
 size_t get_lexem_offset(MyString* string, size_t offset) {
-    while ( !is_delimiter(string->begin[offset]) && offset < string->size) ++offset;
+    while ( !is_delimiter(string->begin[offset]) && string->begin[offset] != '\0' && offset < string->size) ++offset;
     
     return offset;
 }

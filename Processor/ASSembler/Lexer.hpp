@@ -2,11 +2,14 @@
 #include "string.h"
 #include <inttypes.h>
 
+const uint8_t empty               = (uint8_t)1 << 3;
+const uint8_t mark                = (uint8_t)1 << 4;
 const uint8_t immediate_constant  = (uint8_t)1 << 5;
 const uint8_t reg                 = (uint8_t)1 << 6;
 const uint8_t mem                 = (uint8_t)1 << 7;
 
-#define DEF_CMD(cmd, NUM, ARGS_CUNT, code) \
+
+#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code) \
     CMD_ ## cmd = NUM,
 
 enum Commands {
@@ -28,9 +31,10 @@ enum Registers {
 
 
 struct command_args {
-    int64_t reg_num;
-    int64_t constant;
+    int8_t reg_num;
+    int32_t constant;
     uint8_t flags;
+    MyString* mark_name;
 };
 
 

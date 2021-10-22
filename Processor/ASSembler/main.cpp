@@ -5,6 +5,13 @@ int main() {
     init_commands_hashes();
     printf_commands_hashes();
 
+    FILE* input = fopen("./ASSembler/input.txt", "r");
+    FILE* output = fopen("output.txt", "wb");
+    printf("%d %d", input, output);
+    compile_program(input, output);
+    fclose(input);
+    fclose(output);
+
         printf("%ld \n\n", hashFunc_("PUSH", strlen("PUSH"), 0));
     MyString* str = (MyString*) calloc(1, sizeof(*str));
     char* st = (char*) calloc(10, sizeof(char));
