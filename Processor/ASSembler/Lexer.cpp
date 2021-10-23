@@ -164,6 +164,7 @@ MEM_CHECK:
                     return NULL;
                 }
         }
+        printf("MARK: %s\n", string->begin + *offset);
         ret_args->flags |= mark;
         ret_args->mark_name = (MyString*) calloc(1, sizeof(*ret_args->mark_name));
         ret_args->mark_name->begin = string->begin + *offset;

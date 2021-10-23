@@ -1,6 +1,6 @@
 POP  ax#werew
 MUL
-JMP
+JMP abc
 POP
 PUSH [ax+2]
 PUSH bx+2
