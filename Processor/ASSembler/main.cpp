@@ -11,7 +11,7 @@ int main() {
 
     FILE* input = fopen("./ASSembler/input.txt", "r");
     // int output = open("output.txt", O_RDWR, O_BINARY);
-    FILE* output = fopen("output.txt", "rb");
+    FILE* output = fopen("output.txt", "w+");
     printf("%d %d", input, output);
     compile_program(input, output);
     fclose(input);

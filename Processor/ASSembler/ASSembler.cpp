@@ -20,11 +20,12 @@ bool is_args_mathing(int64_t command, uint8_t flags) {
 }
 
 void write_command(MyString* programm, size_t prev_ip_command, int command_id, int8_t command_flags) {
-    programm->begin[prev_ip_command] |= command_id | (command_flags & ~empty);
+//    return;
+   programm->begin[prev_ip_command] |= command_id | (command_flags & ~empty);
 }
 
 void write_args(MyString* program, size_t* ip_offset, command_args* command_arg) {
-    
+    // return;
     if (command_arg->flags & mark) {
         *(int*)(program->begin + *ip_offset) = 0;
         *ip_offset += sizeof(int); 
@@ -99,8 +100,14 @@ void parse_write_args(MyString* program,
 
 
 bool compile_program(FILE* input_file, FILE* output_file) {
+    char* a = (char*) calloc(1, sizeof(char));
+    *a = 'a';
     Text* text = readFromFile(input_file, '\n', '#');
+    fwrite(a, sizeof(char), 1, output_file);
+    printf("write 0 \n");
     MyString* program = decode_lexems(text);
+    fwrite(a, sizeof(char), 1, output_file);
+    printf("write 1 \n");
     if (program->size == -1) {
         assert(0 && "ASSembling error");
     }
