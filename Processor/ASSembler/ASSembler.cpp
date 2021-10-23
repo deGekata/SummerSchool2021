@@ -176,8 +176,9 @@ MyString* decode_lexems(Text* text) {
             if(marks.size == marks.capacity) extend_my_arr(&marks);
             label_struct label;
             label.location = ip_command;
-            int n_offset = get_lexem_offset(&text->strings[line_ind], offset);
-            label.hash = hashFunc_(text->strings[line_ind].begin, n_offset - offset - 1, 0);
+            int b_offset = skip_delimiters(&text->strings[line_ind], 0);
+            printf("before label hash %d %d \n", b_offset, offset);
+            label.hash = hashFunc_(text->strings[line_ind].begin, offset - b_offset - 1, 0);
             marks.data[m_arr.size] = label; 
             printf("label hash: %ld\n", label.hash);
             

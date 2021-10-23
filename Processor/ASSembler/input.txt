@@ -5,7 +5,7 @@ JMP abc
 POP
 PUSH [ax+2]
 PUSH bx+2
-
+abc:
 
 PUSH [ax]
 PUSH 2

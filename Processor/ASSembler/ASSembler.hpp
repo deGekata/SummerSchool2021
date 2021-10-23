@@ -11,7 +11,8 @@ struct my_arr {
     label_struct* data;
     size_t size;
     size_t capacity;
-} m_arr, marks;
+};
+static my_arr m_arr, marks;
 
 void realloc_my_arr(my_arr* arr, size_t n_capacity);
 
