@@ -1,7 +1,7 @@
 #include "ASSembler.hpp"
 #include <stdio.h>
-
-
+#include <io.h>
+#include <fcntl.h>
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code) \
     (ARGS_TYPE)
 
@@ -10,7 +10,8 @@ int main() {
     printf_commands_hashes();
 
     FILE* input = fopen("./ASSembler/input.txt", "r");
-    FILE* output = fopen("output.txt", "wb");
+    // int output = open("output.txt", O_RDWR, O_BINARY);
+    FILE* output = fopen("output.txt", "rb");
     printf("%d %d", input, output);
     compile_program(input, output);
     fclose(input);

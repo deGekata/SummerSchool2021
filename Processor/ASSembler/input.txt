@@ -1,3 +1,4 @@
+PUSH 2
 POP  ax#werew
 MUL
 JMP abc

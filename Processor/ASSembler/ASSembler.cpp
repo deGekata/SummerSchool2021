@@ -23,10 +23,10 @@ void write_command(MyString* programm, size_t prev_ip_command, int command_id, i
     programm->begin[prev_ip_command] |= command_id | (command_flags & ~empty);
 }
 
-void write_args(MyString* programm, size_t* ip_offset, command_args* command_arg) {
+void write_args(MyString* program, size_t* ip_offset, command_args* command_arg) {
     
     if (command_arg->flags & mark) {
-        *(int*)(programm->begin + *ip_offset) = 0;
+        *(int*)(program->begin + *ip_offset) = 0;
         *ip_offset += sizeof(int); 
         return;
     }
@@ -35,17 +35,18 @@ void write_args(MyString* programm, size_t* ip_offset, command_args* command_arg
 
     if(command_arg->flags & reg) {
         printf("writing imm const :%d\n\n", command_arg->constant);
-       *(programm->begin + *ip_offset) = command_arg->reg_num;
+       *(program->begin + *ip_offset) = command_arg->reg_num;
         *ip_offset += sizeof(char);  
     }
 
     if(command_arg->flags & immediate_constant) {
         printf("writing imm const :%d  ip %d\n\n", command_arg->constant, *ip_offset);
-       *(int32_t*)(programm->begin + *ip_offset) = command_arg->constant;
+       *(int32_t*)(program->begin + *ip_offset) = command_arg->constant;
         *ip_offset += sizeof(int);  
     }
 
 }
+
 
 
 void parse_write_args(MyString* program,
@@ -60,7 +61,10 @@ void parse_write_args(MyString* program,
         *offset = skip_delimiters(string, *offset);
         command_args* command_arg_buff;
         command_arg_buff = fill_command_arg(string, offset);
-        printf("JUMP ARGS::: %s\n\n", command_arg_buff->mark_name);
+        *(int32_t*)(program->begin + *ip_offset) = 228;
+        *ip_offset += sizeof(int);
+
+        printf( "JUMP ARGS:::%s %d\n\n", command_arg_buff->mark_name, hashFunc_(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0));
         return;
     }
 
@@ -100,6 +104,7 @@ bool compile_program(FILE* input_file, FILE* output_file) {
     if (program->size == -1) {
         assert(0 && "ASSembling error");
     }
+    printf("program last sym %d\n", program->begin[program->size - 1]);
     write_programm_on_disk(program, output_file);
     return 1;
 }
@@ -155,6 +160,7 @@ MyString* decode_lexems(Text* text) {
                 assert(0 && "Too many args");
         }
     }
+    printf("%d program bef ip command eq\n", text->text_len * 3 * sizeof(int));
     program->size = ip_command;
     return program;
 }
@@ -167,6 +173,7 @@ inline void write_programm_on_disk(MyString* program, FILE* out_file) {
         printf("%hu_ ", program->begin[i]);
     }
     printf("  %d\n", program->size);
+    printf("%d fiiile", out_file);
     fwrite(program->begin, sizeof(char), program->size, out_file);
     return;
 }

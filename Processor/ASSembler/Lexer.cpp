@@ -97,11 +97,11 @@ command_args* fill_command_arg(MyString* string, size_t* offset) {
     }
 
     //try reg + const   
-    printf("lol");
+    printf("lol\n");
     printf("scanned string1 %s\n\n", string->begin + *offset);
     scanf_ret = sscanf(string->begin + *offset, "%1[abcd]x%1[+]%d%n", reg_sym, &delim, &ret_args->constant, &n);
-    printf("lol");
-    if(scanf_ret == 3) {
+    printf("scanf_ret %d  n:%d lol\n", scanf_ret, n);
+    if(scanf_ret == 3 && n != 0) {
         *offset += n;
         ret_args->reg_num = *reg_sym - 'a';
         ret_args->flags |= reg | immediate_constant;
@@ -109,11 +109,11 @@ command_args* fill_command_arg(MyString* string, size_t* offset) {
     }
 
     //try reg
-    scanf_ret = sscanf(string->begin + *offset, "%1[abcd]x %n", reg_sym, &n);
-    printf("scanfreturn: %d\n\n", scanf_ret);
+    scanf_ret = sscanf(string->begin + *offset, "%1[abcd]x%n", reg_sym, &n);
+    printf("scanfreturn: %d %d\n\n", scanf_ret, n);
     printf("scanned string %s\n\n", string->begin + *offset);
     printf("scanned reg ans syms: %s   %d\n\n", reg_sym, n);
-    if(scanf_ret == 1) {
+    if(scanf_ret == 1 && n !=0) {
         *offset += n;
         ret_args->reg_num = *reg_sym - 'a';
         ret_args->flags |= reg;
@@ -121,8 +121,10 @@ command_args* fill_command_arg(MyString* string, size_t* offset) {
     }
 
     //try const
-    scanf_ret = sscanf(string->begin + *offset, "%d %n", &ret_args->constant, &n);
-    if(scanf_ret == 1) {
+    scanf_ret = sscanf(string->begin + *offset, "%d%n", &ret_args->constant, &n);
+    printf("scanfreturn: %d %d\n\n", scanf_ret, n);
+    printf("scanned string in const %s\n\n", string->begin + *offset);
+    if(scanf_ret == 1 && n != 0) {
         *offset += n;
         ret_args->flags |= immediate_constant;
         goto MEM_CHECK;
@@ -147,9 +149,10 @@ MEM_CHECK:
     }
     
     // parse mark:
-    printf("parse_mark\n\n");
+    printf("parse_mark %d\n\n", ret_args->flags);
     if (!ret_args->flags) {
         size_t mark_offset = get_lexem_offset(string, *offset);
+        printf("parse_mark in %d mark off\n\n", mark_offset);
         for(size_t sym_num = *offset; sym_num < mark_offset; ++sym_num) {
             if(!(
                     ('a' <= string->begin[sym_num] && string->begin[sym_num] <= 'z' ) ||
@@ -168,7 +171,10 @@ MEM_CHECK:
         ret_args->flags |= mark;
         ret_args->mark_name = (MyString*) calloc(1, sizeof(*ret_args->mark_name));
         ret_args->mark_name->begin = string->begin + *offset;
-        ret_args->mark_name->size = *offset - mark_offset + 1;
+        ret_args->mark_name->size = mark_offset - *offset;
+        printf("MARK: %d\n", hashFunc_(ret_args->mark_name->begin, ret_args->mark_name->size, 0));
+
+        *offset = mark_offset;
 
     }
 
