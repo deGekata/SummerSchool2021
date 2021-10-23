@@ -17,9 +17,6 @@ bool is_args_mathing(int64_t command, uint8_t flags) {
             return 0;
             break;
     }
-
-
-    // return ((flag) );//& reference) != 0;
 }
 
 void write_command(MyString* programm, size_t prev_ip_command, int command_id, int8_t command_flags) {
@@ -60,6 +57,10 @@ void parse_write_args(MyString* program,
                       size_t*   ip_offset) {
 
     if(command == CMD_JMP) {
+        *offset = skip_delimiters(string, *offset);
+        command_args* command_arg_buff;
+        command_arg_buff = fill_command_arg(string, offset);
+        printf("JUMP ARGS::: %s\n\n", command_arg_buff->mark_name);
         return;
     }
 
@@ -169,23 +170,3 @@ inline void write_programm_on_disk(MyString* program, FILE* out_file) {
     fwrite(program->begin, sizeof(char), program->size, out_file);
     return;
 }
-
-
-// void fill_command_params(CommandParams* params, MyString* str, size_t begin, size_t end);
-
-// bool is_arg_valid(MyString* str, size_t command_type, size_t begin, size_t end) {
-//     switch (command_type)
-//     {
-//     case 0:
-//         return true;
-//         break;
-    
-//     default:
-//         break;
-//     }
-// }
-
-// void write_command(MyString* str, size_t begin, size_t end, size_t buff_offset);
-
-
-// void write_param(MyString* str, size_t begin, size_t end, size_t buff_offset);
