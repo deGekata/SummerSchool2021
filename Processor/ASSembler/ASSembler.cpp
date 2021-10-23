@@ -6,7 +6,24 @@ void extend_my_arr(my_arr* arr) {
     return;
 }
 
+int find_label(int64_t hash) {
+    for(int it = 0; it < marks.size; ++it) {
+        if(marks.data[it].hash == hash) {
+            return it;
+        }
+    }
+    return -1;
+}
 
+void link_labels(MyString* program) {
+    for(int jmp_num = 0; jmp_num < m_arr.size; ++jmp_num) {
+        int label_pos = find_label(m_arr.data[jmp_num].hash);
+        if(label_pos == -1) {
+            assert(0 && "cant find label");
+        }
+        *(int*)(program->begin + m_arr.data[jmp_num].location) = marks.data[label_pos].location;
+    }
+}
 
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)                                                                    \
     case (NUM):                                                                                                          \
@@ -72,7 +89,7 @@ void parse_write_args(MyString* program,
         command_arg_buff = fill_command_arg(string, offset);
         if(m_arr.size  == m_arr.capacity) extend_my_arr(&m_arr);
         label_struct jmp;
-        jmp.location = *ip_offset;
+        jmp.location = *ip_offset + 1;
         jmp.hash = hashFunc_(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0);
         m_arr.data[m_arr.size] = jmp; 
         *(int32_t*)(program->begin + *ip_offset) = 228;
@@ -131,6 +148,8 @@ bool compile_program(FILE* input_file, FILE* output_file) {
     if (program->size == -1) {
         assert(0 && "ASSembling error");
     }
+    link_labels();
+
     printf("program last sym %d\n", program->begin[program->size - 1]);
     write_programm_on_disk(program, output_file);
     return 1;
@@ -176,10 +195,10 @@ MyString* decode_lexems(Text* text) {
             if(marks.size == marks.capacity) extend_my_arr(&marks);
             label_struct label;
             label.location = ip_command;
-            int b_offset = skip_delimiters(&text->strings[line_ind], 0);
-            printf("before label hash %d %d \n", b_offset, offset);
-            label.hash = hashFunc_(text->strings[line_ind].begin, offset - b_offset - 1, 0);
-            marks.data[m_arr.size] = label; 
+            int lexem_begin = skip_delimiters(&text->strings[line_ind], 0);
+            printf("before label hash %d %d \n", lexem_begin, offset);
+            label.hash = hashFunc_(text->strings[line_ind].begin, offset - lexem_begin - 1, 0);
+            marks.data[marks.size] = label; 
             printf("label hash: %ld\n", label.hash);
             
         }

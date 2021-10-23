@@ -14,6 +14,10 @@ struct my_arr {
 };
 static my_arr m_arr, marks;
 
+int find_label(int64_t hash);
+
+void link_labels();
+
 void realloc_my_arr(my_arr* arr, size_t n_capacity);
 
 bool compile_program(FILE* input_file, FILE* output_file);
