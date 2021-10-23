@@ -1,12 +1,13 @@
 PUSH 2
-df:
+JMP df
 MUL
 JMP abc
 POP
 PUSH [ax+2]
 abc:
-JMP df
+df:
 PUSH [ax]
+JMP df
 
 
 

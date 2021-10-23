@@ -44,6 +44,7 @@ bool is_args_mathing(int64_t command, uint8_t flags) {
             break;
     }
 }
+#undef DEF_CMD
 
 void write_command(MyString* programm, size_t prev_ip_command, int command_id, int8_t command_flags) {
 //    return;
