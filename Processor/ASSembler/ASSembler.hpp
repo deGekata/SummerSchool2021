@@ -16,7 +16,7 @@ static my_arr m_arr, marks;
 
 int find_label(int64_t hash);
 
-void link_labels();
+void link_labels(MyString* program);
 
 void realloc_my_arr(my_arr* arr, size_t n_capacity);
 
