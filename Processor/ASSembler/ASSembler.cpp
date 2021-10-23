@@ -1,14 +1,20 @@
 #include "ASSembler.hpp"
 
+#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)                                                                    \
+    case (cmd):                                                                                                          \
+        if (ARGS_TYPE) {                                                                                                 \
+            return false;                                                                                                 \
+        } return true;                                                                                                  \
+        break;
+
 bool is_args_mathing(int64_t command, uint8_t flag) {
     // printf("%hd %hd, %d checking match\n\n", uint32_t(flag), uint32_t(reference), int(((flag) & reference) != 0));
     switch (command) {
-    case /* constant-expression */:
-        /* code */
-        break;
+        
+        // #include "../CMD_DEF.hpp"
     
-    default:
-        break;
+        default:
+            break;
     }
 
 
@@ -54,7 +60,7 @@ void parse_write_args(MyString* program,
                       size_t*   ip_offset) {
 
     if(command == CMD_JMP) {
-        return true;
+        return;
     }
 
     *command_flags = 0;
@@ -69,7 +75,7 @@ void parse_write_args(MyString* program,
             printf("offset before fill_command %d\n", *offset); //
             command_arg_buff = fill_command_arg(string, offset);
             printf("left str2 %s\n", string->begin + *offset);  //
-            if(!command_arg_buff) return 0;
+            if(!command_arg_buff) return;
             *command_flags |= command_arg_buff->flags;
             printf("left str3 %s\n", string->begin + *offset);  //
             printf("%hu flags  %d\n\n", command_arg_buff->flags, command_arg_buff->constant); //
@@ -79,11 +85,11 @@ void parse_write_args(MyString* program,
                 printf("%d new offset\n\n", *offset); //
             } else {
                 printf("----------not matching\n\n\n"); //
-                return false;
+                return;
             }
             free(command_arg_buff);
     }
-    return true;
+    return;
 }
 
 
@@ -100,7 +106,7 @@ bool compile_program(FILE* input_file, FILE* output_file) {
 
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)                                                                    \
     case (NUM):                                                                                                          \
-        is_valid = parse_write_args(program, NUM, ARGS_CUNT, ARGS_TYPE, &command_flags, &text->strings[line_ind], &offset, &ip_command); \
+        is_valid = false;// parse_write_args(program, NUM, ARGS_CUNT, ARGS_TYPE, &command_flags, &text->strings[line_ind], &offset, &ip_command); \
         if (!is_valid) {                                                                                                 \
             return NULL;                                                                                                 \
         }                                                                                                                \
