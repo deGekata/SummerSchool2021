@@ -1,3 +1,10 @@
 POP 2 #werew
 POP 
 PUSH [ax+2]
+PUSH [ax]
+PUSH 2
+PUSH [2]
+
+
+
+              
