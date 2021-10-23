@@ -3,7 +3,7 @@
 
 
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code) \
-    !(ARGS_TYPE)
+    (ARGS_TYPE)
 
 int main() {
     init_commands_hashes();
@@ -38,15 +38,87 @@ int main() {
     // command_args* arg = fill_command_arg(str, &off);
     // printf("\n lex  %cx : %d   %d\n\n", char(arg->reg_num + 'a'), arg->constant, arg->reg_num);
     // printf("%d flags", arg->flags);
-    int8_t flags = reg | mem;
-    printf("flags:%hu check res: %hu", flags, DEF_CMD(POP, 2, 1, (~(mem | reg | immediate_constant) & flags) || 
-                      (~(mem | reg) & flags)                   || 
-                      (~reg & flags)                           || 
-                      (~(mem | immediate_constant) & flags)  ,
-{
-    pop(&stk, get_arg(code[ip + 1])); 
-}));
+    uint8_t 
 
+    // 00000000
+
+    // 00011111
+    // 00111111
+    // 01011111
+
+    // 11000000
     
+    flags = reg;
+    printf("flags = reg; flags:%hu check res: %hu\n",  flags, DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) || 
+                      !((mem | reg) ^ flags)                   || 
+                      !(reg ^ flags)                           || 
+                      !((mem | immediate_constant) ^ flags)    ||
+                      !(reg ^ flags)                             ,));
+
+    flags = mem;
+    printf("flags = mem; flags:%hu check res: %hu\n",  flags, DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) || 
+                      !((mem | reg) ^ flags)                   || 
+                      !(reg ^ flags)                           || 
+                      !((mem | immediate_constant) ^ flags)    ||
+                      !(reg ^ flags)                             ,));
+
+    flags = immediate_constant;
+    printf("flags = immediate_constant; flags:%hu check res: %hu\n", flags, DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) || 
+                      !((mem | reg) ^ flags)                   || 
+                      !(reg ^ flags)                           || 
+                      !((mem | immediate_constant) ^ flags)    ||
+                      !(reg ^ flags)                             ,));
+
+    flags = mark;
+    printf("flags = mark; flags:%hu check res: %hu\n",  flags, DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) || 
+                      !((mem | reg) ^ flags)                   || 
+                      !(reg ^ flags)                           || 
+                      !((mem | immediate_constant) ^ flags)    ||
+                      !(reg ^ flags)                             ,));
+
+    flags = mem | reg;
+    // 11000000
+
+    // 11000000
+    printf("flags = mem | reg; flags:%hu check res: %hu\n", flags, DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) || 
+                      !((mem | reg) ^ flags)                   || 
+                      !(reg ^ flags)                           || 
+                      !((mem | immediate_constant) ^ flags)    ||
+                      !(reg ^ flags)                             ,));
+
+    flags = mem | immediate_constant;
+    printf("flags = mem | immediate_constant; flags:%hu check res: %hu\n", flags, DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) || 
+                      !((mem | reg) ^ flags)                   || 
+                      !(reg ^ flags)                           || 
+                      !((mem | immediate_constant) ^ flags)    ||
+                      !(reg ^ flags)                             ,));
+    flags = reg | immediate_constant;
+    printf("flags = reg | immediate_constant; flags:%hu check res: %hu\n", flags, DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) || 
+                      !((mem | reg) ^ flags)                   || 
+                      !(reg ^ flags)                           || 
+                      !((mem | immediate_constant) ^ flags)    ||
+                      !(reg ^ flags)                             ,));
+
+    flags = reg | mem | immediate_constant;
+    printf("flags = reg | mem | immediate_constant; flags:%hu check res: %hu\n", flags, DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) || 
+                      !((mem | reg) ^ flags)                   || 
+                      !(reg ^ flags)                           || 
+                      !((mem | immediate_constant) ^ flags)    ||
+                      !(reg ^ flags)                             ,));
+
+    flags = mark | reg | mem | immediate_constant;
+    printf("flags = mark | reg | mem | immediate_constant; flags:%hu check res: %hu\n", flags, DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) || 
+                      !((mem | reg) ^ flags)                   || 
+                      !(reg ^ flags)                           || 
+                      !((mem | immediate_constant) ^ flags)    ||
+                      !(reg ^ flags)                             ,));
+    
+    flags = mark | reg | immediate_constant;
+    printf(" flags = mark | reg | immediate_constant flags:%hu check res: %hu\n", flags, DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) || 
+                      !((mem | reg) ^ flags)                   || 
+                      !(reg ^ flags)                           || 
+                      !((mem | immediate_constant) ^ flags)    ||
+                      !(reg ^ flags)                             ,));
+
     return 0;
 }
