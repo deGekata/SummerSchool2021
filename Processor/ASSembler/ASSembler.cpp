@@ -1,5 +1,13 @@
 #include "ASSembler.hpp"
 
+void extend_my_arr(my_arr* arr) {
+    arr->capacity = arr->capacity * 2;
+    arr->data = (label_struct*) realloc(arr->data, arr->capacity * sizeof(label_struct));
+    return;
+}
+
+
+
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)                                                                    \
     case (NUM):                                                                                                          \
         if (ARGS_TYPE) {                                                                                                 \
@@ -62,9 +70,14 @@ void parse_write_args(MyString* program,
         *offset = skip_delimiters(string, *offset);
         command_args* command_arg_buff;
         command_arg_buff = fill_command_arg(string, offset);
+        if(m_arr.size  == m_arr.capacity) extend_my_arr(&m_arr);
+        label_struct jmp;
+        jmp.location = *ip_offset;
+        jmp.hash = hashFunc_(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0);
+        m_arr.data[m_arr.size] = jmp; 
         *(int32_t*)(program->begin + *ip_offset) = 228;
         *ip_offset += sizeof(int);
-
+        printf("jmp hash: %ld\n", jmp.hash);
         printf( "JUMP ARGS:::%s %d\n\n", command_arg_buff->mark_name, hashFunc_(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0));
         return;
     }
@@ -100,6 +113,13 @@ void parse_write_args(MyString* program,
 
 
 bool compile_program(FILE* input_file, FILE* output_file) {
+    m_arr.data = (label_struct*) calloc(100, sizeof(label_struct));
+    m_arr.size = 0;
+    m_arr.capacity = 100;
+    marks.data = (label_struct*) calloc(100, sizeof(label_struct));
+    marks.size = 0;
+    marks.capacity = 100;
+    
     char* a = (char*) calloc(1, sizeof(char));
     *a = 'a';
     Text* text = readFromFile(input_file, '\n', '#');
@@ -151,12 +171,25 @@ MyString* decode_lexems(Text* text) {
 
 
         prev_ip_command = ip_command++;
-        bool is_valid = false;
+
+        if(command_id == CMD_MARK) {
+            if(marks.size == marks.capacity) extend_my_arr(&marks);
+            label_struct label;
+            label.location = ip_command;
+            int n_offset = get_lexem_offset(&text->strings[line_ind], offset);
+            label.hash = hashFunc_(text->strings[line_ind].begin, n_offset - offset - 1, 0);
+            marks.data[m_arr.size] = label; 
+            printf("label hash: %ld\n", label.hash);
+            
+        }
+
         switch (command_id) {
             #include "../CMD_DEF.hpp"
             default:
                 break;
         }
+
+
         printf("cur_offset %d \n\n", offset);
         printf("write command\n");
         write_command(program, prev_ip_command, command_id, command_flags);

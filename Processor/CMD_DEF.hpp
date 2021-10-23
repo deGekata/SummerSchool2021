@@ -41,9 +41,11 @@ DEF_CMD(MUL, 5, 1, !(empty ^ flags),
 })
 
 
+DEF_CMD(CALL, 6, 1, !(mark ^ flags), { 
+    pop(&stk, get_arg(code[ip + 1])); 
+})
 
-
-DEF_CMD(JMP, 6, 1, !(mark ^ flags), { 
+DEF_CMD(JMP, 7, 1, !(mark ^ flags), { 
     pop(&stk, get_arg(code[ip + 1])); 
 })
 
