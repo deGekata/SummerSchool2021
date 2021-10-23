@@ -1,24 +1,25 @@
 #include "ASSembler.hpp"
 
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)                                                                    \
-    case (cmd):                                                                                                          \
+    case (NUM):                                                                                                          \
         if (ARGS_TYPE) {                                                                                                 \
-            return false;                                                                                                 \
-        } return true;                                                                                                  \
+            return true;                                                                                                 \
+        } return false;                                                                                                  \
         break;
 
-bool is_args_mathing(int64_t command, uint8_t flag) {
+bool is_args_mathing(int64_t command, uint8_t flags) {
     // printf("%hd %hd, %d checking match\n\n", uint32_t(flag), uint32_t(reference), int(((flag) & reference) != 0));
     switch (command) {
         
-        // #include "../CMD_DEF.hpp"
+         #include "../CMD_DEF.hpp"
     
         default:
+            return 0;
             break;
     }
 
 
-    return ((flag) );//& reference) != 0;
+    // return ((flag) );//& reference) != 0;
 }
 
 void write_command(MyString* programm, size_t prev_ip_command, int command_id, int8_t command_flags) {
@@ -53,7 +54,6 @@ void write_args(MyString* programm, size_t* ip_offset, command_args* command_arg
 void parse_write_args(MyString* program,
                       int64_t   command,
                       int8_t    args_cunt, 
-                      uint8_t   args_type,
                       int8_t*   command_flags,
                       MyString* string, 
                       size_t*   offset,
@@ -81,10 +81,10 @@ void parse_write_args(MyString* program,
             printf("%hu flags  %d\n\n", command_arg_buff->flags, command_arg_buff->constant); //
             if(is_args_mathing(command, command_arg_buff->flags)) {
                 write_args(program, ip_offset, command_arg_buff);
-                // *offset = get_lexem_offset(string, *offset);
+                *offset = get_lexem_offset(string, *offset);
                 printf("%d new offset\n\n", *offset); //
             } else {
-                printf("----------not matching\n\n\n"); //
+                assert(0 && "args not matching\n\n\n"); //
                 return;
             }
             free(command_arg_buff);
@@ -104,12 +104,9 @@ bool compile_program(FILE* input_file, FILE* output_file) {
 }
 
 
-#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)                                                                    \
-    case (NUM):                                                                                                          \
-        is_valid = false;// parse_write_args(program, NUM, ARGS_CUNT, ARGS_TYPE, &command_flags, &text->strings[line_ind], &offset, &ip_command); \
-        if (!is_valid) {                                                                                                 \
-            return NULL;                                                                                                 \
-        }                                                                                                                \
+#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)                                                                         \
+    case (NUM):                                                                                                               \
+        parse_write_args(program, NUM, ARGS_CUNT, &command_flags, &text->strings[line_ind], &offset, &ip_command);            \
         break;
 
 MyString* decode_lexems(Text* text) {
@@ -121,7 +118,7 @@ MyString* decode_lexems(Text* text) {
     for(int line_ind = 0; line_ind < text->lines_cnt; ++line_ind) {
         offset = 0;
         printf("new line %d\n\n", line_ind);
-        
+        offset = skip_delimiters(&text->strings[line_ind], offset);
         if(offset == text->strings[line_ind].size) {
             offset = 0;
             continue;

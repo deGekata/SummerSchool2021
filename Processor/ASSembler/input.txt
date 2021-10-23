@@ -1,5 +1,6 @@
-POP 2 #werew
-POP 
+POP  ax#werew
+MUL
+POP
 PUSH [ax+2]
 PUSH [ax]
 PUSH 2

@@ -21,8 +21,7 @@ void write_args(MyString* programm, size_t* ip_offset, command_args* command_arg
 
 bool parse_write_args(MyString* program,
                       int64_t   command,
-                      int8_t    args_cunt, 
-                      int8_t    args_type, 
+                      int8_t    args_cunt,
                       MyString* string, 
                       size_t*   offset,
                       size_t*   ip_offset);

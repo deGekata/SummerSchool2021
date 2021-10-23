@@ -4,7 +4,7 @@ int64_t commands_hashes[CMD_MAX];
 
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, CODE) \
     commands_hashes[NUM] = hashFunc_(#cmd, strlen(#cmd), 0);\
-    printf("%ld\n\n", hashFunc_(#cmd, strlen(#cmd), 0));
+    printf(#cmd " hash: %ld\n\n", hashFunc_(#cmd, strlen(#cmd), 0));
 
 void init_commands_hashes() {
     #include "../CMD_DEF.hpp"
@@ -183,6 +183,7 @@ size_t skip_delimiters(MyString* string, size_t offset) {
 }
 
 size_t get_lexem_offset(MyString* string, size_t offset) {
+    printf("%d offset in get_lexem_offset\n\n", offset);
     while ( !is_delimiter(string->begin[offset]) && string->begin[offset] != '\0' && offset < string->size) ++offset;
     
     return offset;
