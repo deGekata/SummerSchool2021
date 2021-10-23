@@ -1,15 +1,13 @@
 PUSH 2
-POP  ax#werew
+df:
 MUL
 JMP abc
 POP
 PUSH [ax+2]
-PUSH bx+2
 abc:
-
+JMP df
 PUSH [ax]
-PUSH 2
-PUSH [2]
+
 
 
 

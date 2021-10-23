@@ -21,6 +21,7 @@ void link_labels(MyString* program) {
         if(label_pos == -1) {
             assert(0 && "cant find label");
         }
+        printf("label location : %d", marks.data[label_pos].location);
         *(int*)(program->begin + m_arr.data[jmp_num].location) = marks.data[label_pos].location;
     }
 }
@@ -83,15 +84,19 @@ void parse_write_args(MyString* program,
                       size_t*   offset,
                       size_t*   ip_offset) {
 
+    *command_flags = 0;
+    
     if(command == CMD_JMP) {
         *offset = skip_delimiters(string, *offset);
         command_args* command_arg_buff;
         command_arg_buff = fill_command_arg(string, offset);
+        
         if(m_arr.size  == m_arr.capacity) extend_my_arr(&m_arr);
         label_struct jmp;
-        jmp.location = *ip_offset + 1;
+        jmp.location = *ip_offset;
         jmp.hash = hashFunc_(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0);
         m_arr.data[m_arr.size] = jmp; 
+        ++m_arr.size;
         *(int32_t*)(program->begin + *ip_offset) = 228;
         *ip_offset += sizeof(int);
         printf("jmp hash: %ld\n", jmp.hash);
@@ -99,7 +104,6 @@ void parse_write_args(MyString* program,
         return;
     }
 
-    *command_flags = 0;
 
     printf("parse_write ask\n");
     
@@ -148,7 +152,7 @@ bool compile_program(FILE* input_file, FILE* output_file) {
     if (program->size == -1) {
         assert(0 && "ASSembling error");
     }
-    link_labels();
+    link_labels(program);
 
     printf("program last sym %d\n", program->begin[program->size - 1]);
     write_programm_on_disk(program, output_file);
@@ -189,7 +193,7 @@ MyString* decode_lexems(Text* text) {
         int args_cnt;
 
 
-        prev_ip_command = ip_command++;
+        
 
         if(command_id == CMD_MARK) {
             if(marks.size == marks.capacity) extend_my_arr(&marks);
@@ -198,10 +202,18 @@ MyString* decode_lexems(Text* text) {
             int lexem_begin = skip_delimiters(&text->strings[line_ind], 0);
             printf("before label hash %d %d \n", lexem_begin, offset);
             label.hash = hashFunc_(text->strings[line_ind].begin, offset - lexem_begin - 1, 0);
-            marks.data[marks.size] = label; 
+            marks.data[marks.size] = label;
+            ++marks.size; 
             printf("label hash: %ld\n", label.hash);
-            
+            offset = skip_delimiters(&text->strings[line_ind], offset);
+            printf("str size: %d  offset:%d, str:'%s'\n", text->strings[line_ind].size, offset, text->strings[line_ind]);
+            if(offset != text->strings[line_ind].size) {
+                    assert(0 && "Too many args");
+            }
+            continue;
         }
+
+        prev_ip_command = ip_command++;
 
         switch (command_id) {
             #include "../CMD_DEF.hpp"
