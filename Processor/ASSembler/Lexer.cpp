@@ -7,7 +7,7 @@ int64_t commands_hashes[CMD_MAX];
     printf(#cmd " hash: %ld\n\n", hashFunc_(#cmd, strlen(#cmd), 0));
 
 void init_commands_hashes() {
-    #include "../CMD_DEF.hpp"
+    #include "../Shared/CMD_DEF.hpp"
 }
 #undef DEF_CMD
 
@@ -49,7 +49,7 @@ int64_t get_command_id(MyString* string, size_t* offset) {
 
     int64_t hash = hashFunc_(string->begin + begin, *offset - begin, 0);
 
-    #include "../CMD_DEF.hpp"
+    #include "../Shared/CMD_DEF.hpp"
     if (string->size > 1 && string->begin[string->size - 1] == ':') { 
         return CMD_MARK;
     }

@@ -13,7 +13,7 @@ const uint8_t mem                 = (uint8_t)1 << 7;
 enum Commands {
     ERROR_CMD = -2,
     EMPTY_CMD = -1, 
-    #include "../CMD_DEF.hpp"
+    #include "CMD_DEF.hpp"
     CMD_MARK,
     CMD_MAX
 };

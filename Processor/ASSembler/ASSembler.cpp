@@ -86,7 +86,7 @@ MyString* encode_lexems(Text* text) {
 
         prev_ip_command = ip_command++;
         switch (command_id) {
-            #include "../CMD_DEF.hpp"
+            #include "../Shared/CMD_DEF.hpp"
             default:
                 break;
         }
@@ -209,7 +209,7 @@ void parse_write_args(MyString* program,
 bool is_args_mathing(int64_t command, uint8_t flags) {
     switch (command) {
         
-         #include "../CMD_DEF.hpp"
+         #include "../Shared/CMD_DEF.hpp"
     
         default:
             return 0;

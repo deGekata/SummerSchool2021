@@ -1,4 +1,4 @@
-#include "string.h"
+#include "strings.h"
 #include "../Shared/Shared.hpp"
 
 void init_commands_hashes();
