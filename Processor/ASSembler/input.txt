@@ -1,13 +1,16 @@
 PUSH 2
 JMP df
 MUL
-JMP abc
+JE abc
 POP
+CALL df
 PUSH [ax+2]
 abc:
+IN
 df:
 PUSH [ax]
 JMP df
+RET
 
 
 
