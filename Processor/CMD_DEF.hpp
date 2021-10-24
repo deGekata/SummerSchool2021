@@ -50,3 +50,33 @@ DEF_CMD(JMP, 7, 1, !(mark ^ flags), {
 })
 
 
+DEF_CMD(JE, 8, 1, !(mark ^ flags), { 
+    pop(&stk, get_arg(code[ip + 1])); 
+})
+
+DEF_CMD(JNE, 9, 1, !(mark ^ flags), { 
+    pop(&stk, get_arg(code[ip + 1])); 
+})
+
+DEF_CMD(JG, 10, 1, !(mark ^ flags), { 
+    pop(&stk, get_arg(code[ip + 1])); 
+})
+
+DEF_CMD(JGE, 11, 1, !(mark ^ flags), { 
+    pop(&stk, get_arg(code[ip + 1])); 
+})
+
+DEF_CMD(JL, 12, 1, !(mark ^ flags), { 
+    pop(&stk, get_arg(code[ip + 1])); 
+})
+
+DEF_CMD(JLE, 13, 1, !(mark ^ flags), { 
+    pop(&stk, get_arg(code[ip + 1])); 
+})
+
+DEF_CMD(RET, 14, 1, !(empty ^ flags), { 
+    pop(&stk, get_arg(code[ip + 1])); 
+})
+
+
+

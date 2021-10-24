@@ -6,6 +6,124 @@ void extend_my_arr(my_arr* arr) {
     return;
 }
 
+bool compile_program(FILE* input_file, FILE* output_file) {
+    m_arr.data = (label_struct*) calloc(100, sizeof(label_struct));
+    m_arr.size = 0;
+    m_arr.capacity = 100;
+    
+    marks.data = (label_struct*) calloc(100, sizeof(label_struct));
+    marks.size = 0;
+    marks.capacity = 100;
+    
+    char* a = (char*) calloc(1, sizeof(char));
+    *a = 'a';
+    
+    Text* text = readFromFile(input_file, '\n', '#');
+    fwrite(a, sizeof(char), 1, output_file);
+    printf("write 0 \n");
+
+    MyString* program = decode_lexems(text);
+    fwrite(a, sizeof(char), 1, output_file);
+    printf("write 1 \n");
+
+    if (program->size == -1) {
+        assert(0 && "ASSembling error");
+    }
+
+    link_labels(program);
+
+    printf("program last sym %d\n", program->begin[program->size - 1]);
+    write_programm_on_disk(program, output_file);
+
+    return 1;
+}
+
+#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)                                                                         \
+    case (NUM):                                                                                                               \
+        parse_write_args(program, NUM, ARGS_CUNT, &command_flags, &text->strings[line_ind], &offset, &ip_command);            \
+        break;
+
+MyString* decode_lexems(Text* text) {
+    size_t offset = 0, prev_ip_command = 0, ip_command = 0, command_id = -2;
+    int8_t command_flags;
+
+    MyString* program = (MyString*) calloc(1, sizeof(*program));
+    program->begin = (char*) calloc(text->text_len * 3 * sizeof(int), sizeof(char));
+
+    for(int line_ind = 0; line_ind < text->lines_cnt; ++line_ind) {
+        offset = skip_delimiters(&text->strings[line_ind], 0);
+        printf("new line %d\n\n", line_ind);
+        if(offset == text->strings[line_ind].size) continue;
+
+        printf("before command id\n");
+        command_id = get_command_id(&text->strings[line_ind], &offset);
+        printf("after command id\n");
+
+        if(command_id == -2) {
+            free(program->begin);
+            free(program);
+            return NULL;
+        }    
+        printf("after -2 if command id: %d\n", command_id);      
+
+        if(command_id == CMD_MARK) {
+            if(marks.size == marks.capacity) extend_my_arr(&marks);
+            
+            label_struct label;
+            
+            label.location = ip_command;
+            int lexem_begin = skip_delimiters(&text->strings[line_ind], 0);
+            printf("before label hash %d %d \n", lexem_begin, offset);
+            label.hash = hashFunc_(text->strings[line_ind].begin, offset - lexem_begin - 1, 0);
+            
+            marks.data[marks.size] = label;
+            ++marks.size; 
+            
+            printf("label hash: %ld\n", label.hash);
+            offset = skip_delimiters(&text->strings[line_ind], offset);
+            printf("str size: %d  offset:%d, str:'%s'\n", text->strings[line_ind].size, offset, text->strings[line_ind]);
+            if(offset != text->strings[line_ind].size) {
+                    assert(0 && "Too many args");
+            }
+            continue;
+        }
+
+        prev_ip_command = ip_command++;
+        switch (command_id) {
+            #include "../CMD_DEF.hpp"
+            default:
+                break;
+        }
+
+
+        printf("cur_offset %d \n\n", offset);
+        printf("write command\n");
+        write_command(program, prev_ip_command, command_id, command_flags);
+        printf("last sym %d %d\n", int(text->strings[line_ind].begin[offset]), int(text->strings[line_ind].begin[offset] != '\0'));
+        
+        offset = skip_delimiters(&text->strings[line_ind], offset);
+        printf("str size: %d  offset:%d, str:'%s'\n", text->strings[line_ind].size, offset, text->strings[line_ind]);
+        if(offset != text->strings[line_ind].size) {
+                assert(0 && "Too many args");
+        }
+    }
+    
+    printf("%d program bef ip command eq\n", text->text_len * 3 * sizeof(int));
+    program->size = ip_command;
+    return program;
+}
+#undef DEF_CMD
+
+inline void write_programm_on_disk(MyString* program, FILE* out_file) {
+    // for(int i = 0; i < program->size; ++i) {
+    //     printf("%hu_ ", program->begin[i]);
+    // }
+    // printf("  %d\n", program->size);
+    // printf("%d fiiile", out_file);
+    fwrite(program->begin, sizeof(char), program->size, out_file);
+    return;
+}
+
 int find_label(int64_t hash) {
     for(int it = 0; it < marks.size; ++it) {
         if(marks.data[it].hash == hash) {
@@ -26,57 +144,6 @@ void link_labels(MyString* program) {
     }
 }
 
-#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)                                                                    \
-    case (NUM):                                                                                                          \
-        if (ARGS_TYPE) {                                                                                                 \
-            return true;                                                                                                 \
-        } return false;                                                                                                  \
-        break;
-
-bool is_args_mathing(int64_t command, uint8_t flags) {
-    // printf("%hd %hd, %d checking match\n\n", uint32_t(flag), uint32_t(reference), int(((flag) & reference) != 0));
-    switch (command) {
-        
-         #include "../CMD_DEF.hpp"
-    
-        default:
-            return 0;
-            break;
-    }
-}
-#undef DEF_CMD
-
-void write_command(MyString* programm, size_t prev_ip_command, int command_id, int8_t command_flags) {
-//    return;
-   programm->begin[prev_ip_command] |= command_id | (command_flags & ~empty);
-}
-
-void write_args(MyString* program, size_t* ip_offset, command_args* command_arg) {
-    // return;
-    if (command_arg->flags & mark) {
-        *(int*)(program->begin + *ip_offset) = 0;
-        *ip_offset += sizeof(int); 
-        return;
-    }
-
-    if(command_arg->flags & empty) return;
-
-    if(command_arg->flags & reg) {
-        printf("writing imm const :%d\n\n", command_arg->constant);
-       *(program->begin + *ip_offset) = command_arg->reg_num;
-        *ip_offset += sizeof(char);  
-    }
-
-    if(command_arg->flags & immediate_constant) {
-        printf("writing imm const :%d  ip %d\n\n", command_arg->constant, *ip_offset);
-       *(int32_t*)(program->begin + *ip_offset) = command_arg->constant;
-        *ip_offset += sizeof(int);  
-    }
-
-}
-
-
-
 void parse_write_args(MyString* program,
                       int64_t   command,
                       int8_t    args_cunt, 
@@ -87,7 +154,7 @@ void parse_write_args(MyString* program,
 
     *command_flags = 0;
     
-    if(command == CMD_JMP) {
+    if(is_control_transfer(command)) {
         *offset = skip_delimiters(string, *offset);
         command_args* command_arg_buff;
         command_arg_buff = fill_command_arg(string, offset);
@@ -96,10 +163,13 @@ void parse_write_args(MyString* program,
         label_struct jmp;
         jmp.location = *ip_offset;
         jmp.hash = hashFunc_(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0);
+        
         m_arr.data[m_arr.size] = jmp; 
         ++m_arr.size;
+        
         *(int32_t*)(program->begin + *ip_offset) = 228;
         *ip_offset += sizeof(int);
+        
         printf("jmp hash: %ld\n", jmp.hash);
         printf( "JUMP ARGS:::%s %d\n\n", command_arg_buff->mark_name, hashFunc_(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0));
         return;
@@ -133,120 +203,62 @@ void parse_write_args(MyString* program,
     return;
 }
 
-
-bool compile_program(FILE* input_file, FILE* output_file) {
-    m_arr.data = (label_struct*) calloc(100, sizeof(label_struct));
-    m_arr.size = 0;
-    m_arr.capacity = 100;
-    marks.data = (label_struct*) calloc(100, sizeof(label_struct));
-    marks.size = 0;
-    marks.capacity = 100;
-    
-    char* a = (char*) calloc(1, sizeof(char));
-    *a = 'a';
-    Text* text = readFromFile(input_file, '\n', '#');
-    fwrite(a, sizeof(char), 1, output_file);
-    printf("write 0 \n");
-    MyString* program = decode_lexems(text);
-    fwrite(a, sizeof(char), 1, output_file);
-    printf("write 1 \n");
-    if (program->size == -1) {
-        assert(0 && "ASSembling error");
-    }
-    link_labels(program);
-
-    printf("program last sym %d\n", program->begin[program->size - 1]);
-    write_programm_on_disk(program, output_file);
-    return 1;
-}
-
-
-#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)                                                                         \
-    case (NUM):                                                                                                               \
-        parse_write_args(program, NUM, ARGS_CUNT, &command_flags, &text->strings[line_ind], &offset, &ip_command);            \
+#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)                                                                    \
+    case (NUM):                                                                                                          \
+        if (ARGS_TYPE) {                                                                                                 \
+            return true;                                                                                                 \
+        } return false;                                                                                                  \
         break;
 
-MyString* decode_lexems(Text* text) {
-    size_t offset = 0, prev_ip_command = 0, ip_command = 0, command_id = -2;
-    int8_t command_flags;
-    MyString* program = (MyString*) calloc(1, sizeof(*program));
-    program->begin = (char*) calloc(text->text_len * 3 * sizeof(int), sizeof(char));
-
-    for(int line_ind = 0; line_ind < text->lines_cnt; ++line_ind) {
-        offset = 0;
-        printf("new line %d\n\n", line_ind);
-        offset = skip_delimiters(&text->strings[line_ind], offset);
-        if(offset == text->strings[line_ind].size) {
-            offset = 0;
-            continue;
-        }
-        printf("before command id\n");
-        command_id = get_command_id(&text->strings[line_ind], &offset);
-        printf("after command id\n");
-
-        if(command_id == -2) {
-            free(program->begin);
-            free(program);
-            return NULL;
-        }    
-        printf("after -2 if command id: %d\n", command_id);
-
-        int args_cnt;
-
-
+bool is_args_mathing(int64_t command, uint8_t flags) {
+    switch (command) {
         
-
-        if(command_id == CMD_MARK) {
-            if(marks.size == marks.capacity) extend_my_arr(&marks);
-            label_struct label;
-            label.location = ip_command;
-            int lexem_begin = skip_delimiters(&text->strings[line_ind], 0);
-            printf("before label hash %d %d \n", lexem_begin, offset);
-            label.hash = hashFunc_(text->strings[line_ind].begin, offset - lexem_begin - 1, 0);
-            marks.data[marks.size] = label;
-            ++marks.size; 
-            printf("label hash: %ld\n", label.hash);
-            offset = skip_delimiters(&text->strings[line_ind], offset);
-            printf("str size: %d  offset:%d, str:'%s'\n", text->strings[line_ind].size, offset, text->strings[line_ind]);
-            if(offset != text->strings[line_ind].size) {
-                    assert(0 && "Too many args");
-            }
-            continue;
-        }
-
-        prev_ip_command = ip_command++;
-
-        switch (command_id) {
-            #include "../CMD_DEF.hpp"
-            default:
-                break;
-        }
-
-
-        printf("cur_offset %d \n\n", offset);
-        printf("write command\n");
-        write_command(program, prev_ip_command, command_id, command_flags);
-        printf("last sym %d %d\n", int(text->strings[line_ind].begin[offset]), int(text->strings[line_ind].begin[offset] != '\0'));
-        offset = skip_delimiters(&text->strings[line_ind], offset);
-        printf("str size: %d  offset:%d, str:'%s'\n", text->strings[line_ind].size, offset, text->strings[line_ind]);
-        if(offset != text->strings[line_ind].size) {
-                assert(0 && "Too many args");
-        }
+         #include "../CMD_DEF.hpp"
+    
+        default:
+            return 0;
+            break;
     }
-    printf("%d program bef ip command eq\n", text->text_len * 3 * sizeof(int));
-    program->size = ip_command;
-    return program;
 }
 #undef DEF_CMD
 
-
-inline void write_programm_on_disk(MyString* program, FILE* out_file) {
-    printf("writing program: '%d'", program->begin);
-    for(int i = 0; i < program->size; ++i) {
-        printf("%hu_ ", program->begin[i]);
-    }
-    printf("  %d\n", program->size);
-    printf("%d fiiile", out_file);
-    fwrite(program->begin, sizeof(char), program->size, out_file);
-    return;
+void write_command(MyString* programm, size_t prev_ip_command, int command_id, int8_t command_flags) {
+//    return;
+   programm->begin[prev_ip_command] |= command_id | (command_flags & ~empty);
 }
+
+void write_args(MyString* program, size_t* ip_offset, command_args* command_arg) {
+    //write mark arg
+    if (command_arg->flags & mark) {
+        *(int*)(program->begin + *ip_offset) = 0;
+        *ip_offset += sizeof(int); 
+        return;
+    }
+
+    if(command_arg->flags & empty) return;
+
+    //write reg arg
+    if(command_arg->flags & reg) {
+       *(program->begin + *ip_offset) = command_arg->reg_num;
+        *ip_offset += sizeof(char);  
+    }
+
+    //write immediate constant arg
+    if(command_arg->flags & immediate_constant) {
+       *(int32_t*)(program->begin + *ip_offset) = command_arg->constant;
+        *ip_offset += sizeof(int);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -14,11 +14,7 @@ struct my_arr {
 };
 static my_arr m_arr, marks;
 
-int find_label(int64_t hash);
-
-void link_labels(MyString* program);
-
-void realloc_my_arr(my_arr* arr, size_t n_capacity);
+void extend_my_arr(my_arr* arr);
 
 bool compile_program(FILE* input_file, FILE* output_file);
 
@@ -26,11 +22,9 @@ MyString* decode_lexems(Text* text);
 
 void write_programm_on_disk(MyString* program, FILE* out_file);
 
-bool is_args_mathing(int64_t command, uint8_t flags);
+int find_label(int64_t hash);
 
-void write_command(MyString* programm, size_t prev_ip_command, int command_id, int8_t command_flags);
-
-void write_args(MyString* programm, size_t* ip_offset, command_args* command_arg);
+void link_labels(MyString* program);
 
 void parse_write_args(MyString* program,
                       int64_t   command,
@@ -40,15 +34,11 @@ void parse_write_args(MyString* program,
                       size_t*   offset,
                       size_t*   ip_offset);
 
-// //TODO
-// void fill_command_params(CommandParams* params, MyString* str, size_t begin, size_t end);
+bool is_args_mathing(int64_t command, uint8_t flags);
 
-// //TODO
-// bool is_arg_valid(MyString* str, size_t begin, size_t end);
+void write_command(MyString* programm, size_t prev_ip_command, int command_id, int8_t command_flags);
 
-// //TODO
-// void write_command(MyString* str, size_t begin, size_t end, size_t buff_offset);
+void write_args(MyString* programm, size_t* ip_offset, command_args* command_arg);
 
 
-// //TODO
-// void write_param(MyString* str, size_t begin, size_t end, size_t buff_offset);
+

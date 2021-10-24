@@ -17,6 +17,16 @@ void printf_commands_hashes() {
     }
 }
 
+bool is_control_transfer(int command_id) {
+    return (command_id == CMD_JMP)  ||
+           (command_id == CMD_JE)   ||
+           (command_id == CMD_JNE)  ||
+           (command_id == CMD_JG)   ||
+           (command_id == CMD_JGE)  ||
+           (command_id == CMD_JL)   ||
+           (command_id == CMD_JLE)  ||
+           (command_id == CMD_CALL);
+}
 
 int64_t hashFunc_(const char * str, size_t len, int64_t init) {
     unsigned long long int hash = init;
@@ -59,8 +69,6 @@ int64_t get_command_id(MyString* string, size_t* offset) {
     *offset = get_lexem_offset(string, begin);
     printf("%ld offff lex\n\n ", *offset);
 
-    
-
     int64_t hash = hashFunc_(string->begin + begin, *offset - begin, 0);
 
     #include "../CMD_DEF.hpp"
@@ -82,9 +90,7 @@ command_args* fill_command_arg(MyString* string, size_t* offset) {
         ret_args->flags |= empty;
     }
 
-
-    int n = 0;
-    int scanf_ret;
+    int n = 0, scanf_ret;
     char* reg_sym = (char*) calloc(2, sizeof(char));
     *reg_sym = 100;
     char* delim = (char*) calloc(2, sizeof(char));
@@ -131,7 +137,6 @@ command_args* fill_command_arg(MyString* string, size_t* offset) {
     }
 
 MEM_CHECK:
-    // printf("%hu flags %hu", ret_args->flags, ret_args->flags & mem);
 
     // check ] on end
     if(ret_args->flags & mem) {
@@ -153,7 +158,9 @@ MEM_CHECK:
     if (!ret_args->flags) {
         size_t mark_offset = get_lexem_offset(string, *offset);
         printf("parse_mark in %d mark off\n\n", mark_offset);
+        
         for(size_t sym_num = *offset; sym_num < mark_offset; ++sym_num) {
+            
             if(!(
                     ('a' <= string->begin[sym_num] && string->begin[sym_num] <= 'z' ) ||
                     ('A' <= string->begin[sym_num] && string->begin[sym_num] <= 'Z' ) ||
@@ -166,12 +173,16 @@ MEM_CHECK:
                     free(ret_args);
                     return NULL;
                 }
+
         }
+
         printf("MARK: %s\n", string->begin + *offset);
+
         ret_args->flags |= mark;
         ret_args->mark_name = (MyString*) calloc(1, sizeof(*ret_args->mark_name));
         ret_args->mark_name->begin = string->begin + *offset;
         ret_args->mark_name->size = mark_offset - *offset;
+
         printf("MARK: %d\n", hashFunc_(ret_args->mark_name->begin, ret_args->mark_name->size, 0));
 
         *offset = mark_offset;
