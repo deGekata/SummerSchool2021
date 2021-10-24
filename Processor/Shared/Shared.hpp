@@ -1,4 +1,5 @@
 #include <inttypes.h>
+#include <string.h>
 #include "../Libs/StringLib/StringFileParser.h"
 
 const uint8_t empty               = (uint8_t)1 << 3;
