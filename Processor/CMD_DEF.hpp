@@ -79,4 +79,13 @@ DEF_CMD(RET, 14, 1, !(empty ^ flags), {
 })
 
 
+DEF_CMD(IN, 15, 1, !(empty ^ flags), { 
+    pop(&stk, get_arg(code[ip + 1])); 
+})
+
+DEF_CMD(OUT, 16, 1, !(empty ^ flags), { 
+    pop(&stk, get_arg(code[ip + 1])); 
+})
+
+
 
