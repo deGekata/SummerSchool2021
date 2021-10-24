@@ -3,13 +3,13 @@
 
 
 bool compile_program(FILE* input_file, FILE* output_file) {
-    m_arr.data = (label_struct*) calloc(100, sizeof(label_struct));
-    m_arr.size = 0;
-    m_arr.capacity = 100;
+    jmp_locations.data = (label_struct*) calloc(100, sizeof(label_struct));
+    jmp_locations.size = 0;
+    jmp_locations.capacity = 100;
     
-    marks.data = (label_struct*) calloc(100, sizeof(label_struct));
-    marks.size = 0;
-    marks.capacity = 100;
+    mark_locations.data = (label_struct*) calloc(100, sizeof(label_struct));
+    mark_locations.size = 0;
+    mark_locations.capacity = 100;
     
     char* a = (char*) calloc(1, sizeof(char));
     *a = 'a';
@@ -63,7 +63,7 @@ MyString* encode_lexems(Text* text) {
         printf("after -2 if command id: %d\n", command_id);      
 
         if(command_id == CMD_MARK) {
-            if(marks.size == marks.capacity) extend_my_arr(&marks);
+            if(mark_locations.size == mark_locations.capacity) extend_my_arr(&mark_locations);
             
             label_struct label;
             
@@ -72,8 +72,8 @@ MyString* encode_lexems(Text* text) {
             printf("before label hash %d %d \n", lexem_begin, offset);
             label.hash = hashFunc_(text->strings[line_ind].begin, offset - lexem_begin - 1, 0);
             
-            marks.data[marks.size] = label;
-            ++marks.size; 
+            mark_locations.data[mark_locations.size] = label;
+            ++mark_locations.size; 
             
             printf("label hash: %ld\n", label.hash);
             offset = skip_delimiters(&text->strings[line_ind], offset);
@@ -121,8 +121,8 @@ inline void write_programm_on_disk(MyString* program, FILE* out_file) {
 }
 
 int find_label(int64_t hash) {
-    for(int it = 0; it < marks.size; ++it) {
-        if(marks.data[it].hash == hash) {
+    for(int it = 0; it < mark_locations.size; ++it) {
+        if(mark_locations.data[it].hash == hash) {
             return it;
         }
     }
@@ -130,13 +130,13 @@ int find_label(int64_t hash) {
 }
 
 void link_labels(MyString* program) {
-    for(int jmp_num = 0; jmp_num < m_arr.size; ++jmp_num) {
-        int label_pos = find_label(m_arr.data[jmp_num].hash);
+    for(int jmp_num = 0; jmp_num < jmp_locations.size; ++jmp_num) {
+        int label_pos = find_label(jmp_locations.data[jmp_num].hash);
         if(label_pos == -1) {
             assert(0 && "cant find label");
         }
-        printf("label location : %d", marks.data[label_pos].location);
-        *(int*)(program->begin + m_arr.data[jmp_num].location) = marks.data[label_pos].location;
+        printf("label location : %d", mark_locations.data[label_pos].location);
+        *(int*)(program->begin + jmp_locations.data[jmp_num].location) = mark_locations.data[label_pos].location;
     }
 }
 
@@ -155,13 +155,13 @@ void parse_write_args(MyString* program,
         command_args* command_arg_buff;
         command_arg_buff = fill_command_arg(string, offset);
         
-        if(m_arr.size  == m_arr.capacity) extend_my_arr(&m_arr);
+        if(jmp_locations.size  == jmp_locations.capacity) extend_my_arr(&jmp_locations);
         label_struct jmp;
         jmp.location = *ip_offset;
         jmp.hash = hashFunc_(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0);
         
-        m_arr.data[m_arr.size] = jmp; 
-        ++m_arr.size;
+        jmp_locations.data[jmp_locations.size] = jmp; 
+        ++jmp_locations.size;
         
         *(int32_t*)(program->begin + *ip_offset) = 228;
         *ip_offset += sizeof(int);

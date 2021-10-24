@@ -3,7 +3,7 @@
 // #include "../config.hpp"
 
 
-static my_arr m_arr, marks;
+static my_arr jmp_locations, mark_locations;
 
 
 
