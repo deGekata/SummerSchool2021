@@ -1513,7 +1513,7 @@ size_t get_lexem_offset(MyString* string, size_t offset);
 
 bool compile_program(FILE* input_file, FILE* output_file);
 
-MyString* decode_lexems(Text* text);
+MyString* encode_lexems(Text* text);
 
 void write_programm_on_disk(MyString* program, FILE* out_file);
 

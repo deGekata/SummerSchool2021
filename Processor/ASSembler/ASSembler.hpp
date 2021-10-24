@@ -2,23 +2,14 @@
 #include <string.h>
 // #include "../config.hpp"
 
-struct label_struct {
-    size_t location;
-    int64_t hash;
-};
 
-struct my_arr {
-    label_struct* data;
-    size_t size;
-    size_t capacity;
-};
 static my_arr m_arr, marks;
 
-void extend_my_arr(my_arr* arr);
+
 
 bool compile_program(FILE* input_file, FILE* output_file);
 
-MyString* decode_lexems(Text* text);
+MyString* encode_lexems(Text* text);
 
 void write_programm_on_disk(MyString* program, FILE* out_file);
 

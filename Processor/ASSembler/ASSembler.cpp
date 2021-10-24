@@ -1,10 +1,6 @@
 #include "ASSembler.hpp"
 
-void extend_my_arr(my_arr* arr) {
-    arr->capacity = arr->capacity * 2;
-    arr->data = (label_struct*) realloc(arr->data, arr->capacity * sizeof(label_struct));
-    return;
-}
+
 
 bool compile_program(FILE* input_file, FILE* output_file) {
     m_arr.data = (label_struct*) calloc(100, sizeof(label_struct));
@@ -22,7 +18,7 @@ bool compile_program(FILE* input_file, FILE* output_file) {
     fwrite(a, sizeof(char), 1, output_file);
     printf("write 0 \n");
 
-    MyString* program = decode_lexems(text);
+    MyString* program = encode_lexems(text);
     fwrite(a, sizeof(char), 1, output_file);
     printf("write 1 \n");
 
@@ -43,7 +39,7 @@ bool compile_program(FILE* input_file, FILE* output_file) {
         parse_write_args(program, NUM, ARGS_CUNT, &command_flags, &text->strings[line_ind], &offset, &ip_command);            \
         break;
 
-MyString* decode_lexems(Text* text) {
+MyString* encode_lexems(Text* text) {
     size_t offset = 0, prev_ip_command = 0, ip_command = 0, command_id = -2;
     int8_t command_flags;
 

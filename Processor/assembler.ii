@@ -1513,7 +1513,7 @@ size_t get_lexem_offset(MyString* string, size_t offset);
 
 bool compile_program(FILE* input_file, FILE* output_file);
 
-MyString* decode_lexems(Text* text);
+MyString* encode_lexems(Text* text);
 
 void write_programm_on_disk(MyString* program, FILE* out_file);
 
@@ -1671,7 +1671,7 @@ bool compile_program(FILE* input_file, FILE* output_file) {
     Text* text = readFromFile(input_file, '\n', '#');
     fwrite(a, sizeof(char), 1, output_file);
     printf("write 0 \n");
-    MyString* program = decode_lexems(text);
+    MyString* program = encode_lexems(text);
     fwrite(a, sizeof(char), 1, output_file);
     printf("write 1 \n");
     if (program->size == -1) {
@@ -1700,7 +1700,7 @@ bool compile_program(FILE* input_file, FILE* output_file) {
 
 
 
-MyString* decode_lexems(Text* text) {
+MyString* encode_lexems(Text* text) {
     size_t offset = 0, prev_ip_command = 0, ip_command = 0, command_id = -2;
     int8_t command_flags;
     MyString* program = (MyString*) calloc(1, sizeof(*program));

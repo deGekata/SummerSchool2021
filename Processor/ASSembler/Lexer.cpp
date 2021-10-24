@@ -28,31 +28,9 @@ bool is_control_transfer(int command_id) {
            (command_id == CMD_CALL);
 }
 
-int64_t hashFunc_(const char * str, size_t len, int64_t init) {
-    unsigned long long int hash = init;
-    for (size_t it = 0; it < len; str++, it++) {
-        hash += (unsigned char)(*str);
-        hash += (hash << 20);
-        hash ^= (hash >> 12);
-    }
-
-    hash += (hash << 6);
-    hash ^= (hash >> 22);
-    hash += (hash << 29);
-
-    return hash;
-}
-
-
 inline bool is_delimiter(char elem) {
     return (elem == ' ');// || (elem == '\0');
 }
-
-
-// Text* parseLexems(FILE* inp, char comment_symbol) {
-//     Text* text = readFromFile(inp, '\n', comment_symbol);
-//     return text;
-// }
 
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)  \
     if(hash == commands_hashes[NUM]) {      \
