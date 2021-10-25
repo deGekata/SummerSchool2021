@@ -1,9 +1,11 @@
+#include "DSL_DEF.hpp"
+
 DEF_CMD(HLT, 0, 1, !(empty ^ flags), 
 { 
     printf("chel....");
-    printf("yep top: %d", top_(invoker->stk));
-
-    exit(0);
+    // printf("yep top: %d", top_(invoker->stk));
+    return 0;
+    
 })
 
 DEF_CMD(PUSH, 1, 1, !((mem | reg | immediate_constant) ^ flags) || 
@@ -15,25 +17,10 @@ DEF_CMD(PUSH, 1, 1, !((mem | reg | immediate_constant) ^ flags) ||
                     !(reg ^ flags),
 {  
     printf("laki %hhu \n\n", Cmd);
-    invoker->ip++;
-    int ptr = 0;
-    if(Cmd & reg) {
-        ptr += reg[invoker->code + invoker->ip];
-        printf("cur ptr: %s\n", ptr);
-        invoker->ip++;
-    }
-
-    if(Cmd & immediate_constant) {
-        ptr +=  *(int*)(invoker->code + invoker->ip);
-        invoker->ip += sizeof(int);
-    }
-
-    if(Cmd & mem) {
-        ptr =  ((int*)(invoker->memory))[ptr];
-    }
-
-    push_(invoker->stk, ptr);
-
+    
+    PARSE_PUSH_ARG_(ptr);
+    PUSH_(ptr);
+    return 1;
 })
 
 
@@ -48,79 +35,126 @@ DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) ||
 
 DEF_CMD(ADD, 3, 1, !(empty ^ flags),
 {
-    push_(invoker->stk, pop_(invoker->stk) + pop_(invoker->stk)); 
+    POP_(TEMP1);
+    POP_(TEMP2);
+    PUSH_(TEMP1 + TEMP2);
     invoker->ip++;
-    printf("addd");
+    return 1;
 })
 
 DEF_CMD(SUB, 4, 1, !(empty ^ flags), {
-    push_(invoker->stk, pop_(invoker->stk) - pop_(invoker->stk)); 
+    POP_(TEMP1);
+    POP_(TEMP2);
+    PUSH_(TEMP1 - TEMP2);
     invoker->ip++;
+    return 1;
 })
 
 DEF_CMD(MUL, 5, 1, !(empty ^ flags), {
-    push_(invoker->stk, pop_(invoker->stk) * pop_(invoker->stk)); 
+    POP_(TEMP1);
+    POP_(TEMP2);
+    PUSH_(TEMP1 * TEMP2);
     invoker->ip++;
+    return 1;
+})
+
+DEF_CMD(DIV, 6, 1, !(empty ^ flags), {
+    POP_(TEMP1);
+    POP_(TEMP2);
+    PUSH_(TEMP1 - TEMP2);
+    invoker->ip++;
+    return 1;
+})
+
+DEF_CMD(CALL, 7, 1, !(mark ^ flags), { 
+    CALL_();
+    return 1;
+})
+
+DEF_CMD(JMP, 8, 1, !(mark ^ flags), { 
+    JMP_();
+    return 1;
 })
 
 
-DEF_CMD(CALL, 6, 1, !(mark ^ flags), { 
-    push_(invoker->stk, invoker->ip);
-    invoker->ip = *(int*)(invoker->memory + ip + 1);
-})
-
-DEF_CMD(JMP, 7, 1, !(mark ^ flags), { 
-    invoker->ip = *(int*)(invoker->memory + ip + 1);
-})
-
-
-DEF_CMD(JE, 8, 1, !(mark ^ flags), {
-    if ( pop_(invoker->stk) == pop_(invoker->stk ))
-        invoker->ip = *(int*)(invoker->memory + ip + 1);
-})
-
-DEF_CMD(JNE, 9, 1, !(mark ^ flags), { 
-    if ( pop_(invoker->stk) != pop_(invoker->stk ))
-        invoker->ip = *(int*)(invoker->memory + ip + 1);
-})
-
-DEF_CMD(JG, 10, 1, !(mark ^ flags), { 
-    if ( pop_(invoker->stk) > pop_(invoker->stk ))
-        invoker->ip = *(int*)(invoker->memory + ip + 1);
-})
-
-DEF_CMD(JGE, 11, 1, !(mark ^ flags), { 
-    if ( pop_(invoker->stk) >= pop_(invoker->stk ))
-        invoker->ip = *(int*)(invoker->memory + ip + 1);
-})
-
-DEF_CMD(JL, 12, 1, !(mark ^ flags), { 
-    if ( pop_(invoker->stk) < pop_(invoker->stk ))
-        invoker->ip = *(int*)(invoker->memory + ip + 1);
-})
-
-DEF_CMD(JLE, 13, 1, !(mark ^ flags), { 
-    if ( pop_(invoker->stk) <= pop_(invoker->stk ))
-        invoker->ip = *(int*)(invoker->memory + ip + 1);
-})
-
-DEF_CMD(RET, 14, 1, !(empty ^ flags), { 
+DEF_CMD(JE, 9, 1, !(mark ^ flags), {
+    POP_(TEMP1);
+    POP_(TEMP2);
     
-        invoker->ip = pop_(invoker->stk);
+    JMP_COND(TEMP1, TEMP2, ==);
+    return 1;
+})
+
+DEF_CMD(JNE, 10, 1, !(mark ^ flags), { 
+    POP_(TEMP1);
+    POP_(TEMP2);
+    
+    JMP_COND(TEMP1, TEMP2, !=);
+    return 1;
+})
+
+DEF_CMD(JG, 11, 1, !(mark ^ flags), { 
+    POP_(TEMP1);
+    POP_(TEMP2);
+    
+    JMP_COND(TEMP1, TEMP2, >);
+    return 1;
+})
+
+DEF_CMD(JGE, 12, 1, !(mark ^ flags), { 
+    POP_(TEMP1);
+    POP_(TEMP2);
+    
+    JMP_COND(TEMP1, TEMP2, >=);
+    return 1;
+})
+
+DEF_CMD(JL, 13, 1, !(mark ^ flags), { 
+    POP_(TEMP1);
+    POP_(TEMP2);
+    
+    JMP_COND(TEMP1, TEMP2, <);
+    return 1;
+})
+
+DEF_CMD(JLE, 14, 1, !(mark ^ flags), { 
+    POP_(TEMP1);
+    POP_(TEMP2);
+    
+    JMP_COND(TEMP1, TEMP2, <=);
+    return 1;
+})
+
+DEF_CMD(RET, 15, 1, !(empty ^ flags), { 
+        RET_();
+        return 1;
 })
 
 
-DEF_CMD(IN, 15, 1, !(empty ^ flags), { 
+DEF_CMD(IN, 16, 1, !(empty ^ flags), {
+    IN_(num);
+    PUSH_(num);
+    return 1;
 })
 
-DEF_CMD(OUT, 16, 1, !(empty ^ flags), { 
+DEF_CMD(OUT, 17, 1, !(empty ^ flags), { 
+    POP_(TEMP1);
+    OUT_(TEMP1);
+    invoker->ip++;
+    return 1;
 })
 
-DEF_CMD(STR_OUT, 17, 1, !(mark ^ flags), { 
+DEF_CMD(STR_OUT, 18, 1, !(mark ^ flags), { 
+    STR_OUT_();
+    return 1;
 })
 
-DEF_CMD(DB, 18, 1, !(flags), { 
+DEF_CMD(DB, 19, 1, !(flags), { 
+    DB_();
+    return 1;
 })
+
+
 
 
 

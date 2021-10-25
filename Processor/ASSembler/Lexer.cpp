@@ -1,4 +1,5 @@
 #include "Lexer.hpp"
+#include <ctype.h>
 
 int64_t commands_hashes[CMD_MAX];
 
@@ -59,10 +60,12 @@ command_args* fill_command_arg(MyString* string, size_t* offset) {
         ret_args->flags |= empty;
     }
 
+
+//chel ti....
     int n = 0, scanf_ret;
-    char* reg_sym = (char*) calloc(2, sizeof(char));
+    char reg_sym[2];
     *reg_sym = 100;
-    char* delim = (char*) calloc(2, sizeof(char));
+    char delim[2];
 
     //try [
     scanf_ret = sscanf(string->begin + *offset,"%1[[]", delim);
@@ -112,8 +115,7 @@ MEM_CHECK:
         scanf_ret = sscanf(string->begin + *offset,"%1[]]", delim);
         printf("delim: %s\n", delim);
         if(scanf_ret != 1) {
-            free(delim);
-            free(reg_sym);
+
             free(ret_args);
             return NULL;
         }
@@ -130,15 +132,8 @@ MEM_CHECK:
         
         for(size_t sym_num = *offset; sym_num < mark_offset; ++sym_num) {
             
-            if(!(
-                    ('a' <= string->begin[sym_num] && string->begin[sym_num] <= 'z' ) ||
-                    ('A' <= string->begin[sym_num] && string->begin[sym_num] <= 'Z' ) ||
-                    ('0' <= string->begin[sym_num] && string->begin[sym_num] <= '9' )
-                )) { 
+            if(!isalnum(string->begin[sym_num])) { 
                     printf("parse_mark gavno '%c' \n\n",  string->begin[sym_num]);
-                    
-                    free(delim);
-                    free(reg_sym);
                     free(ret_args);
                     return NULL;
                 }

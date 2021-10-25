@@ -131,7 +131,7 @@ my_type pop_(SafeStack* st, call_INFO) {
     my_ASSERT(st); 
 #endif
     
-    if(st->size <= 0) return EMPTY_STACK_RETURN;
+    if(st->size <= 0) assert(0 && "Stack is empty");
 
     --st->size;
     

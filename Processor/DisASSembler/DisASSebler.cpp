@@ -10,6 +10,9 @@ void init_command_ptr() {
 }
 
 void disassemble(FILE* input, FILE* output) {
+    assert(input);
+    assert(output);
+    
     int file_size = getFileSize(input);
 
     MyString* program_asm, *program_label_counters;
@@ -30,6 +33,9 @@ void disassemble(FILE* input, FILE* output) {
 }
 
 int fill_additional_data(MyString* program, MyString* program_label_counters) {
+    assert(program);
+    assert(program_label_counters);
+    
     int cmd_cnt = 0, ip = 0, label_id = 0;
     printf("fill data %d\n", program->size);
     while(ip < program->size) {
@@ -49,15 +55,14 @@ int fill_additional_data(MyString* program, MyString* program_label_counters) {
         ip += command_len;
     }
 
-    // for(int i = 0; i < program_label_counters->size; ++i) {
-    //     printf("cell num: %d  val:%d\n", i, ((int*)program_label_counters->begin)[i]);
-
-    // }
-
     return cmd_cnt;
 }
 
 void write_program_on_disk(MyString* program, MyString* program_label_counters, FILE* output) {
+    assert(program);
+    assert(program_label_counters);
+    assert(output);
+
     int cmd_cnt = 0, ip = 0, command_ip = 0;;
     char str_buff[24];
 
@@ -150,6 +155,8 @@ void write_program_on_disk(MyString* program, MyString* program_label_counters, 
 }
 
 int get_command_len(MyString* string, int cur_ip) {
+    assert(string);
+
     char command =*(char*)(string->begin + cur_ip);
     printf("cmd: %d  ", command);
     int cmd_len = 1;
@@ -169,6 +176,8 @@ int get_command_len(MyString* string, int cur_ip) {
 }
 
 void create_buff(MyString** string, int size) {
+    assert(string);
+    
     *string = (MyString*) calloc(1, sizeof(MyString));
     (*string)->size = size;
     (*string)->begin = (char*) calloc(size, sizeof(char));

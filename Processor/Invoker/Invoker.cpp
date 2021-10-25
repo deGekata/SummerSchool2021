@@ -1,7 +1,7 @@
 #include "Invoker.hpp"
 
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code) \
-    void instruction_ ## cmd (Invoker* invoker, char Cmd) code
+    bool instruction_ ## cmd (Invoker* invoker, char Cmd) code
 
 #include "../Shared/CMD_DEF.hpp"
 
@@ -37,9 +37,10 @@ void init_invoker(Invoker* invoker, FILE* input) {
     return;
 }
 
-void invoke_command(Invoker* invoker) {
+bool invoke_command(Invoker* invoker) {
+    //assert ip
     printf("command id :%d\n", invoker->code[invoker->ip]);
-    instructions[invoker->code[invoker->ip] & ~(mem | reg | immediate_constant)](invoker, invoker->code[invoker->ip]);
+    return instructions[invoker->code[invoker->ip] & ~(mem | reg | immediate_constant)](invoker, invoker->code[invoker->ip]);
 
 }
 

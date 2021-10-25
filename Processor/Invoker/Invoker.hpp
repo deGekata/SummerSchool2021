@@ -12,16 +12,16 @@ struct Invoker {
     
 };
 
-static void (*instructions[CMD_MAX])(Invoker*, char);
+static bool (*instructions[CMD_MAX])(Invoker*, char);
 
 void init_instructions();
 
 void init_invoker(Invoker* invoker, FILE* input);
 
-void invoke_command(Invoker* invoker);
+bool invoke_command(Invoker* invoker);
 
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code) \
-    void instruction_ ## cmd (Invoker* invoker, char Cmd);
+    bool instruction_ ## cmd (Invoker* invoker, char Cmd);
 
 #include "../Shared/CMD_DEF.hpp"
 
