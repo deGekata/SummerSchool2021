@@ -3,8 +3,8 @@
 int64_t commands_hashes[CMD_MAX];
 
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, CODE) \
-    commands_hashes[NUM] = hashFunc_(#cmd, strlen(#cmd), 0);\
-    printf(#cmd " hash: %ld\n\n", hashFunc_(#cmd, strlen(#cmd), 0));
+    commands_hashes[NUM] = hashFunc(#cmd, strlen(#cmd), 0);\
+    printf(#cmd " hash: %ld\n\n", hashFunc(#cmd, strlen(#cmd), 0));
 
 void init_commands_hashes() {
     #include "../Shared/CMD_DEF.hpp"
@@ -36,11 +36,13 @@ int64_t get_command_id(MyString* string, size_t* offset) {
     *offset = get_lexem_offset(string, begin);
     printf("%ld offff lex\n\n ", *offset);
 
-    int64_t hash = hashFunc_(string->begin + begin, *offset - begin, 0);
+    int64_t hash = hashFunc(string->begin + begin, *offset - begin, 0);
 
     #include "../Shared/CMD_DEF.hpp"
     if (string->size > 1 && string->begin[string->size - 1] == ':') { 
         return CMD_MARK;
+    } else if (string->begin[0] == 'D' && string->begin[1] == 'B') {
+        return CMD_DB;
     }
 
     return -2;
@@ -150,7 +152,7 @@ MEM_CHECK:
         ret_args->mark_name->begin = string->begin + *offset;
         ret_args->mark_name->size = mark_offset - *offset;
 
-        printf("MARK: %d\n", hashFunc_(ret_args->mark_name->begin, ret_args->mark_name->size, 0));
+        printf("MARK: %d\n", hashFunc(ret_args->mark_name->begin, ret_args->mark_name->size, 0));
 
         *offset = mark_offset;
 

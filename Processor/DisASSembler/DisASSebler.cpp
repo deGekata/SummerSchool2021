@@ -11,21 +11,19 @@ void init_command_ptr() {
 
 void disassemble(FILE* input, FILE* output) {
     int file_size = getFileSize(input);
-    printf("%d\n", __LINE__);
-    printf("%d", file_size);
+
     MyString* program_asm, *program_label_counters;
-    printf("%d\n", __LINE__);
     create_buff(&program_asm, file_size);
     create_buff(&program_label_counters, (file_size - 2) * 4);
     program_label_counters->size = program_asm->size;
-    printf("%d\n", __LINE__);
+
     fread(program_asm->begin, sizeof(char), file_size, input);
-    printf("%d\n", __LINE__);
+
     program_asm->begin += 2;
     program_asm->size -= 2;
-    printf("%d\n", __LINE__);
+
     int cmd_cnt = fill_additional_data(program_asm, program_label_counters);
-    printf("%d\n", __LINE__);
+
     write_program_on_disk(program_asm, program_label_counters, output);
     
     return;
@@ -33,7 +31,7 @@ void disassemble(FILE* input, FILE* output) {
 
 int fill_additional_data(MyString* program, MyString* program_label_counters) {
     int cmd_cnt = 0, ip = 0, label_id = 0;
-
+    printf("fill data %d\n", program->size);
     while(ip < program->size) {
         int command_len = get_command_len(program, ip);
         printf("  len :%d\n", command_len);
@@ -91,6 +89,17 @@ void write_program_on_disk(MyString* program, MyString* program_label_counters, 
             ip += sizeof(char) + sizeof(int);
             continue;
         }
+
+        if ((program->begin[command_ip] & ~(mem | reg | immediate_constant)) == CMD_DB) {
+            ip++;
+            fputs(" $", output);
+            while (program->begin[ip] != CMD_DB) {
+                putc(program->begin[ip++], output);
+            }
+            fputs("$\n", output);
+            ip++;
+            continue;
+        }
         printf("%d\n", __LINE__);
 
         ++ip;
@@ -144,6 +153,13 @@ int get_command_len(MyString* string, int cur_ip) {
     char command =*(char*)(string->begin + cur_ip);
     printf("cmd: %d  ", command);
     int cmd_len = 1;
+
+    if(command == CMD_DB) {
+        while (string->begin[cur_ip + cmd_len] != CMD_DB) {
+            ++cmd_len;
+        }
+        return cmd_len + 1;
+    }
 
     cmd_len += ((command & reg)                != 0) * sizeof(char);
     cmd_len += ((command & immediate_constant) != 0) * sizeof(int);

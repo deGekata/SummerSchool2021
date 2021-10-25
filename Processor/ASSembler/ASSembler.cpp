@@ -53,7 +53,7 @@ MyString* encode_lexems(Text* text) {
 
         printf("before command id\n");
         command_id = get_command_id(&text->strings[line_ind], &offset);
-        printf("after command id\n");
+        printf("after command id %d\n", command_id);
 
         if(command_id == -2) {
             free(program->begin);
@@ -64,6 +64,11 @@ MyString* encode_lexems(Text* text) {
 
         if(command_id == CMD_MARK) {
             add_mark(&text->strings[line_ind], &offset, ip_command);
+            continue;
+        }
+
+        if(command_id == CMD_DB) {
+            parse_write_db_arg(program, &text->strings[line_ind], &offset, &ip_command);
             continue;
         }
 
@@ -133,6 +138,7 @@ void parse_write_args(MyString* program,
 
     *command_flags = 0;
     
+    //add jmp to arr
     if(is_control_transfer(command)) {
         *offset = skip_delimiters(string, *offset);
         command_args* command_arg_buff;
@@ -141,7 +147,7 @@ void parse_write_args(MyString* program,
         if(jmp_locations.size  == jmp_locations.capacity) extend_my_arr(&jmp_locations);
         label_struct jmp;
         jmp.location = *ip_offset;
-        jmp.hash = hashFunc_(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0);
+        jmp.hash = hashFunc(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0);
         
         jmp_locations.data[jmp_locations.size] = jmp; 
         ++jmp_locations.size;
@@ -150,8 +156,12 @@ void parse_write_args(MyString* program,
         *ip_offset += sizeof(int);
         
         printf("jmp hash: %ld\n", jmp.hash);
-        printf( "JUMP ARGS:::%s %d\n\n", command_arg_buff->mark_name, hashFunc_(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0));
+        printf( "JUMP ARGS:::%s %d\n\n", command_arg_buff->mark_name, hashFunc(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0));
         return;
+    }
+
+    if(command == CMD_DB) {
+        *offset = skip_delimiters(string, *offset);
     }
 
     printf("parse_write ask\n");
@@ -237,7 +247,7 @@ void add_mark(MyString* strings, size_t *offset, int ip_command) {
             
             label.location = ip_command;
             int lexem_begin = skip_delimiters(strings, 0);
-            label.hash = hashFunc_(strings->begin, *offset - lexem_begin - 1, 0);
+            label.hash = hashFunc(strings->begin, *offset - lexem_begin - 1, 0);
             
             mark_locations.data[mark_locations.size] = label;
             ++mark_locations.size; 
@@ -251,6 +261,30 @@ void add_mark(MyString* strings, size_t *offset, int ip_command) {
 
 
 
+void parse_write_db_arg(MyString* program, MyString* string, size_t* offset, size_t* ip_offset) {
+    *offset = skip_delimiters(string, *offset);
+    if(string->begin[(*offset)++] != '$') 
+        assert(0 && "db arg need to start with '$'");
+    else 
+        program->begin[ (*ip_offset)++ ] = CMD_DB;
+    
+    while (string->begin[*offset] != '$' && *offset < string->size) {
+        program->begin[ (*ip_offset)++ ] = string->begin[ (*offset)++ ];
+    }
+
+    if (string->begin[*offset] != '$')
+        assert(0 && "db arg need to end with '$'");
+    else {
+        *offset = skip_delimiters(string, *offset + 1);
+        if (*offset != string->size) {
+            assert(0 && "error db arg parse");
+        }
+    }
+
+    program->begin[ (*ip_offset)++ ] = CMD_DB;
+
+    return;
+}
 
 
 

@@ -2,6 +2,12 @@
 #include <string.h>
 #include "../Libs/StringLib/StringFileParser.h"
 
+#define WIDTH 400
+#define HEIGHT 300
+#define MAX_GPU_MEM_SIZE WIDTH * HEIGHT
+
+#define MAX_RAM_SIZE 3000
+
 const uint8_t empty               = (uint8_t)1 << 3;
 const uint8_t mark                = (uint8_t)1 << 4;
 const uint8_t immediate_constant  = (uint8_t)1 << 5;
@@ -15,8 +21,6 @@ enum Commands {
     ERROR_CMD = -2,
     EMPTY_CMD = -1, 
     #include "CMD_DEF.hpp"
-    CMD_DB,
-    CMD_DM,
     CMD_MARK,
     CMD_MAX
 };
@@ -50,6 +54,6 @@ struct my_arr {
 
 void extend_my_arr(my_arr* arr);
 
-int64_t hashFunc_(const char* str, size_t len, int64_t init = 0);
+int64_t hashFunc(const char* str, size_t len, int64_t init = 0);
 
 bool is_control_transfer(int command_id);

@@ -6,7 +6,7 @@ void extend_my_arr(my_arr* arr) {
     return;
 }
 
-int64_t hashFunc_(const char * str, size_t len, int64_t init) {
+int64_t hashFunc(const char * str, size_t len, int64_t init) {
     unsigned long long int hash = init;
     for (size_t it = 0; it < len; str++, it++) {
         hash += (unsigned char)(*str);
@@ -22,12 +22,13 @@ int64_t hashFunc_(const char * str, size_t len, int64_t init) {
 }
 
 bool is_control_transfer(int command_id) {
-    return (command_id == CMD_JMP)  ||
-           (command_id == CMD_JE)   ||
-           (command_id == CMD_JNE)  ||
-           (command_id == CMD_JG)   ||
-           (command_id == CMD_JGE)  ||
-           (command_id == CMD_JL)   ||
-           (command_id == CMD_JLE)  ||
-           (command_id == CMD_CALL);
+    return (command_id == CMD_JMP)      ||
+           (command_id == CMD_JE)       ||
+           (command_id == CMD_JNE)      ||
+           (command_id == CMD_JG)       ||
+           (command_id == CMD_JGE)      ||
+           (command_id == CMD_JL)       ||
+           (command_id == CMD_JLE)      ||
+           (command_id == CMD_CALL)     ||
+           (command_id == CMD_STR_OUT);
 }

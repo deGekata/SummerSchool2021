@@ -20,10 +20,10 @@
 
 #undef is_VALID
 
-typedef char my_type;
-static const char* type_name_ = "char";
+typedef int my_type;
+static const char* type_name_ = "int";
 static const char* log_file_location = "log.txt";
-#define PRINTF_TYPE_SPEC "c"
+#define PRINTF_TYPE_SPEC "d"
 
 #define EMPTY_STACK_RETURN     0xF2EE
 #define NULL_SPECIAL_PTR      (int*)0xbad
@@ -52,7 +52,7 @@ const int arr_s_canary_err = (1 << 9);
 #define HASH             2
 #define FULL_PROTECTION  3
 
-#define PROTECTION_LEVEL HASH               
+#define PROTECTION_LEVEL NO_PROTECTION               
 
 #define is_NOT_VALID(ptr)   is_not_valid_(ptr)
 #define my_ASSERT(ptr)      my_assert_(ptr, #ptr, __FILE__, __FUNCTION__, __LINE__, caller_func_source, caller_func, call_line, type_name_)

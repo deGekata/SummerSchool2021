@@ -19,7 +19,7 @@ int64_t hashFunc_(const char * str, size_t len, int64_t init) {
 #endif
 
 #if PROTECTION_LEVEL == 0
-SafeStack* createStack_() {
+SafeStack* createStack_(SafeStack* st) {
 #else 
 SafeStack* createStack_(SafeStack* st, call_INFO) {
 #endif
@@ -136,7 +136,7 @@ my_type pop_(SafeStack* st, call_INFO) {
     --st->size;
     
     my_type ret_val;
-
+    ret_val = st->arr[st->size];
 #if PROTECTION_LEVEL == HASH
     makeApplyHash_(st);
     ret_val = st->arr[st->size];

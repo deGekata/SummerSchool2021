@@ -1,17 +1,7 @@
 PUSH 2
-JMP df
-MUL
 PUSH 5
-JE abc
-POP
-CALL df
-PUSH [ax+2]
-abc:
-df:
-IN
-PUSH [ax]
-JMP df
-RET
+ADD
+HLT
 
 
 

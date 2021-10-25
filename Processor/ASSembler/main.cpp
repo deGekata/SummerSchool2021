@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
     fclose(output);
     return 0;
 
-    //     printf("%ld \n\n", hashFunc_("PUSH", strlen("PUSH"), 0));
+    //     printf("%ld \n\n", hashFunc("PUSH", strlen("PUSH"), 0));
     // MyString* str = (MyString*) calloc(1, sizeof(*str));
     // char* st = (char*) calloc(10, sizeof(char));
     // int nn;

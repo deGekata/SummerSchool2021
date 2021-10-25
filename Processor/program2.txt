@@ -1,0 +1,21 @@
+PUSH 2
+DB $abcd$
+JMP df
+MUL
+STR_OUT abc
+PUSH 5
+JE abc
+POP
+CALL df
+PUSH [ax+2]
+abc:
+IN
+df:
+PUSH [ax]
+JMP df
+RET
+
+
+
+
+              

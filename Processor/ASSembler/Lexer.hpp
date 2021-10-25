@@ -14,6 +14,9 @@ size_t skip_delimiters(MyString* string, size_t offset);
 
 size_t get_lexem_offset(MyString* string, size_t offset);
 
+
+
+
 /*
 /brief Parsing lexems
 */
