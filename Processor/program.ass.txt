@@ -1,7 +1,23 @@
-PUSH 2
-PUSH 5
-JMP 1
-ADD 
-1:
+IN 
+POP ax
+PUSH 1
+POP bx
+CALL 1
+PUSH bx
 OUT 
 HLT 
+1:
+PUSH ax
+PUSH 0
+JE 2
+PUSH ax
+PUSH bx
+MUL 
+POP bx
+PUSH 1
+PUSH ax
+SUB 
+POP ax
+CALL 1
+2:
+RET 

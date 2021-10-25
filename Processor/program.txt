@@ -1,11 +1,38 @@
-PUSH 2
-PUSH 5
-JMP abc
-ADD
+IN
+POP ax
+PUSH 1
+POP bx
 
-abc:
+CALL Factorio
+
+
+PUSH bx
 OUT
 HLT
+
+Factorio:
+    OUT
+    PUSH ax   
+    PUSH 0    
+
+JG skipToRet
+
+    PUSH ax
+    PUSH bx
+    MUL
+    POP bx
+    PUSH 1
+    PUSH ax
+    SUB
+    POP ax
+
+
+    CALL Factorio
+
+
+
+skipToRet:
+        RET
 
 
 

@@ -31,6 +31,9 @@ DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) ||
                    !(reg ^ flags)                              ||
                    !(empty ^ flags),
 {
+    PARSE_POP_ARG_(ptr);
+    POP_(TEMP1);
+    *ptr = TEMP1;
 })
 
 DEF_CMD(ADD, 3, 1, !(empty ^ flags),
@@ -45,6 +48,7 @@ DEF_CMD(ADD, 3, 1, !(empty ^ flags),
 DEF_CMD(SUB, 4, 1, !(empty ^ flags), {
     POP_(TEMP1);
     POP_(TEMP2);
+    printf("minus %d\n", TEMP1 - TEMP2);
     PUSH_(TEMP1 - TEMP2);
     invoker->ip++;
     return 1;
@@ -61,7 +65,7 @@ DEF_CMD(MUL, 5, 1, !(empty ^ flags), {
 DEF_CMD(DIV, 6, 1, !(empty ^ flags), {
     POP_(TEMP1);
     POP_(TEMP2);
-    PUSH_(TEMP1 - TEMP2);
+    PUSH_(TEMP1 / TEMP2);
     invoker->ip++;
     return 1;
 })
@@ -96,7 +100,7 @@ DEF_CMD(JNE, 10, 1, !(mark ^ flags), {
 DEF_CMD(JG, 11, 1, !(mark ^ flags), { 
     POP_(TEMP1);
     POP_(TEMP2);
-    
+    printf("Left: %d   Right: %d\n", TEMP1, TEMP2);
     JMP_COND(TEMP1, TEMP2, >);
     return 1;
 })
@@ -134,6 +138,7 @@ DEF_CMD(RET, 15, 1, !(empty ^ flags), {
 DEF_CMD(IN, 16, 1, !(empty ^ flags), {
     IN_(num);
     PUSH_(num);
+    invoker->ip++;
     return 1;
 })
 

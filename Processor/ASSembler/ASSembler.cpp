@@ -3,6 +3,9 @@
 
 
 bool compile_program(FILE* input_file, FILE* output_file) {
+    assert(input_file);
+    assert(output_file);
+
     jmp_locations.data = (label_struct*) calloc(100, sizeof(label_struct));
     jmp_locations.size = 0;
     jmp_locations.capacity = 100;
@@ -40,6 +43,8 @@ bool compile_program(FILE* input_file, FILE* output_file) {
         break;
 
 MyString* encode_lexems(Text* text) {
+    assert(text);
+    
     size_t offset = 0, prev_ip_command = 0, ip_command = 0, command_id = -2;
     int8_t command_flags;
 
@@ -99,11 +104,9 @@ MyString* encode_lexems(Text* text) {
 #undef DEF_CMD
 
 inline void write_programm_on_disk(MyString* program, FILE* out_file) {
-    // for(int i = 0; i < program->size; ++i) {
-    //     printf("%hu_ ", program->begin[i]);
-    // }
-    // printf("  %d\n", program->size);
-    // printf("%d fiiile", out_file);
+    assert(program);
+    assert(out_file);
+    
     fwrite(program->begin, sizeof(char), program->size, out_file);
     return;
 }
@@ -118,6 +121,8 @@ int find_label(int64_t hash) {
 }
 
 void link_labels(MyString* program) {
+    assert(program);
+
     for(int jmp_num = 0; jmp_num < jmp_locations.size; ++jmp_num) {
         int label_pos = find_label(jmp_locations.data[jmp_num].hash);
         if(label_pos == -1) {
@@ -127,6 +132,33 @@ void link_labels(MyString* program) {
         *(int*)(program->begin + jmp_locations.data[jmp_num].location) = mark_locations.data[label_pos].location;
     }
 }
+
+void parse_write_control_transfer(MyString* program,
+                                  int64_t   command,
+                                  int8_t    args_cunt, 
+                                  int8_t*   command_flags,
+                                  MyString* string, 
+                                  size_t*   offset,
+                                  size_t*   ip_offset) {
+    
+    *offset = skip_delimiters(string, *offset);
+    command_args* command_arg_buff;
+    command_arg_buff = fill_command_arg(string, offset);
+    
+    if(jmp_locations.size  == jmp_locations.capacity) extend_my_arr(&jmp_locations);
+    label_struct jmp;
+    jmp.location = *ip_offset;
+    jmp.hash = hashFunc(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0);
+    
+    jmp_locations.data[jmp_locations.size] = jmp; 
+    ++jmp_locations.size;
+    
+    *(int32_t*)(program->begin + *ip_offset) = 228;
+    *ip_offset += sizeof(int);
+
+    return;
+}
+
 
 void parse_write_args(MyString* program,
                       int64_t   command,
@@ -140,23 +172,7 @@ void parse_write_args(MyString* program,
     
     //add jmp to arr
     if(is_control_transfer(command)) {
-        *offset = skip_delimiters(string, *offset);
-        command_args* command_arg_buff;
-        command_arg_buff = fill_command_arg(string, offset);
-        
-        if(jmp_locations.size  == jmp_locations.capacity) extend_my_arr(&jmp_locations);
-        label_struct jmp;
-        jmp.location = *ip_offset;
-        jmp.hash = hashFunc(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0);
-        
-        jmp_locations.data[jmp_locations.size] = jmp; 
-        ++jmp_locations.size;
-        
-        *(int32_t*)(program->begin + *ip_offset) = 228;
-        *ip_offset += sizeof(int);
-        
-        printf("jmp hash: %ld\n", jmp.hash);
-        printf( "JUMP ARGS:::%s %d\n\n", command_arg_buff->mark_name, hashFunc(command_arg_buff->mark_name->begin, command_arg_buff->mark_name->size, 0));
+        parse_write_control_transfer(program, command, args_cunt, command_flags, string, offset, ip_offset);
         return;
     }
 
@@ -170,20 +186,24 @@ void parse_write_args(MyString* program,
     for (int8_t args_num = 0; args_num < args_cunt; ++args_num) {
             *offset = skip_delimiters(string, *offset);
             printf("left str %s\n", string->begin + *offset);   //
+
             printf("offset before fill_command %d\n", *offset); //
             command_arg_buff = fill_command_arg(string, offset);
             printf("left str2 %s\n", string->begin + *offset);  //
+            
             if(!command_arg_buff) return;
             *command_flags |= command_arg_buff->flags;
-            printf("left str3 %s\n", string->begin + *offset);  //
             printf("%hu flags  %d\n\n", command_arg_buff->flags, command_arg_buff->constant); //
+            
             if(is_args_mathing(command, command_arg_buff->flags)) {
                 write_args(program, ip_offset, command_arg_buff);
                 *offset = get_lexem_offset(string, *offset);
                 printf("%d new offset\n\n", *offset); //
+
             } else {
                 assert(0 && "args not matching\n\n\n"); //
                 return;
+                
             }
             free(command_arg_buff);
     }

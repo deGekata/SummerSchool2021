@@ -3,24 +3,51 @@
 #define PARSE_PUSH_ARG_(ptr)                    \
     invoker->ip++;                               \
     int ptr = 0;                                  \
-    if(Cmd & reg) {                                \
+    if (Cmd & reg) {                               \
         ptr += reg[invoker->code + invoker->ip];    \
         invoker->ip++;                               \
     }                                                 \
-    if(Cmd & immediate_constant) {                     \
+    if (Cmd & immediate_constant) {                    \
         ptr +=  *(int*)(invoker->code + invoker->ip);   \
         invoker->ip += sizeof(int);                      \
     }                                                     \
-    if(Cmd & mem) {                                        \
+    if (Cmd & mem) {                                       \
         ptr =  ((int*)(invoker->memory))[ptr];              \
-    }                                                        \
+    }                                                        
+
+
+#define PARSE_POP_ARG_(ptr)                                  \
+    invoker->ip++;                                            \
+    int num = 0;                                               \
+    int* ptr = &num;                                            \
+    if ((Cmd & mem) != 0) {                                      \
+        ptr = (int*)invoker->memory;                              \
+        if (Cmd & reg) {                                           \
+            ptr += invoker->regs[*(invoker->code + invoker->ip++)]; \
+        }                                                            \
+        if (Cmd & immediate_constant) {                               \
+            ptr += *(int*)(invoker->code + invoker->ip);               \
+            invoker->ip += 4;                                           \
+        }                                                                \
+    } else {                                                              \
+        ptr = &invoker->regs[*(invoker->code + invoker->ip++)];            \
+    }                                                                       \
+                                                                             \
+    if ((Cmd & immediate_constant) != 0) {                                    \
+        *ptr += immediate_constant;                                            \
+    }
+
+
+
 
 
 #define PUSH_(arg) push_(invoker->stk, arg)
 
 #define POP_(arg)  int arg = pop_(invoker->stk)
 
-#define CALL_()    push_(invoker->stk, invoker->ip); invoker->ip = *(int*)(invoker->code + invoker->ip + 1);
+// #define POP_()  pop_(invoker->stk)
+
+#define CALL_()    push_(invoker->stk, invoker->ip + 5); invoker->ip = *(int*)(invoker->code + invoker->ip + 1);
 
 #define JMP_() invoker->ip = *(int*)(invoker->code + invoker->ip + 1);
 
