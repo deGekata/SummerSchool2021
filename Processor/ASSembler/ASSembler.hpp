@@ -31,5 +31,6 @@ void write_command(MyString* programm, size_t prev_ip_command, int command_id, i
 
 void write_args(MyString* programm, size_t* ip_offset, command_args* command_arg);
 
+void add_mark(MyString* strings, size_t *offset, int ip_command);
 
 

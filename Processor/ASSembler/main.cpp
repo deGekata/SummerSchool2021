@@ -5,13 +5,18 @@
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code) \
     (ARGS_TYPE)
 
-int main() {
+int main(int argc, char* argv[]) {
+    if(argc < 3) assert(0 && "Not enough args");
+
     init_commands_hashes();
     printf_commands_hashes();
 
-    FILE* input = fopen("./ASSembler/input.txt", "r");
+    FILE* input = fopen(argv[1], "r");
     // int output = open("output.txt", O_RDWR, O_BINARY);
-    FILE* output = fopen("output.txt", "w+");
+    FILE* output = fopen(argv[2], "w+");
+    setvbuf( output, (char *)NULL, _IONBF, 0 );
+
+    printf("program dir: %s\n\n", argv[0]);
     printf("%d %d", input, output);
     compile_program(input, output);
     fclose(input);

@@ -15,6 +15,8 @@ enum Commands {
     ERROR_CMD = -2,
     EMPTY_CMD = -1, 
     #include "CMD_DEF.hpp"
+    CMD_DB,
+    CMD_DM,
     CMD_MARK,
     CMD_MAX
 };
@@ -49,3 +51,5 @@ struct my_arr {
 void extend_my_arr(my_arr* arr);
 
 int64_t hashFunc_(const char* str, size_t len, int64_t init = 0);
+
+bool is_control_transfer(int command_id);

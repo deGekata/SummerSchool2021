@@ -1,0 +1,14 @@
+PUSH 2
+JMP 1
+MUL 
+PUSH 5
+JE 2
+POP 
+CALL 1
+PUSH [ax + 2]
+2:
+IN 
+1:
+PUSH [ax]
+JMP 1
+RET 

@@ -4,8 +4,6 @@ void init_commands_hashes();
 
 void printf_commands_hashes();
 
-bool is_control_transfer(int command_id);
-
 int64_t get_command_id(MyString* string, size_t* offset);
 
 command_args* fill_command_arg(MyString* string, size_t* offset);

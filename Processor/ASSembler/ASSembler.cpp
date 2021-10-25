@@ -63,24 +63,7 @@ MyString* encode_lexems(Text* text) {
         printf("after -2 if command id: %d\n", command_id);      
 
         if(command_id == CMD_MARK) {
-            if(mark_locations.size == mark_locations.capacity) extend_my_arr(&mark_locations);
-            
-            label_struct label;
-            
-            label.location = ip_command;
-            int lexem_begin = skip_delimiters(&text->strings[line_ind], 0);
-            printf("before label hash %d %d \n", lexem_begin, offset);
-            label.hash = hashFunc_(text->strings[line_ind].begin, offset - lexem_begin - 1, 0);
-            
-            mark_locations.data[mark_locations.size] = label;
-            ++mark_locations.size; 
-            
-            printf("label hash: %ld\n", label.hash);
-            offset = skip_delimiters(&text->strings[line_ind], offset);
-            printf("str size: %d  offset:%d, str:'%s'\n", text->strings[line_ind].size, offset, text->strings[line_ind]);
-            if(offset != text->strings[line_ind].size) {
-                    assert(0 && "Too many args");
-            }
+            add_mark(&text->strings[line_ind], &offset, ip_command);
             continue;
         }
 
@@ -171,10 +154,8 @@ void parse_write_args(MyString* program,
         return;
     }
 
-
     printf("parse_write ask\n");
     
-
     command_args* command_arg_buff;
     for (int8_t args_num = 0; args_num < args_cunt; ++args_num) {
             *offset = skip_delimiters(string, *offset);
@@ -199,12 +180,13 @@ void parse_write_args(MyString* program,
     return;
 }
 
-#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code)                                                                    \
-    case (NUM):                                                                                                          \
-        if (ARGS_TYPE) {                                                                                                 \
-            return true;                                                                                                 \
-        } return false;                                                                                                  \
+#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code) \
+    case (NUM):                                        \
+        if (ARGS_TYPE) {                                \
+            return true;                                 \
+        } return false;                                   \
         break;
+
 
 bool is_args_mathing(int64_t command, uint8_t flags) {
     switch (command) {
@@ -248,9 +230,24 @@ void write_args(MyString* program, size_t* ip_offset, command_args* command_arg)
 }
 
 
-
-
-
+void add_mark(MyString* strings, size_t *offset, int ip_command) {
+            if(mark_locations.size == mark_locations.capacity) extend_my_arr(&mark_locations);
+            
+            label_struct label;
+            
+            label.location = ip_command;
+            int lexem_begin = skip_delimiters(strings, 0);
+            label.hash = hashFunc_(strings->begin, *offset - lexem_begin - 1, 0);
+            
+            mark_locations.data[mark_locations.size] = label;
+            ++mark_locations.size; 
+            
+            *offset = skip_delimiters(strings, *offset);
+            if(*offset != strings->size) {
+                    assert(0 && "Too many args");
+            }
+    return;
+}
 
 
 

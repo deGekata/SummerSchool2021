@@ -17,17 +17,6 @@ void printf_commands_hashes() {
     }
 }
 
-bool is_control_transfer(int command_id) {
-    return (command_id == CMD_JMP)  ||
-           (command_id == CMD_JE)   ||
-           (command_id == CMD_JNE)  ||
-           (command_id == CMD_JG)   ||
-           (command_id == CMD_JGE)  ||
-           (command_id == CMD_JL)   ||
-           (command_id == CMD_JLE)  ||
-           (command_id == CMD_CALL);
-}
-
 inline bool is_delimiter(char elem) {
     return (elem == ' ');// || (elem == '\0');
 }
