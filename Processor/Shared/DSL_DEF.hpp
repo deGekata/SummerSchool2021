@@ -1,18 +1,18 @@
 #define HLT_() return true;
 
-#define PARSE_PUSH_ARG_(ptr)                    \
-    invoker->ip++;                               \
-    int ptr = 0;                                  \
-    if (Cmd & reg) {                               \
-        ptr += reg[invoker->code + invoker->ip];    \
-        invoker->ip++;                               \
-    }                                                 \
-    if (Cmd & immediate_constant) {                    \
-        ptr +=  *(int*)(invoker->code + invoker->ip);   \
-        invoker->ip += sizeof(int);                      \
-    }                                                     \
-    if (Cmd & mem) {                                       \
-        ptr =  ((int*)(invoker->memory))[ptr];              \
+#define PARSE_PUSH_ARG_(ptr)                                  \
+    invoker->ip++;                                             \
+    int ptr = 0;                                                \
+    if (Cmd & reg) {                                             \
+        ptr += invoker->regs[int(*(invoker->code + invoker->ip))];\
+        invoker->ip++;                                             \
+    }                                                               \
+    if (Cmd & immediate_constant) {                                  \
+        ptr +=  *(int*)(invoker->code + invoker->ip);                 \
+        invoker->ip += sizeof(int);                                    \
+    }                                                                   \
+    if (Cmd & mem) {                                                     \
+        ptr =  ((int*)(invoker->memory))[ptr];                            \
     }                                                        
 
 

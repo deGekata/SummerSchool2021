@@ -1,23 +1,6 @@
-IN 
+PUSH 2
 POP ax
-PUSH 1
-POP bx
-CALL 1
-PUSH bx
-OUT 
+STR_OUT 1
 HLT 
 1:
-PUSH ax
-PUSH 0
-JE 2
-PUSH ax
-PUSH bx
-MUL 
-POP bx
-PUSH 1
-PUSH ax
-SUB 
-POP ax
-CALL 1
-2:
-RET 
+DB $DEN LOHfhsjdfhkashdfjshdfjkdsahfhsduifhusidhfiuashdfuihsdiufhsdiufhdsuifhiafhiudfhiusdfhuasdfhiudshfuisafhuaeshfiasfhisaudfhusadfhiusadfhiusadfhuisadfhiuasdhfuisdhfiuashfiuaewhiuewhiufhaewuifhuewiafhiuaehfiuaehuiehawiuheawuifheuiahfewahfiueawhfiuaewhfiueawhfuiewhifuehiufheawiufheawfheaifhaewufheawihfiweuhfiueawhfiuewahfiaehwfhaiewhi$

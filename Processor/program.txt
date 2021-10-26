@@ -1,38 +1,12 @@
-IN
+PUSH 2
 POP ax
-PUSH 1
-POP bx
+STR_OUT kek
 
-CALL Factorio
-
-
-PUSH bx
-OUT
 HLT
 
-Factorio:
-    OUT
-    PUSH ax   
-    PUSH 0    
+kek:
+DB $DEN LOH$
 
-JG skipToRet
-
-    PUSH ax
-    PUSH bx
-    MUL
-    POP bx
-    PUSH 1
-    PUSH ax
-    SUB
-    POP ax
-
-
-    CALL Factorio
-
-
-
-skipToRet:
-        RET
 
 
 

@@ -15,9 +15,7 @@ DEF_CMD(PUSH, 1, 1, !((mem | reg | immediate_constant) ^ flags) ||
                     !((reg | immediate_constant) ^ flags)       ||
                     !(immediate_constant ^ flags)               ||
                     !(reg ^ flags),
-{  
-    printf("laki %hhu \n\n", Cmd);
-    
+{      
     PARSE_PUSH_ARG_(ptr);
     PUSH_(ptr);
     return 1;
@@ -48,7 +46,6 @@ DEF_CMD(ADD, 3, 1, !(empty ^ flags),
 DEF_CMD(SUB, 4, 1, !(empty ^ flags), {
     POP_(TEMP1);
     POP_(TEMP2);
-    printf("minus %d\n", TEMP1 - TEMP2);
     PUSH_(TEMP1 - TEMP2);
     invoker->ip++;
     return 1;
@@ -124,7 +121,7 @@ DEF_CMD(JL, 13, 1, !(mark ^ flags), {
 DEF_CMD(JLE, 14, 1, !(mark ^ flags), { 
     POP_(TEMP1);
     POP_(TEMP2);
-    
+    printf("Left: %d   Right: %d\n", TEMP1, TEMP2);
     JMP_COND(TEMP1, TEMP2, <=);
     return 1;
 })
@@ -151,6 +148,14 @@ DEF_CMD(OUT, 17, 1, !(empty ^ flags), {
 
 DEF_CMD(STR_OUT, 18, 1, !(mark ^ flags), { 
     STR_OUT_();
+    int str_ptr = *(int*)(invoker->code + invoker->ip + 1) + 1;
+    printf("\n %d str ptr \n", str_ptr);
+    while(invoker->code[str_ptr] != CMD_DB) {
+        printf("%c", invoker->code[str_ptr]);
+        str_ptr++;
+    } 
+    printf("\n");
+    invoker->ip += 5;
     return 1;
 })
 
