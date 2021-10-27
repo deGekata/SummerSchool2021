@@ -29,6 +29,7 @@ void init_invoker(Invoker* invoker, FILE* input) {
     createStack(invoker->stk);
 
     int file_size = getFileSize(input);
+    printf("%d file-size", file_size);
     fread(invoker->memory, sizeof(char), file_size, input);
 
     invoker->code = invoker->memory + 2;
@@ -65,7 +66,7 @@ void invoker_debug(Invoker* invoker) {
 }
 
 void invoker_debug_print_code(Invoker* invoker) {
-    int mx_instr_size = log10(invoker->code_size) + 2;
+    int mx_instr_size = 1 + 2;//log10(invoker->code_size) + 2;
     const char* first_spec = "\033[1;30;43m%*d\033[0m";
     const char* second_spec = "\033[1;30;42m%*d\033[0m";
     for(int cur_ip = 0; cur_ip < invoker->code_size; ++cur_ip) {

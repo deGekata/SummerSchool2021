@@ -1,0 +1,6 @@
+PUSH 2
+POP ax
+STR_OUT 1
+HLT 
+1:
+DB $DEN LOH$

@@ -77,7 +77,7 @@ command_args* fill_command_arg(MyString* string, size_t* offset) {
     //try reg + const   
     printf("lol\n");
     printf("scanned string1 %s\n\n", string->begin + *offset);
-    scanf_ret = sscanf(string->begin + *offset, "%1[abcd]x%1[+]%d%n", reg_sym, &delim, &ret_args->constant, &n);
+    scanf_ret = sscanf(string->begin + *offset, "%1[abcde]x%1[+]%d%n", reg_sym, &delim, &ret_args->constant, &n);
     printf("scanf_ret %d  n:%d lol\n", scanf_ret, n);
     if(scanf_ret == 3 && n != 0) {
         *offset += n;
@@ -87,7 +87,7 @@ command_args* fill_command_arg(MyString* string, size_t* offset) {
     }
 
     //try reg
-    scanf_ret = sscanf(string->begin + *offset, "%1[abcd]x%n", reg_sym, &n);
+    scanf_ret = sscanf(string->begin + *offset, "%1[abcde]x%n", reg_sym, &n);
     printf("scanfreturn: %d %d\n\n", scanf_ret, n);
     printf("scanned string %s\n\n", string->begin + *offset);
     printf("scanned reg ans syms: %s   %d\n\n", reg_sym, n);
@@ -125,6 +125,13 @@ MEM_CHECK:
     }
     
     // parse mark:
+    ret_args = parse_mark(string, offset, ret_args);
+
+    return ret_args;
+
+}
+
+command_args* parse_mark(MyString* string, size_t* offset, command_args* ret_args) {
     printf("parse_mark %d\n\n", ret_args->flags);
     if (!ret_args->flags) {
         size_t mark_offset = get_lexem_offset(string, *offset);
@@ -150,12 +157,10 @@ MEM_CHECK:
         printf("MARK: %d\n", hashFunc(ret_args->mark_name->begin, ret_args->mark_name->size, 0));
 
         *offset = mark_offset;
-
     }
-
     return ret_args;
-
 }
+
 
 
 size_t skip_delimiters(MyString* string, size_t offset) {

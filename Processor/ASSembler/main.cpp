@@ -1,6 +1,5 @@
 #include "ASSembler.hpp"
 #include <stdio.h>
-#include <io.h>
 #include <fcntl.h>
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code) \
     (ARGS_TYPE)

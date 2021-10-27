@@ -8,6 +8,8 @@ int64_t get_command_id(MyString* string, size_t* offset);
 
 command_args* fill_command_arg(MyString* string, size_t* offset);
 
+command_args* parse_mark(MyString* string, size_t* offset, command_args* ret_args);
+
 inline bool is_delimiter(char elem);
 
 size_t skip_delimiters(MyString* string, size_t offset);
