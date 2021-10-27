@@ -93,21 +93,23 @@ void invoker_debug_print_code(Invoker* invoker) {
 void invoker_debug_print_regs(Invoker* invoker) {
     const char* regs_offset_delim = "\033[1;30;41m###############\033[0m";
     int max_width = 12;
-    for(int it = 0; it < 4; ++it ) printf("%s", regs_offset_delim);
-
-    printf("\n\033[1;30;41m#\033[0m   ");
+    printf("\033[1;30;41m#\033[0m");
+    for(int it = 0; it < sizeof(invoker->regs) / sizeof(invoker->regs[0]); ++it ) printf("%s", regs_offset_delim);
+    printf("\033[1;30;41m#\033[0m");
+    printf("\n\033[1;30;41m#\033[0m ");
     for(int reg_num = 0; reg_num < sizeof(invoker->regs) / sizeof(invoker->regs[0]); ++reg_num) {
-        printf("%*d \033[1;30;41m#\033[0m", max_width, invoker->regs[reg_num]);
+        printf("%*d \033[1;30;41m#\033[0m ", max_width, invoker->regs[reg_num]);
     }
 
 
-    printf("\n\033[1;30;41m#\033[0m   ");
+    printf("\n\033[1;30;41m#\033[0m");
     for(int reg_num = 0; reg_num < sizeof(invoker->regs) / sizeof(invoker->regs[0]); ++reg_num) {
-        printf("%*cx \033[1;30;41m#\033[0m", max_width - 1, 'a' + reg_num);
+        printf("%*cx \033[1;30;41m#\033[0m", max_width, 'a' + reg_num);
     }
     printf("\n");
-
-    for(int it = 0; it < 4; ++it ) printf("%s", regs_offset_delim);
+    printf("\033[1;30;41m#\033[0m");
+    for(int it = 0; it < sizeof(invoker->regs) / sizeof(invoker->regs[0]); ++it ) printf("%s", regs_offset_delim);
+    printf("\033[1;30;41m#\033[0m");
     printf("\n\n");
 }
 
@@ -126,4 +128,23 @@ void invoker_debug_print_stack(Invoker* invoker) {
 
 void print_inst(Invoker* invoker, int num) {
     instructions[num](invoker, num);
+}
+
+
+void init_video(Invoker* invoker) {
+    SDL_Init( SDL_INIT_EVERYTHING );
+
+    invoker->win = SDL_CreateWindow("Hello World!", 100, 100, 100, 100, SDL_WINDOW_SHOWN);
+    invoker->screen_surface = SDL_GetWindowSurface(invoker->win);
+    invoker->ren = SDL_CreateRenderer(invoker->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+    return;
+}
+
+void draw_video(Invoker* invoker) {
+    invoker->screen_surface->pixels = (void*) (invoker->memory + invoker->regs[4]);
+    invoker->tex = SDL_CreateTextureFromSurface(invoker->ren, invoker->screen_surface);
+    SDL_RenderClear(invoker->ren);
+    SDL_RenderCopy(invoker->ren, invoker->tex, NULL, NULL);
+    SDL_RenderPresent(invoker->ren);
 }

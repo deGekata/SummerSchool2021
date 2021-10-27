@@ -1,0 +1,22 @@
+push 500
+pop ax
+
+PUSH 0
+POP bx
+
+
+PUSH 0
+PUSH 1
+PUSH ax
+SUB
+JLE end
+
+PUSH 7536895
+PUSH bx
+PUSH dx
+ADD
+
+
+
+end:
+    HLT

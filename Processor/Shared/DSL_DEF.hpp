@@ -71,7 +71,7 @@
     printf("%d\n", num);
 
 #define STR_OUT_() \
-    printf("not implemented");
+    printf("not implemented\n");
 
 
 #define DB_() \

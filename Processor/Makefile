@@ -49,10 +49,10 @@ Invoker: Invoker.o InvokerMain.o Stack.o Shared.o StringFileParser.o
 	$(CC) $(BuildF)Invoker.o $(BuildF)InvokerMain.o $(BuildF)Stack.o $(BuildF)Shared.o $(BuildF)StringFileParser.o -o invoker.out -lSDL2 -lSDL2main
 
 InvokerMain.o: 
-	$(CC) $(CFLAGS) Invoker/main.cpp -o $(BuildF)InvokerMain.o
+	$(CC) $(CFLAGS) Invoker/main.cpp -o $(BuildF)InvokerMain.o 
 
 Invoker.o:
-	$(CC) $(CFLAGS) Invoker/Invoker.cpp -o $(BuildF)Invoker.o
+	$(CC) $(CFLAGS) Invoker/Invoker.cpp -o $(BuildF)Invoker.o -lSDL2 -lSDL2main
 
 Stack.o:
 	$(CC) $(CFLAGS) Libs/Stack/MyStack.cpp -o $(BuildF)Stack.o

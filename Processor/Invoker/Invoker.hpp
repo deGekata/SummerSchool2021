@@ -1,6 +1,6 @@
 #include "../Libs/Stack/MyStack.h"
 #include "../Shared/Shared.hpp"
-
+#include "SDL2/SDL.h"
 
 
 struct Invoker {
@@ -10,8 +10,11 @@ struct Invoker {
     SafeStack* stk ;
     int code_size;
     int ip;
-    int regs[4];
-    
+    int regs[5];
+    SDL_Surface* screen_surface;
+    SDL_Window *win;
+    SDL_Renderer *ren;
+    SDL_Texture *tex;
 };
 
 static bool (*instructions[CMD_MAX])(Invoker*, char);
@@ -38,3 +41,7 @@ void invoker_debug_print_stack(Invoker* invoker);
 #undef DEF_CMD
 
 void print_inst(Invoker* invoker, int num) ;
+
+void init_video(Invoker* invoker);
+
+void draw_video(Invoker* invoker);

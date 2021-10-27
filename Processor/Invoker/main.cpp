@@ -1,5 +1,5 @@
 #include "Invoker.hpp"
-#include "SDL2/SDL.h" 
+
 
 int main(int argc, char* argv[]) {
     Invoker* invoker = (Invoker*) calloc(1, sizeof(Invoker));
@@ -26,23 +26,11 @@ int main(int argc, char* argv[]) {
     
     while(invoke_command(invoker)){};
 
-    SDL_Window     *window;
+    SDL_Delay(9000);
 
-  SDL_Init(SDL_INIT_VIDEO);
+    SDL_DestroyWindow(invoker->win);
 
-  window = SDL_CreateWindow("SDL2 Window", 100, 100, 640, 480, 0); 
-  
-  if(window==NULL)
-  {   
-    printf("Could not create window: %s\n", SDL_GetError());
-    return 1;
-  }
-  
-  SDL_Delay(9000);
-  
-  SDL_DestroyWindow(window); 
-   
-  SDL_Quit(); 
+    SDL_Quit(); 
 
 
     return 0;

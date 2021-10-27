@@ -32,6 +32,7 @@ DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) ||
     PARSE_POP_ARG_(ptr);
     POP_(TEMP1);
     *ptr = TEMP1;
+    return 1;
 })
 
 DEF_CMD(ADD, 3, 1, !(empty ^ flags),
@@ -149,7 +150,6 @@ DEF_CMD(OUT, 17, 1, !(empty ^ flags), {
 DEF_CMD(STR_OUT, 18, 1, !(mark ^ flags), { 
     STR_OUT_();
     int str_ptr = *(int*)(invoker->code + invoker->ip + 1) + 1;
-    printf("\n %d str ptr \n", str_ptr);
     while(invoker->code[str_ptr] != CMD_DB) {
         printf("%c", invoker->code[str_ptr]);
         str_ptr++;
@@ -164,6 +164,26 @@ DEF_CMD(DB, 19, 1, !(flags), {
     return 1;
 })
 
+DEF_CMD(DRAW, 20, 1, !(empty ^ flags), {
+    for(int column = 0; column < WIDTH; ++column) {
+        for(int row = 0; row < HEIGHT; ++row) {
+            
+        }
+    }
+    printf("draw");
+})
+
+DEF_CMD(DM, 21, 1, !(flags), {
+    // DM_();
+    return 1;
+})
+
+DEF_CMD(IMG_OUT, 22, 1, !(mark ^ flags), {
+    int ex = invoker->regs[4];
+    invoker->regs[4] = *(int*)(invoker->code + invoker->ip + 1) + 1;
+    draw_video(invoker);
+    invoker->regs[4] = ex;
+})
 
 
 
