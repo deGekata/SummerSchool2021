@@ -43,7 +43,13 @@ void init_invoker(Invoker* invoker, FILE* input) {
 
 bool invoke_command(Invoker* invoker) {
     //assert ip
-    int ret = instructions[invoker->code[invoker->ip] & ~(mem | reg | immediate_constant)](invoker, invoker->code[invoker->ip]);
+    printf("%d bef command\n", invoker->code[invoker->ip] & ~(mem | reg | immediate_constant));
+    printf("%hhu bef command ip val\n", invoker->code[invoker->ip]);
+    printf("%hhu bef command ip\n", invoker->ip);
+    printf("%p instr pointer\n", instructions[uint8_t(invoker->code[invoker->ip] & ~(mem | reg | immediate_constant))]);
+    printf("%p inst pop nter\n", instructions[2]);
+    int ret = instructions[uint8_t(invoker->code[invoker->ip] & ~(mem | reg | immediate_constant))](invoker, invoker->code[invoker->ip]);
+    printf("cringe");
     if (invoker->is_debug) {
         invoker_debug(invoker);
         getchar();
@@ -77,7 +83,7 @@ void invoker_debug_print_code(Invoker* invoker) {
     }
     printf("\n");
     for(int cur_ip = 0; cur_ip < invoker->code_size; ++cur_ip) {
-        printf("%*.*X", mx_instr_size, 2, invoker->code[cur_ip]);
+        printf("%*.*X", mx_instr_size, 2, uint8_t(invoker->code[cur_ip]));
     }
     printf("\n");
 

@@ -17,15 +17,20 @@
 
 
 #define PARSE_POP_ARG_(ptr)                                  \
-    invoker->ip++;                                            \
+    invoker->ip++;                                          \
+    printf("%d ip", invoker->ip);                                     \
+    uint8_t cmd_ = invoker->code[invoker->ip - 1];\
+    printf("%hhu %d  %s m_cmd\n", cmd_, invoker->ip - 1); \
     int num = 0;                                               \
-    int* ptr = &num;                                            \
-    if ((Cmd & mem) != 0) {                                      \
+    int* ptr;\
+    printf("%hhu\n", cmd_);                                                   \
+    if ((cmd_ & mem) != 0) {                                      \
+        printf("yep mem");\
         ptr = (int*)invoker->memory;                              \
-        if (Cmd & reg) {                                           \
+        if (cmd_ & reg) {                                           \
             ptr += invoker->regs[*(invoker->code + invoker->ip++)]; \
         }                                                            \
-        if (Cmd & immediate_constant) {                               \
+        if (cmd_ & immediate_constant) {                               \
             ptr += *(int*)(invoker->code + invoker->ip);               \
             invoker->ip += 4;                                           \
         }                                                                \
@@ -33,7 +38,7 @@
         ptr = &invoker->regs[*(invoker->code + invoker->ip++)];            \
     }                                                                       \
                                                                              \
-    if ((Cmd & immediate_constant) != 0) {                                    \
+    if ((cmd_ & immediate_constant) != 0) {                                    \
         *ptr += immediate_constant;                                            \
     }
 
