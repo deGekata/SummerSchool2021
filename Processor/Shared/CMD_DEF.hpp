@@ -29,10 +29,10 @@ DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) ||
                    !(reg ^ flags)                              ||
                    !(empty ^ flags),
 {
-    printf("before pop ya jiv\n");
+    // printf("before pop ya jiv\n");
     PARSE_POP_ARG_(ptr);
     POP_(TEMP1);
-    printf("%d temp1 \n", TEMP1);
+    // printf("%d temp1 \n", TEMP1);
     *ptr = TEMP1;
     return 1;
 })
@@ -100,7 +100,7 @@ DEF_CMD(JNE, 10, 1, !(mark ^ flags), {
 DEF_CMD(JG, 11, 1, !(mark ^ flags), { 
     POP_(TEMP1);
     POP_(TEMP2);
-    printf("Left: %d   Right: %d\n", TEMP1, TEMP2);
+    // printf("Left: %d   Right: %d\n", TEMP1, TEMP2);
     JMP_COND(TEMP1, TEMP2, >);
     return 1;
 })
@@ -124,7 +124,7 @@ DEF_CMD(JL, 13, 1, !(mark ^ flags), {
 DEF_CMD(JLE, 14, 1, !(mark ^ flags), { 
     POP_(TEMP1);
     POP_(TEMP2);
-    printf("Left: %d   Right: %d\n", TEMP1, TEMP2);
+    // printf("Left: %d   Right: %d\n", TEMP1, TEMP2);
     JMP_COND(TEMP1, TEMP2, <=);
     return 1;
 })
@@ -167,18 +167,12 @@ DEF_CMD(DB, 19, 1, !(flags), {
 })
 
 DEF_CMD(DRAW, 20, 1, !(empty ^ flags), {
-    // for(int column = 0; column < WIDTH; ++column) {
-    //     for(int row = 0; row < HEIGHT; ++row) {
-            
-    //     }
-    // }
-    printf("prev draw");
-
     int ex = invoker->regs[4];
     invoker->regs[4] = *(int*)(invoker->code + invoker->ip + 1) + 1;
     draw_video(invoker);
     invoker->regs[4] = ex;
-    printf("draw");
+    invoker->ip++;
+    return 1;
 })
 
 DEF_CMD(DM, 21, 1, !(flags), {
@@ -187,6 +181,7 @@ DEF_CMD(DM, 21, 1, !(flags), {
 })
 
 DEF_CMD(IMG_OUT, 22, 1, !(mark ^ flags), {
+    
     int ex = invoker->regs[4];
     invoker->regs[4] = *(int*)(invoker->code + invoker->ip + 1) + 1;
     draw_video(invoker);

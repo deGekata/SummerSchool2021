@@ -1,4 +1,4 @@
-PUSH 1000
+PUSH 10000
 POP ax
 
 begin:
@@ -12,9 +12,8 @@ JLE skipToRet
     PUSH ex
     ADD
     POP bx
-    PUSH 7536895
+    PUSH 756895
     POP [bx]
-
     PUSH 1
     PUSH ax
     SUB

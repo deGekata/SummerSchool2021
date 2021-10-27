@@ -18,14 +18,10 @@
 
 #define PARSE_POP_ARG_(ptr)                                  \
     invoker->ip++;                                          \
-    printf("%d ip", invoker->ip);                                     \
     uint8_t cmd_ = invoker->code[invoker->ip - 1];\
-    printf("%hhu %d  %s m_cmd\n", cmd_, invoker->ip - 1); \
     int num = 0;                                               \
     int* ptr;\
-    printf("%hhu\n", cmd_);                                                   \
     if ((cmd_ & mem) != 0) {                                      \
-        printf("yep mem");\
         ptr = (int*)invoker->memory;                              \
         if (cmd_ & reg) {                                           \
             ptr += invoker->regs[*(invoker->code + invoker->ip++)]; \

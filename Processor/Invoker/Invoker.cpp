@@ -37,19 +37,21 @@ void init_invoker(Invoker* invoker, FILE* input) {
     invoker->code_size = file_size;
     printf("invoker params 4: %d \n", invoker->ip);
 
+    init_video(invoker);
+
     return;
 }
 
 
 bool invoke_command(Invoker* invoker) {
     //assert ip
-    printf("%d bef command\n", invoker->code[invoker->ip] & ~(mem | reg | immediate_constant));
-    printf("%hhu bef command ip val\n", invoker->code[invoker->ip]);
-    printf("%hhu bef command ip\n", invoker->ip);
-    printf("%p instr pointer\n", instructions[uint8_t(invoker->code[invoker->ip] & ~(mem | reg | immediate_constant))]);
-    printf("%p inst pop nter\n", instructions[2]);
+    // printf("%d bef command\n", invoker->code[invoker->ip] & ~(mem | reg | immediate_constant));
+    // printf("%hhu bef command ip val\n", invoker->code[invoker->ip]);
+    // printf("%hhu bef command ip\n", invoker->ip);
+    // printf("%p instr pointer\n", instructions[uint8_t(invoker->code[invoker->ip] & ~(mem | reg | immediate_constant))]);
+    // printf("%p inst pop nter\n", instructions[2]);
     int ret = instructions[uint8_t(invoker->code[invoker->ip] & ~(mem | reg | immediate_constant))](invoker, invoker->code[invoker->ip]);
-    printf("cringe");
+    // printf("cringe");
     if (invoker->is_debug) {
         invoker_debug(invoker);
         getchar();
@@ -141,16 +143,27 @@ void init_video(Invoker* invoker) {
     SDL_Init( SDL_INIT_EVERYTHING );
 
     invoker->win = SDL_CreateWindow("Hello World!", 100, 100, 100, 100, SDL_WINDOW_SHOWN);
-    invoker->screen_surface = SDL_GetWindowSurface(invoker->win);
     invoker->ren = SDL_CreateRenderer(invoker->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    invoker->screen_surface = SDL_GetWindowSurface(invoker->win);
 
     return;
 }
 
 void draw_video(Invoker* invoker) {
-    invoker->screen_surface->pixels = (void*) (invoker->memory + invoker->regs[4]);
+    printf("%d\n", __LINE__);
+    invoker->screen_surface->pixels = (void*) ((int*)invoker->memory + invoker->regs[4]);
+    printf("%p ptr invoker->tex\n", invoker->tex);
+    printf("%p ptr invoker->ren\n", invoker->ren);
+    printf("%p ptr invoker->screen_surface\n", invoker->screen_surface);
+    printf("%d\n", __LINE__);
+    invoker->screen_surface->h = 100;
+    invoker->screen_surface->w = 100;
     invoker->tex = SDL_CreateTextureFromSurface(invoker->ren, invoker->screen_surface);
+    printf("%d\n", __LINE__);
     SDL_RenderClear(invoker->ren);
+    printf("%d\n", __LINE__);
     SDL_RenderCopy(invoker->ren, invoker->tex, NULL, NULL);
+    printf("%d\n", __LINE__);
     SDL_RenderPresent(invoker->ren);
+    printf("%d\n", __LINE__);
 }

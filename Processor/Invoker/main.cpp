@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
     invoker->is_debug = argv[2][0] - '0';
     
     while(invoke_command(invoker)){};
-
+    // draw_video(invoker);
     SDL_Delay(9000);
 
     SDL_DestroyWindow(invoker->win);
