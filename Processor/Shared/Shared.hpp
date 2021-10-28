@@ -2,8 +2,8 @@
 #include <string.h>
 #include "../Libs/StringLib/StringFileParser.h"
 
-#define WIDTH 400
-#define HEIGHT 300
+#define WIDTH 10000
+#define HEIGHT 10000
 #define MAX_GPU_MEM_SIZE WIDTH * HEIGHT
 
 #define MAX_RAM_SIZE 3000

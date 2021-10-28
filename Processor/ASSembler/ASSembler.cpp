@@ -267,8 +267,8 @@ void add_mark(MyString* strings, size_t *offset, int ip_command) {
             
             label.location = ip_command;
             int lexem_begin = skip_delimiters(strings, 0);
-            label.hash = hashFunc(strings->begin, *offset - lexem_begin - 1, 0);
-            
+            *offset = get_lexem_offset(strings, *offset);
+            label.hash = hashFunc(strings->begin + lexem_begin, *offset - lexem_begin - 1, 0);
             mark_locations.data[mark_locations.size] = label;
             ++mark_locations.size; 
             

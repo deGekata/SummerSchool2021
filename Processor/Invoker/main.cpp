@@ -23,10 +23,12 @@ int main(int argc, char* argv[]) {
     init_invoker(invoker, input);
 
     invoker->is_debug = argv[2][0] - '0';
-    
+    // int delay;
+    // scanf("%d", delay);
+
     while(invoke_command(invoker)){};
     // draw_video(invoker);
-    SDL_Delay(9000);
+    SDL_Delay(3000);
 
     SDL_DestroyWindow(invoker->win);
 

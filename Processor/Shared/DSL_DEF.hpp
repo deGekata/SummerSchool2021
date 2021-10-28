@@ -4,7 +4,7 @@
     invoker->ip++;                                             \
     int ptr = 0;                                                \
     if (Cmd & reg) {                                             \
-        ptr += invoker->regs[int(*(invoker->code + invoker->ip))];\
+        ptr += invoker->regs[*(uint8_t*)(invoker->code + invoker->ip)];\
         invoker->ip++;                                             \
     }                                                               \
     if (Cmd & immediate_constant) {                                  \
@@ -24,7 +24,7 @@
     if ((cmd_ & mem) != 0) {                                      \
         ptr = (int*)invoker->memory;                              \
         if (cmd_ & reg) {                                           \
-            ptr += invoker->regs[*(invoker->code + invoker->ip++)]; \
+            ptr += invoker->regs[*(uint8_t*)(invoker->code + invoker->ip++)]; \
         }                                                            \
         if (cmd_ & immediate_constant) {                               \
             ptr += *(int*)(invoker->code + invoker->ip);               \
@@ -69,7 +69,8 @@
     }
 
 #define OUT_(num)       \
-    printf("%d\n", num);
+    printf("%d\n", num); \
+    printf("%p\n", &num);
 
 #define STR_OUT_() \
     printf("not implemented\n");

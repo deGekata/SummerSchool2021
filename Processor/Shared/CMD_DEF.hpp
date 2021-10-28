@@ -167,10 +167,7 @@ DEF_CMD(DB, 19, 1, !(flags), {
 })
 
 DEF_CMD(DRAW, 20, 1, !(empty ^ flags), {
-    int ex = invoker->regs[4];
-    invoker->regs[4] = *(int*)(invoker->code + invoker->ip + 1) + 1;
     draw_video(invoker);
-    invoker->regs[4] = ex;
     invoker->ip++;
     return 1;
 })
