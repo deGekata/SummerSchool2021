@@ -44,6 +44,8 @@ int64_t get_command_id(MyString* string, size_t* offset) {
         return CMD_MARK;
     } else if (string->begin[0] == 'D' && string->begin[1] == 'B') {
         return CMD_DB;
+    } else if (string->begin[0] == 'D' && string->begin[1] == 'I') {
+        return CMD_DB;
     }
 
     return -2;

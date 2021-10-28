@@ -77,6 +77,11 @@ MyString* encode_lexems(Text* text) {
             continue;
         }
 
+        if(command_id == CMD_DM) {
+            parse_write_db_arg(program, &text->strings[line_ind], &offset, &ip_command);
+            continue;
+        }
+
         prev_ip_command = ip_command++;
         switch (command_id) {
             #include "../Shared/CMD_DEF.hpp"
@@ -290,6 +295,37 @@ void parse_write_db_arg(MyString* program, MyString* string, size_t* offset, siz
     
     while (string->begin[*offset] != '$' && *offset < string->size) {
         program->begin[ (*ip_offset)++ ] = string->begin[ (*offset)++ ];
+    }
+
+    if (string->begin[*offset] != '$')
+        assert(0 && "db arg need to end with '$'");
+    else {
+        *offset = skip_delimiters(string, *offset + 1);
+        if (*offset != string->size) {
+            assert(0 && "error db arg parse");
+        }
+    }
+
+    program->begin[ (*ip_offset)++ ] = CMD_DB;
+
+    return;
+}
+
+
+//FIX!!!
+void parse_write_dm_arg(MyString* program, MyString* string, size_t* offset, size_t* ip_offset) {
+    *offset = skip_delimiters(string, *offset);
+    if(string->begin[(*offset)++] != '$') 
+        assert(0 && "dm arg need to start with '$'");
+    else 
+        program->begin[ (*ip_offset)++ ] = CMD_DM;
+    
+    while (string->begin[*offset] != '$' && *offset < string->size) {
+        char num;
+        num = string->begin[ (*offset)++ ] - ' ';
+        num = num + (string->begin[ (*offset)++ ]<<4);
+        program->begin[ (*ip_offset)++ ] = string->begin[ (*offset) ];
+        offset+=2;
     }
 
     if (string->begin[*offset] != '$')
