@@ -16,9 +16,12 @@ char* createFileBuff (size_t file_size) {
     return ( char* ) calloc (file_size + 2, sizeof (char));
 }
 
+
+//TODO skip_item
 int countLines (char* text, size_t file_size, char delimiter, char skip_item) {
     assert(text);
 
+    skip_item = skip_item;
     int cnt = 0;
 
     for (size_t it = 0; it < file_size + 1; ++it) {
@@ -38,6 +41,9 @@ int countLines (char* text, size_t file_size, char delimiter, char skip_item) {
 
 Text* readFromFile (FILE* inp, char delimiter, char skip_item) {
     assert(inp);
+
+    //TODO delimiter
+    delimiter = delimiter;
     if(skip_item == '\0') return NULL;
 
     Text* text = (Text*) calloc(1, sizeof(Text));
@@ -54,7 +60,7 @@ void buildStrPointers (Text* text, char skip_item) {
 
     MyString* strings = (MyString*) calloc (text->lines_cnt, sizeof(MyString));
 
-    for (int it = 0; it < text->lines_cnt; ++it) {
+    for (size_t it = 0; it < text->lines_cnt; ++it) {
 
         while ( text->raw_line[offset + string_len] != '\0' && 
                 text->raw_line[offset + string_len] !=  skip_item) {                    

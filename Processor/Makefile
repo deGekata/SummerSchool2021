@@ -1,7 +1,7 @@
 # Это комментарий, который говорит, что переменная CC указывает компилятор, используемый для сборки
-CC=gcc
+CC=g++
 #Это еще один комментарий. Он поясняет, что в переменной CFLAGS лежат флаги, которые передаются компилятору
-CFLAGS=-c -Wall
+CFLAGS=-c -g -std=c++14 -Wall -Wextra -Weffc++ -Wc++0x-compat -Wc++11-compat -Wc++14-compat -Waggressive-loop-optimizations  -Warray-bounds -Wcast-align -Wcast-qual -Wchar-subscripts -Wconditionally-supported -Wconversion -Wctor-dtor-privacy -Wempty-body -Wfloat-equal -Wformat-nonliteral -Wformat-security -Wformat-signedness -Wformat=2  -Winline -Wlarger-than=8192  -Wlogical-op -Wmissing-declarations -Wnon-virtual-dtor -Wopenmp-simd -Woverloaded-virtual -Wpacked -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-promo -Wstack-usage=8192 -Wstrict-null-sentinel -Wstrict-overflow=2 -Wsuggest-attribute=noreturn -Wsuggest-final-types -Wsuggest-override -Wswitch-default -Wswitch-enum -Wsync-nand -Wundef -Wunreachable-code -Wunused -Wvariadic-macros -Wno-literal-suffix -Wno-missing-field-initializers -Wnarrowing -Wno-old-style-cast -Wvarargs -fcheck-new -fsized-deallocation -fstack-check -fstrict-overflow -fchkp-first-field-has-own-bounds -fchkp-narrow-to-innermost-array -flto-odr-type-merging
 BuildF="Build/"
 
 all: ASSembler DisASSembler Invoker
@@ -35,7 +35,7 @@ ASSemblerMain.o:
 
 
 DisASSembler: DisASSemblerMain.o DisASSembler.o Shared.o StringFileParser.o
-	$(CC) $(BuildF)DisASSembler.o $(BuildF)DisASSemblerMain.o $(BuildF)Shared.o $(BuildF)StringFileParser.o -o double_ass.out
+	$(CC) $(CFLAGS) $(BuildF)DisASSembler.o $(BuildF)DisASSemblerMain.o $(BuildF)Shared.o $(BuildF)StringFileParser.o -o double_ass.out
 
 DisASSembler.o:
 	$(CC) $(CFLAGS) DisASSembler/DisASSembler.cpp -o $(BuildF)DisASSembler.o

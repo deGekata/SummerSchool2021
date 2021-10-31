@@ -3,7 +3,6 @@
 DEF_CMD(HLT, 0, 1, !(empty ^ flags), 
 { 
     printf("chel....");
-    // printf("yep top: %d", top_(invoker->stk));
     return 0;
     
 })
@@ -29,10 +28,8 @@ DEF_CMD(POP, 2, 1, !((mem | reg | immediate_constant) ^ flags) ||
                    !(reg ^ flags)                              ||
                    !(empty ^ flags),
 {
-    // printf("before pop ya jiv\n");
     PARSE_POP_ARG_(ptr);
     POP_(TEMP1);
-    // printf("%d temp1 \n", TEMP1);
     *ptr = TEMP1;
     return 1;
 })
@@ -100,7 +97,6 @@ DEF_CMD(JNE, 10, 1, !(mark ^ flags), {
 DEF_CMD(JG, 11, 1, !(mark ^ flags), { 
     POP_(TEMP1);
     POP_(TEMP2);
-    // printf("Left: %d   Right: %d\n", TEMP1, TEMP2);
     JMP_COND(TEMP1, TEMP2, >);
     return 1;
 })
@@ -108,7 +104,6 @@ DEF_CMD(JG, 11, 1, !(mark ^ flags), {
 DEF_CMD(JGE, 12, 1, !(mark ^ flags), { 
     POP_(TEMP1);
     POP_(TEMP2);
-    
     JMP_COND(TEMP1, TEMP2, >=);
     return 1;
 })
@@ -116,7 +111,6 @@ DEF_CMD(JGE, 12, 1, !(mark ^ flags), {
 DEF_CMD(JL, 13, 1, !(mark ^ flags), { 
     POP_(TEMP1);
     POP_(TEMP2);
-    
     JMP_COND(TEMP1, TEMP2, <);
     return 1;
 })
@@ -124,7 +118,6 @@ DEF_CMD(JL, 13, 1, !(mark ^ flags), {
 DEF_CMD(JLE, 14, 1, !(mark ^ flags), { 
     POP_(TEMP1);
     POP_(TEMP2);
-    // printf("Left: %d   Right: %d\n", TEMP1, TEMP2);
     JMP_COND(TEMP1, TEMP2, <=);
     return 1;
 })
@@ -151,12 +144,7 @@ DEF_CMD(OUT, 17, 1, !(empty ^ flags), {
 
 DEF_CMD(STR_OUT, 18, 1, !(mark ^ flags), { 
     STR_OUT_();
-    int str_ptr = *(int*)(invoker->code + invoker->ip + 1) + 1;
-    while(invoker->code[str_ptr] != CMD_DB) {
-        printf("%c", invoker->code[str_ptr]);
-        str_ptr++;
-    } 
-    printf("\n");
+    
     invoker->ip += 5;
     return 1;
 })
@@ -178,12 +166,7 @@ DEF_CMD(DM, 21, 1, !(flags), {
 })
 
 DEF_CMD(IMG_OUT, 22, 1, !(mark ^ flags), {
-    
-    int ex = invoker->regs[4];
-    invoker->regs[4] = *(int*)(invoker->code + invoker->ip + 1) + 1;
-    draw_video(invoker);
-    SDL_Delay(9000);    
-    invoker->regs[4] = ex;
+    invoker->ip++;
 })
 
 

@@ -14,7 +14,7 @@
  */
 struct MyString {
     char* begin;
-    int size;
+    size_t size;
 };
 
 /*!

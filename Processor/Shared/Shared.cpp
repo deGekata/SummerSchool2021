@@ -21,7 +21,7 @@ int64_t hashFunc(const char * str, size_t len, int64_t init) {
     return hash;
 }
 
-bool is_control_transfer(int command_id) {
+bool is_control_transfer(int64_t command_id) {
     return (command_id == CMD_JMP)      ||
            (command_id == CMD_JE)       ||
            (command_id == CMD_JNE)      ||

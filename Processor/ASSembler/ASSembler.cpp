@@ -25,7 +25,7 @@ bool compile_program(FILE* input_file, FILE* output_file) {
     fwrite(a, sizeof(char), 1, output_file);
     printf("write 1 \n");
 
-    if (program->size == -1) {
+    if (program->begin == NULL) {
         assert(0 && "ASSembling error");
     }
 
@@ -45,13 +45,14 @@ bool compile_program(FILE* input_file, FILE* output_file) {
 MyString* encode_lexems(Text* text) {
     assert(text);
     
-    size_t offset = 0, prev_ip_command = 0, ip_command = 0, command_id = -2;
-    int8_t command_flags;
+    size_t offset = 0, prev_ip_command = 0, ip_command = 0;
+    int64_t command_id = -2;
+    uint8_t command_flags;
 
     MyString* program = (MyString*) calloc(1, sizeof(*program));
     program->begin = (char*) calloc(text->text_len * 3 * sizeof(int), sizeof(char));
 
-    for(int line_ind = 0; line_ind < text->lines_cnt; ++line_ind) {
+    for(size_t line_ind = 0; line_ind < text->lines_cnt; ++line_ind) {
         offset = skip_delimiters(&text->strings[line_ind], 0);
         printf("new line %d\n\n", line_ind);
         if(offset == text->strings[line_ind].size) continue;
@@ -117,7 +118,7 @@ inline void write_programm_on_disk(MyString* program, FILE* out_file) {
 }
 
 int find_label(int64_t hash) {
-    for(int it = 0; it < mark_locations.size; ++it) {
+    for(size_t it = 0; it < mark_locations.size; ++it) {
         if(mark_locations.data[it].hash == hash) {
             return it;
         }
@@ -128,7 +129,7 @@ int find_label(int64_t hash) {
 void link_labels(MyString* program) {
     assert(program);
 
-    for(int jmp_num = 0; jmp_num < jmp_locations.size; ++jmp_num) {
+    for(size_t jmp_num = 0; jmp_num < jmp_locations.size; ++jmp_num) {
         int label_pos = find_label(jmp_locations.data[jmp_num].hash);
         if(label_pos == -1) {
             assert(0 && "cant find label");
@@ -141,7 +142,6 @@ void link_labels(MyString* program) {
 void parse_write_control_transfer(MyString* program,
                                   int64_t   command,
                                   int8_t    args_cunt, 
-                                  int8_t*   command_flags,
                                   MyString* string, 
                                   size_t*   offset,
                                   size_t*   ip_offset) {
@@ -168,7 +168,7 @@ void parse_write_control_transfer(MyString* program,
 void parse_write_args(MyString* program,
                       int64_t   command,
                       int8_t    args_cunt, 
-                      int8_t*   command_flags,
+                      uint8_t*   command_flags,
                       MyString* string, 
                       size_t*   offset,
                       size_t*   ip_offset) {
@@ -177,7 +177,7 @@ void parse_write_args(MyString* program,
     
     //add jmp to arr
     if(is_control_transfer(command)) {
-        parse_write_control_transfer(program, command, args_cunt, command_flags, string, offset, ip_offset);
+        parse_write_control_transfer(program, command, args_cunt, string, offset, ip_offset);
         return;
     }
 
@@ -235,9 +235,9 @@ bool is_args_mathing(int64_t command, uint8_t flags) {
 }
 #undef DEF_CMD
 
-void write_command(MyString* programm, size_t prev_ip_command, int command_id, int8_t command_flags) {
+void write_command(MyString* programm, size_t prev_ip_command, int command_id, uint8_t command_flags) {
 //    return;
-   programm->begin[prev_ip_command] |= command_id | (command_flags & ~empty);
+   programm->begin[prev_ip_command] |= char(command_id) | (command_flags & ~empty);
 }
 
 void write_args(MyString* program, size_t* ip_offset, command_args* command_arg) {
@@ -314,30 +314,30 @@ void parse_write_db_arg(MyString* program, MyString* string, size_t* offset, siz
 
 //FIX!!!
 void parse_write_dm_arg(MyString* program, MyString* string, size_t* offset, size_t* ip_offset) {
-    *offset = skip_delimiters(string, *offset);
-    if(string->begin[(*offset)++] != '$') 
-        assert(0 && "dm arg need to start with '$'");
-    else 
-        program->begin[ (*ip_offset)++ ] = CMD_DM;
+    // *offset = skip_delimiters(string, *offset);
+    // if(string->begin[(*offset)++] != '$') 
+    //     assert(0 && "dm arg need to start with '$'");
+    // else 
+    //     program->begin[ (*ip_offset)++ ] = CMD_DM;
     
-    while (string->begin[*offset] != '$' && *offset < string->size) {
-        char num;
-        num = string->begin[ (*offset)++ ] - ' ';
-        num = num + (string->begin[ (*offset)++ ]<<4);
-        program->begin[ (*ip_offset)++ ] = string->begin[ (*offset) ];
-        offset+=2;
-    }
+    // while (string->begin[*offset] != '$' && *offset < string->size) {
+    //     char num;
+    //     num = string->begin[ (*offset)++ ] - ' ';
+    //     num = num + char((string->begin[ (*offset)++ ]<<4));
+    //     program->begin[ (*ip_offset)++ ] = string->begin[ (*offset) ];
+    //     offset+=2;
+    // }
 
-    if (string->begin[*offset] != '$')
-        assert(0 && "db arg need to end with '$'");
-    else {
-        *offset = skip_delimiters(string, *offset + 1);
-        if (*offset != string->size) {
-            assert(0 && "error db arg parse");
-        }
-    }
+    // if (string->begin[*offset] != '$')
+    //     assert(0 && "db arg need to end with '$'");
+    // else {
+    //     *offset = skip_delimiters(string, *offset + 1);
+    //     if (*offset != string->size) {
+    //         assert(0 && "error db arg parse");
+    //     }
+    // }
 
-    program->begin[ (*ip_offset)++ ] = CMD_DB;
+    // program->begin[ (*ip_offset)++ ] = CMD_DB;
 
     return;
 }

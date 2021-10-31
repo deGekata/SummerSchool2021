@@ -5,7 +5,7 @@ int64_t commands_hashes[CMD_MAX];
 
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, CODE) \
     commands_hashes[NUM] = hashFunc(#cmd, strlen(#cmd), 0);\
-    printf(#cmd " hash: %ld\n\n", hashFunc(#cmd, strlen(#cmd), 0));
+    printf(#cmd " hash: %lld\n\n", hashFunc(#cmd, strlen(#cmd), 0));
 
 void init_commands_hashes() {
     #include "../Shared/CMD_DEF.hpp"
@@ -62,7 +62,7 @@ command_args* fill_command_arg(MyString* string, size_t* offset) {
         return ret_args;
     }
 
-    int n = 0, scanf_ret;
+    int scanf_ret = -1;
     char reg_sym[2];
     *reg_sym = 100;
     char delim[2];
@@ -108,11 +108,11 @@ command_args* parse_reg_const(MyString* string, size_t* offset, command_args* re
     //try reg + const   
     printf("lol\n");
     printf("scanned string REG + CONST %s\n\n", string->begin + *offset);
-    scanf_ret = sscanf(string->begin + *offset, "%1[abcde]x%1[+]%d%n", reg_sym, &delim, &ret_args->constant, &n);
+    scanf_ret = sscanf(string->begin + *offset, "%1[abcde]x%1[+]%d%n", reg_sym, delim, &ret_args->constant, &n);
     printf("scanf_ret %d  n:%d lol\n", scanf_ret, n);
     if(scanf_ret == 3 && n != 0) {
         *offset += n;
-        ret_args->reg_num = *reg_sym - 'a';
+        ret_args->reg_num = int8_t(*reg_sym) - int8_t('a');
         ret_args->flags |= reg | immediate_constant;
         return ret_args;
     }
@@ -124,7 +124,7 @@ command_args* parse_reg_const(MyString* string, size_t* offset, command_args* re
     printf("scanned reg ans syms: %s   %d\n\n", reg_sym, n);
     if(scanf_ret == 1 && n !=0) {
         *offset += n;
-        ret_args->reg_num = *reg_sym - 'a';
+        ret_args->reg_num = *reg_sym - char('a');
         ret_args->flags |= reg;
         return ret_args;
     }
@@ -138,17 +138,19 @@ command_args* parse_reg_const(MyString* string, size_t* offset, command_args* re
         ret_args->flags |= immediate_constant;
         return ret_args;
     }
+
+    return ret_args;
 }
 
 command_args** parse_mark(MyString* string, size_t* offset, command_args** ret_args) {
     printf("parse_mark %d\n\n", (*ret_args)->flags);
     if (!(*ret_args)->flags) {
         size_t mark_offset = get_lexem_offset(string, *offset);
-        printf("parse_mark in %d mark off\n\n", mark_offset);
+        printf("parse_mark in %u mark off\n\n", mark_offset);
         
         for(size_t sym_num = *offset; sym_num < mark_offset; ++sym_num) {
             
-            if(!isalnum(string->begin[sym_num])  && !string->begin[sym_num] == '_') { 
+            if(!isalnum(string->begin[sym_num])  && !(string->begin[sym_num] == '_')) { 
                     printf("parse_mark gavno '%c' \n\n",  string->begin[sym_num]);
                     free(*ret_args);
                     *ret_args = NULL;
@@ -180,8 +182,8 @@ size_t skip_delimiters(MyString* string, size_t offset) {
 }
 
 size_t get_lexem_offset(MyString* string, size_t offset) {
-    printf("%d offset in get_lexem_offset\n\n", offset);
-    while ( !is_delimiter(string->begin[offset]) && string->begin[offset] != '\0' && offset < string->size) ++offset;
+    printf("%u offset in get_lexem_offset\n\n", offset);
+    while ( !is_delimiter(string->begin[offset]) && string->begin[offset] != '\0' && offset < size_t(string->size)) ++offset;
     
     return offset;
 }

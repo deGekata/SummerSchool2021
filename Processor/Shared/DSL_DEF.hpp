@@ -53,7 +53,7 @@
 #define JMP_() invoker->ip = *(int*)(invoker->code + invoker->ip + 1);
 
 #define JMP_COND(arg1, arg2, cond)              \
-    if ( (arg1) cond (arg2)){                    \
+    if ( (arg1) cond (arg2) ){                    \
         JMP_();                                   \
     } else {                                       \
         invoker->ip += sizeof(char) + sizeof(int);  \
@@ -72,10 +72,15 @@
     printf("%d\n", num); \
     printf("%p\n", &num);
 
-#define STR_OUT_() \
-    printf("not implemented\n");
+#define STR_OUT_()                                            \
+    int str_ptr = *(int*)(invoker->code + invoker->ip + 1) + 1;\
+    while(invoker->code[str_ptr] != CMD_DB) {                   \
+        printf("%c", invoker->code[str_ptr]);                    \
+        str_ptr++;                                                \
+    }                                                              \
+    printf("\n");                                                   \
 
 
 #define DB_() \
-    printf("db not implemented");
+    printf("db does nothing");
 
