@@ -93,7 +93,7 @@ void write_program_on_disk(MyString* program, MyString* program_label_counters, 
         //        output
         //       );
 
-        printf("comm ip:%d %hhu  name: %s\n", ip, char(program->begin[ip] & ~(reg | immediate_constant | mem)), command_str_ptrs[uint8_t(program->begin[ip] & ~(reg | immediate_constant | mem))]);
+        printf("comm ip:%zu %hhu  name: %s\n", ip, char(program->begin[ip] & ~(reg | immediate_constant | mem)), command_str_ptrs[uint8_t(program->begin[ip] & ~(reg | immediate_constant | mem))]);
       
         
         if (is_control_transfer(program->begin[command_ip] & ~(mem | reg | immediate_constant))) {
@@ -121,13 +121,13 @@ void write_program_on_disk(MyString* program, MyString* program_label_counters, 
         str_buff[str_offset++] = ' ';
 
         if ((program->begin[command_ip] & mem) != 0) {
-            str_buff[str_offset++] = '[';
+            str_buff[str_offset++] = char('[');
         }
         printf("%d\n", __LINE__);
 
         if ((program->begin[command_ip] & reg) != 0) {
-            str_buff[str_offset++] = 'a' +  program->begin[ip++];
-            str_buff[str_offset++] = 'x';
+            str_buff[str_offset++] = char('a' +  program->begin[ip++]);
+            str_buff[str_offset++] = char('x');
         }
         printf("%d\n", __LINE__);
 
