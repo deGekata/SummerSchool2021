@@ -1,5 +1,11 @@
 #include "DisASSembler.hpp"
 
+my_arr jmp_locations, mark_locations;
+
+const char* command_str_ptrs[CMD_MAX];
+int command_str_len[CMD_MAX];
+
+
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code) \
     command_str_ptrs[NUM] = #cmd;                      \
     command_str_len[NUM] = strlen(#cmd);                \
@@ -13,7 +19,7 @@ void disassemble(FILE* input, FILE* output) {
     assert(input);
     assert(output);
     
-    int file_size = getFileSize(input);
+    int64_t file_size = getFileSize(input);
 
     MyString* program_asm, *program_label_counters;
     create_buff(&program_asm, file_size);
@@ -25,7 +31,7 @@ void disassemble(FILE* input, FILE* output) {
     program_asm->begin += 2;
     program_asm->size -= 2;
 
-    int cmd_cnt = fill_additional_data(program_asm, program_label_counters);
+    size_t cmd_cnt = fill_additional_data(program_asm, program_label_counters);
 
     write_program_on_disk(program_asm, program_label_counters, output);
     
@@ -36,11 +42,12 @@ int fill_additional_data(MyString* program, MyString* program_label_counters) {
     assert(program);
     assert(program_label_counters);
     
-    int cmd_cnt = 0, ip = 0, label_id = 0;
-    printf("fill data %d\n", program->size);
+    int cmd_cnt = 0;
+    size_t ip = 0, label_id = 0;
+    printf("fill data %zu\n", program->size);
     while(ip < program->size) {
-        int command_len = get_command_len(program, ip);
-        printf("  len :%d\n", command_len);
+        size_t command_len = get_command_len(program, ip);
+        printf("  len :%zu\n", command_len);
 
         if(is_control_transfer(program->begin[ip])) {
             label_id +=  (((int*)program_label_counters->begin)[ *(int*)(program->begin + ip + 1) ] == 0);
@@ -63,7 +70,8 @@ void write_program_on_disk(MyString* program, MyString* program_label_counters, 
     assert(program_label_counters);
     assert(output);
 
-    int cmd_cnt = 0, ip = 0, command_ip = 0;;
+    int cmd_cnt = 0;
+    size_t ip = 0, command_ip = 0;;
     char str_buff[24];
 
     while(ip < program->size) {
@@ -109,7 +117,7 @@ void write_program_on_disk(MyString* program, MyString* program_label_counters, 
 
         ++ip;
 
-        int str_offset = 0;
+        size_t str_offset = 0;
         str_buff[str_offset++] = ' ';
 
         if ((program->begin[command_ip] & mem) != 0) {
@@ -154,12 +162,12 @@ void write_program_on_disk(MyString* program, MyString* program_label_counters, 
     return;
 }
 
-int get_command_len(MyString* string, int cur_ip) {
+size_t get_command_len(MyString* string, size_t cur_ip) {
     assert(string);
 
     char command =*(char*)(string->begin + cur_ip);
     printf("cmd: %d  ", command);
-    int cmd_len = 1;
+    size_t cmd_len = 1;
 
     if(command == CMD_DB) {
         while (string->begin[cur_ip + cmd_len] != CMD_DB) {
@@ -175,7 +183,7 @@ int get_command_len(MyString* string, int cur_ip) {
     return cmd_len;
 }
 
-void create_buff(MyString** string, int size) {
+void create_buff(MyString** string, size_t size) {
     assert(string);
     
     *string = (MyString*) calloc(1, sizeof(MyString));

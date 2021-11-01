@@ -35,7 +35,7 @@ Text* readFromFile (FILE* inp,  char delimiter='\n', char skip_item = '\n');
 /*!
  * \brief Get file size from file properties
  */
-int getFileSize (FILE* inp);
+int64_t getFileSize (FILE* inp);
 
 /*!
  * \brief creates special format buffer for Text 

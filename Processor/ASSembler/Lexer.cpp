@@ -5,7 +5,7 @@ int64_t commands_hashes[CMD_MAX];
 
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, CODE) \
     commands_hashes[NUM] = hashFunc(#cmd, strlen(#cmd), 0);\
-    printf(#cmd " hash: %I64d\n\n", hashFunc(#cmd, strlen(#cmd), 0));
+    printf(#cmd " hash: %ld\n\n", hashFunc(#cmd, strlen(#cmd), 0));
 
 void init_commands_hashes() {
     #include "../Shared/CMD_DEF.hpp"
@@ -14,7 +14,7 @@ void init_commands_hashes() {
 
 void printf_commands_hashes() {
     for(int i = 0; i < CMD_MAX; ++i) {
-        printf("%I64d\n\n", commands_hashes[i]);
+        printf("%ld\n\n", commands_hashes[i]);
     }
 }
 
@@ -29,16 +29,15 @@ inline bool is_delimiter(char elem) {
 
 int64_t get_command_id(MyString* string, size_t* offset) {
     size_t begin = skip_delimiters(string, 0);
-    printf("%I32u offff beg\n\n", begin);
+    printf("%zu offff beg\n\n", begin);
     if(begin == string->size - 1) {
         return -1;
     }
 
     *offset = get_lexem_offset(string, begin);
-    printf("%I32u offff lex\n\n ", *offset);
 
     int64_t hash = hashFunc(string->begin + begin, *offset - begin, 0);
-
+    printf("COMMAND HASH:%ld\n", hash);
     #include "../Shared/CMD_DEF.hpp"
     if (string->size > 1 && string->begin[string->size - 1] == ':') { 
         return CMD_MARK;
@@ -146,7 +145,7 @@ command_args** parse_mark(MyString* string, size_t* offset, command_args** ret_a
     printf("parse_mark %d\n\n", (*ret_args)->flags);
     if (!(*ret_args)->flags) {
         size_t mark_offset = get_lexem_offset(string, *offset);
-        printf("parse_mark in %u mark off\n\n", mark_offset);
+        printf("parse_mark in %zu mark off\n\n", mark_offset);
         
         for(size_t sym_num = *offset; sym_num < mark_offset; ++sym_num) {
             
@@ -166,7 +165,7 @@ command_args** parse_mark(MyString* string, size_t* offset, command_args** ret_a
         (*ret_args)->mark_name->begin = string->begin + *offset;
         (*ret_args)->mark_name->size = mark_offset - *offset;
 
-        printf("MARK: %I64d\n", hashFunc((*ret_args)->mark_name->begin, (*ret_args)->mark_name->size, 0));
+        printf("MARK: %ld\n", hashFunc((*ret_args)->mark_name->begin, (*ret_args)->mark_name->size, 0));
 
         *offset = mark_offset;
     }
@@ -182,9 +181,9 @@ size_t skip_delimiters(MyString* string, size_t offset) {
 }
 
 size_t get_lexem_offset(MyString* string, size_t offset) {
-    printf("%u offset in get_lexem_offset\n\n", offset);
+    printf("%zu offset in get_lexem_offset\n\n", offset);
     while ( !is_delimiter(string->begin[offset]) && string->begin[offset] != '\0' && offset < size_t(string->size)) ++offset;
-    
+    printf("%zu offset in get_lexem_offset after\n\n", offset);
     return offset;
 }
 

@@ -8,8 +8,8 @@ struct Invoker {
     char* memory;
     char* code;
     SafeStack* stk ;
-    int code_size;
-    int ip;
+    size_t code_size;
+    size_t ip;
     int regs[5];
     SDL_Surface* screen_surface;
     SDL_Window *win;
@@ -39,8 +39,6 @@ void invoker_debug_print_stack(Invoker* invoker);
 #include "../Shared/CMD_DEF.hpp"
 
 #undef DEF_CMD
-
-void print_inst(Invoker* invoker, int num) ;
 
 void init_video(Invoker* invoker);
 

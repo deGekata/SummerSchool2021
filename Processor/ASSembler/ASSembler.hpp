@@ -5,9 +5,6 @@
 #include <string.h>
 // #include "../config.hpp"
 
-
-static my_arr jmp_locations, mark_locations;
-
 bool compile_program(FILE* input_file, FILE* output_file);
 
 MyString* encode_lexems(Text* text);
@@ -39,8 +36,10 @@ void write_command(MyString* programm, size_t prev_ip_command, int64_t command_i
 
 void write_args(MyString* programm, size_t* ip_offset, command_args* command_arg);
 
-void add_mark(MyString* strings, size_t *offset, int ip_command);
+void add_mark(MyString* strings, size_t *offset, size_t ip_command);
 
 void parse_write_db_arg(MyString* program, MyString* string, size_t* offset, size_t* ip_command);
+
+void parse_write_dm_arg(MyString* program, MyString* string, size_t* offset, size_t* ip_offset);
 
 #endif

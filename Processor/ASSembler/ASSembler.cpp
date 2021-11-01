@@ -1,6 +1,6 @@
 #include "ASSembler.hpp"
 
-
+my_arr jmp_locations, mark_locations;
 
 bool compile_program(FILE* input_file, FILE* output_file) {
     assert(input_file);
@@ -54,19 +54,20 @@ MyString* encode_lexems(Text* text) {
 
     for(size_t line_ind = 0; line_ind < text->lines_cnt; ++line_ind) {
         offset = skip_delimiters(&text->strings[line_ind], 0);
-        printf("new line %I64u\n\n", line_ind);
+        printf("new line %zu\n\n", line_ind);
         if(offset == text->strings[line_ind].size) continue;
 
         printf("before command id\n");
         command_id = get_command_id(&text->strings[line_ind], &offset);
-        printf("after command id %I64u\n", command_id);
+        printf("after command id %ld\n", command_id);
 
         if(command_id == -2) {
+            printf("here");
             free(program->begin);
             free(program);
             return NULL;
         }    
-        printf("after -2 if command id: %I64u\n", command_id);      
+        printf("after -2 if command id: %ld\n", command_id);      
 
         if(command_id == CMD_MARK) {
             add_mark(&text->strings[line_ind], &offset, ip_command);
@@ -91,19 +92,19 @@ MyString* encode_lexems(Text* text) {
         }
 
 
-        printf("cur_offset %d \n\n", offset);
+        printf("cur_offset %zu \n\n", offset);
         printf("write command\n");
         write_command(program, prev_ip_command, command_id, command_flags);
         printf("last sym %d %d\n", int(text->strings[line_ind].begin[offset]), int(text->strings[line_ind].begin[offset] != '\0'));
         
         offset = skip_delimiters(&text->strings[line_ind], offset);
-        printf("str size: %I64u  offset:%I64u, str:'%s'\n", text->strings[line_ind].size, offset, text->strings[line_ind].begin);
+        printf("str size: %zu  offset:%zu, str:'%s'\n", text->strings[line_ind].size, offset, text->strings[line_ind].begin);
         if(offset != text->strings[line_ind].size) {
                 assert(0 && "Too many args");
         }
     }
     
-    printf("%I64u program bef ip command eq\n", text->text_len * 3 * sizeof(int));
+    printf("%zu program bef ip command eq\n", text->text_len * 3 * sizeof(int));
     program->size = ip_command;
     return program;
 }
@@ -120,7 +121,7 @@ inline void write_programm_on_disk(MyString* program, FILE* out_file) {
 int find_label(int64_t hash) {
     for(size_t it = 0; it < mark_locations.size; ++it) {
         if(mark_locations.data[it].hash == hash) {
-            return it;
+            return int(it);
         }
     }
     return -1;
@@ -134,8 +135,8 @@ void link_labels(MyString* program) {
         if(label_pos == -1) {
             assert(0 && "cant find label");
         }
-        printf("label location : %I64u", mark_locations.data[label_pos].location);
-        *(int*)(program->begin + jmp_locations.data[jmp_num].location) = mark_locations.data[label_pos].location;
+        printf("label location : %zu", mark_locations.data[label_pos].location);
+        *(int*)(program->begin + jmp_locations.data[jmp_num].location) = int(mark_locations.data[label_pos].location);
     }
 }
 
@@ -192,7 +193,7 @@ void parse_write_args(MyString* program,
             *offset = skip_delimiters(string, *offset);
             printf("left str %s\n", string->begin + *offset);   //
 
-            printf("offset before fill_command %I64u\n", *offset); //
+            printf("offset before fill_command %zu\n", *offset); //
             command_arg_buff = fill_command_arg(string, offset);
             printf("left str2 %s\n", string->begin + *offset);  //
             
@@ -203,7 +204,7 @@ void parse_write_args(MyString* program,
             if(is_args_mathing(command, command_arg_buff->flags)) {
                 write_args(program, ip_offset, command_arg_buff);
                 *offset = get_lexem_offset(string, *offset);
-                printf("%I64u new offset\n\n", *offset); //
+                printf("%zu new offset\n\n", *offset); //
 
             } else {
                 assert(0 && "args not matching\n\n\n"); //
@@ -265,13 +266,13 @@ void write_args(MyString* program, size_t* ip_offset, command_args* command_arg)
 }
 
 
-void add_mark(MyString* strings, size_t *offset, int ip_command) {
+void add_mark(MyString* strings, size_t *offset, size_t ip_command) {
             if(mark_locations.size == mark_locations.capacity) extend_my_arr(&mark_locations);
             
             label_struct label;
             
             label.location = ip_command;
-            int lexem_begin = skip_delimiters(strings, 0);
+            size_t lexem_begin = skip_delimiters(strings, 0);
             *offset = get_lexem_offset(strings, *offset);
             label.hash = hashFunc(strings->begin + lexem_begin, *offset - lexem_begin - 1, 0);
             mark_locations.data[mark_locations.size] = label;

@@ -20,22 +20,22 @@ void init_invoker(Invoker* invoker, FILE* input) {
     invoker->stk = (SafeStack*) calloc(1, sizeof(SafeStack));
     invoker->memory = (char*) calloc(MAX_RAM_SIZE + MAX_GPU_MEM_SIZE, sizeof(char));
     invoker->ip = 0;
-    printf("invoker params 1: %d \n", invoker->ip);
+    printf("invoker params 1: %zu \n", invoker->ip);
 
     memset(invoker->regs, 0, sizeof(invoker->regs));
-    memset(invoker->memory, 0, sizeof(invoker->memory));
-    printf("invoker params 2: %d \n", invoker->ip);
+    memset(invoker->memory, 0, MAX_RAM_SIZE + MAX_GPU_MEM_SIZE);
+    printf("invoker params 2: %zu \n", invoker->ip);
 
     createStack(invoker->stk);
 
-    int file_size = getFileSize(input);
-    printf("%d file-size", file_size);
+    size_t file_size = getFileSize(input);
+    printf("%zu file-size", file_size);
     fread(invoker->memory, sizeof(char), file_size, input);
 
     invoker->code = invoker->memory + 2;
     invoker->memory += file_size; 
     invoker->code_size = file_size;
-    printf("invoker params 4: %d \n", invoker->ip);
+    printf("invoker params 4: %zu \n", invoker->ip);
 
     init_video(invoker);
 
@@ -94,7 +94,7 @@ void invoker_debug_print_code(Invoker* invoker) {
     // printf("\033[1;30;41m^^\033[0m\n");
     
 
-    printf("current ip: %d\n", invoker->ip);
+    printf("current ip: %zu\n", invoker->ip);
 
 }
 
@@ -102,21 +102,21 @@ void invoker_debug_print_regs(Invoker* invoker) {
     const char* regs_offset_delim = "\033[1;30;41m###############\033[0m";
     int max_width = 12;
     printf("\033[1;30;41m#\033[0m");
-    for(int it = 0; it < sizeof(invoker->regs) / sizeof(invoker->regs[0]); ++it ) printf("%s", regs_offset_delim);
+    for(size_t it = 0; it < sizeof(invoker->regs) / sizeof(invoker->regs[0]); ++it ) printf("%s", regs_offset_delim);
     printf("\033[1;30;41m#\033[0m");
     printf("\n\033[1;30;41m#\033[0m ");
-    for(int reg_num = 0; reg_num < sizeof(invoker->regs) / sizeof(invoker->regs[0]); ++reg_num) {
+    for(size_t reg_num = 0; reg_num < sizeof(invoker->regs) / sizeof(invoker->regs[0]); ++reg_num) {
         printf("%*d \033[1;30;41m#\033[0m ", max_width, invoker->regs[reg_num]);
     }
 
 
     printf("\n\033[1;30;41m#\033[0m");
-    for(int reg_num = 0; reg_num < sizeof(invoker->regs) / sizeof(invoker->regs[0]); ++reg_num) {
-        printf("%*cx \033[1;30;41m#\033[0m", max_width, 'a' + reg_num);
+    for(size_t reg_num = 0; reg_num < sizeof(invoker->regs) / sizeof(invoker->regs[0]); ++reg_num) {
+        printf("%*cx \033[1;30;41m#\033[0m", max_width, char('a' + reg_num));
     }
     printf("\n");
     printf("\033[1;30;41m#\033[0m");
-    for(int it = 0; it < sizeof(invoker->regs) / sizeof(invoker->regs[0]); ++it ) printf("%s", regs_offset_delim);
+    for(size_t it = 0; it < sizeof(invoker->regs) / sizeof(invoker->regs[0]); ++it ) printf("%s", regs_offset_delim);
     printf("\033[1;30;41m#\033[0m");
     printf("\n\n");
 }
@@ -124,18 +124,14 @@ void invoker_debug_print_regs(Invoker* invoker) {
 void invoker_debug_print_stack(Invoker* invoker) {
     const char* regs_offset_delim = "\033[1;30;44m###############\033[0m\n";
     int max_width = 12;
-    printf(regs_offset_delim);
+    printf("%s", regs_offset_delim);
     for(int it = invoker->stk->size - 1; it >= 0; --it) {
         printf("\033[1;30;44m#\033[0m");
         printf("%*d \033[1;30;44m#\033[0m\n", max_width, invoker->stk->arr[it]);
     }
-    printf(regs_offset_delim);
+    printf("%s", regs_offset_delim);
     
 
-}
-
-void print_inst(Invoker* invoker, int num) {
-    instructions[num](invoker, num);
 }
 
 

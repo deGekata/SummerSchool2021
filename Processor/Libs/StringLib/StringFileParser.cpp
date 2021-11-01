@@ -1,10 +1,10 @@
 #include "StringFileParser.h"
 
 
-int getFileSize (FILE* inp) {
+int64_t getFileSize (FILE* inp) {
     assert(inp);
     fseek(inp, 0L, SEEK_END);
-    int size = ftell(inp);
+    int64_t size = ftell(inp);
     fseek(inp, 0L, SEEK_SET);
     return size;
     // struct stat file_stat_buff;

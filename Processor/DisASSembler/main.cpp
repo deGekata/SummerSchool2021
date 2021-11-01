@@ -5,7 +5,6 @@ int main(int argc, char* argv[]) {
     
     printf("test");
     init_command_ptr();
-
     FILE* input  = fopen(argv[1], "rb");
     // printf("%d", getc(input));
     FILE* output = fopen(argv[2], "w+");
