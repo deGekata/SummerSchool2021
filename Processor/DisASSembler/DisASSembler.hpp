@@ -1,3 +1,6 @@
+#ifndef PROCESSOR_DISASSEMBLER_DISASSEMBLER
+#define PROCESSOR_DISASSEMBLER_DISASSEMBLER
+
 #include "../Shared/Shared.hpp"
 
 static my_arr jmp_locations, mark_locations;
@@ -16,3 +19,5 @@ void write_program_on_disk(MyString* program, MyString* program_label_counters, 
 int get_command_len(MyString* string, int cur_ip);
 
 void create_buff(MyString** string, int size);
+
+#endif

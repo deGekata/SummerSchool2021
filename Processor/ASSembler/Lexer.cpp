@@ -5,7 +5,7 @@ int64_t commands_hashes[CMD_MAX];
 
 #define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, CODE) \
     commands_hashes[NUM] = hashFunc(#cmd, strlen(#cmd), 0);\
-    printf(#cmd " hash: %lld\n\n", hashFunc(#cmd, strlen(#cmd), 0));
+    printf(#cmd " hash: %I64d\n\n", hashFunc(#cmd, strlen(#cmd), 0));
 
 void init_commands_hashes() {
     #include "../Shared/CMD_DEF.hpp"
@@ -14,7 +14,7 @@ void init_commands_hashes() {
 
 void printf_commands_hashes() {
     for(int i = 0; i < CMD_MAX; ++i) {
-        printf("%ld\n\n", commands_hashes[i]);
+        printf("%I64d\n\n", commands_hashes[i]);
     }
 }
 
@@ -29,13 +29,13 @@ inline bool is_delimiter(char elem) {
 
 int64_t get_command_id(MyString* string, size_t* offset) {
     size_t begin = skip_delimiters(string, 0);
-    printf("%ld offff beg\n\n", begin);
+    printf("%I32u offff beg\n\n", begin);
     if(begin == string->size - 1) {
         return -1;
     }
 
     *offset = get_lexem_offset(string, begin);
-    printf("%ld offff lex\n\n ", *offset);
+    printf("%I32u offff lex\n\n ", *offset);
 
     int64_t hash = hashFunc(string->begin + begin, *offset - begin, 0);
 
@@ -166,7 +166,7 @@ command_args** parse_mark(MyString* string, size_t* offset, command_args** ret_a
         (*ret_args)->mark_name->begin = string->begin + *offset;
         (*ret_args)->mark_name->size = mark_offset - *offset;
 
-        printf("MARK: %d\n", hashFunc((*ret_args)->mark_name->begin, (*ret_args)->mark_name->size, 0));
+        printf("MARK: %I64d\n", hashFunc((*ret_args)->mark_name->begin, (*ret_args)->mark_name->size, 0));
 
         *offset = mark_offset;
     }

@@ -1,3 +1,6 @@
+#ifndef PROCESSOR_SHARED_SHARED
+#define PROCESSOR_SHARED_SHARED
+
 #include <inttypes.h>
 #include <string.h>
 #include "../Libs/StringLib/StringFileParser.h"
@@ -57,3 +60,5 @@ void extend_my_arr(my_arr* arr);
 int64_t hashFunc(const char* str, size_t len, int64_t init = 0);
 
 bool is_control_transfer(int64_t command_id);
+
+#endif

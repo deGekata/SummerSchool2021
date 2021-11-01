@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
     setvbuf( output, (char *)NULL, _IONBF, 0 );
 
     printf("program dir: %s\n\n", argv[0]);
-    printf("%d %d", input, output);
+    printf("%p %p", input, output);
     compile_program(input, output);
     fclose(input);
     fclose(output);

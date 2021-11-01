@@ -54,19 +54,19 @@ MyString* encode_lexems(Text* text) {
 
     for(size_t line_ind = 0; line_ind < text->lines_cnt; ++line_ind) {
         offset = skip_delimiters(&text->strings[line_ind], 0);
-        printf("new line %d\n\n", line_ind);
+        printf("new line %I64u\n\n", line_ind);
         if(offset == text->strings[line_ind].size) continue;
 
         printf("before command id\n");
         command_id = get_command_id(&text->strings[line_ind], &offset);
-        printf("after command id %d\n", command_id);
+        printf("after command id %I64u\n", command_id);
 
         if(command_id == -2) {
             free(program->begin);
             free(program);
             return NULL;
         }    
-        printf("after -2 if command id: %d\n", command_id);      
+        printf("after -2 if command id: %I64u\n", command_id);      
 
         if(command_id == CMD_MARK) {
             add_mark(&text->strings[line_ind], &offset, ip_command);
@@ -97,13 +97,13 @@ MyString* encode_lexems(Text* text) {
         printf("last sym %d %d\n", int(text->strings[line_ind].begin[offset]), int(text->strings[line_ind].begin[offset] != '\0'));
         
         offset = skip_delimiters(&text->strings[line_ind], offset);
-        printf("str size: %d  offset:%d, str:'%s'\n", text->strings[line_ind].size, offset, text->strings[line_ind]);
+        printf("str size: %I64u  offset:%I64u, str:'%s'\n", text->strings[line_ind].size, offset, text->strings[line_ind].begin);
         if(offset != text->strings[line_ind].size) {
                 assert(0 && "Too many args");
         }
     }
     
-    printf("%d program bef ip command eq\n", text->text_len * 3 * sizeof(int));
+    printf("%I64u program bef ip command eq\n", text->text_len * 3 * sizeof(int));
     program->size = ip_command;
     return program;
 }
@@ -134,7 +134,7 @@ void link_labels(MyString* program) {
         if(label_pos == -1) {
             assert(0 && "cant find label");
         }
-        printf("label location : %d", mark_locations.data[label_pos].location);
+        printf("label location : %I64u", mark_locations.data[label_pos].location);
         *(int*)(program->begin + jmp_locations.data[jmp_num].location) = mark_locations.data[label_pos].location;
     }
 }
@@ -168,7 +168,7 @@ void parse_write_control_transfer(MyString* program,
 void parse_write_args(MyString* program,
                       int64_t   command,
                       int8_t    args_cunt, 
-                      uint8_t*   command_flags,
+                      uint8_t*  command_flags,
                       MyString* string, 
                       size_t*   offset,
                       size_t*   ip_offset) {
@@ -192,7 +192,7 @@ void parse_write_args(MyString* program,
             *offset = skip_delimiters(string, *offset);
             printf("left str %s\n", string->begin + *offset);   //
 
-            printf("offset before fill_command %d\n", *offset); //
+            printf("offset before fill_command %I64u\n", *offset); //
             command_arg_buff = fill_command_arg(string, offset);
             printf("left str2 %s\n", string->begin + *offset);  //
             
@@ -203,7 +203,7 @@ void parse_write_args(MyString* program,
             if(is_args_mathing(command, command_arg_buff->flags)) {
                 write_args(program, ip_offset, command_arg_buff);
                 *offset = get_lexem_offset(string, *offset);
-                printf("%d new offset\n\n", *offset); //
+                printf("%I64u new offset\n\n", *offset); //
 
             } else {
                 assert(0 && "args not matching\n\n\n"); //
@@ -235,7 +235,7 @@ bool is_args_mathing(int64_t command, uint8_t flags) {
 }
 #undef DEF_CMD
 
-void write_command(MyString* programm, size_t prev_ip_command, int command_id, uint8_t command_flags) {
+void write_command(MyString* programm, size_t prev_ip_command, int64_t command_id, uint8_t command_flags) {
 //    return;
    programm->begin[prev_ip_command] |= char(command_id) | (command_flags & ~empty);
 }

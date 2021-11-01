@@ -1,3 +1,6 @@
+#ifndef PROCESSOR_ASSEMBLER_LEXER
+#define PROCESSOR_ASSEMBLER_LEXER
+
 #include "../Shared/Shared.hpp"
 
 void init_commands_hashes();
@@ -17,3 +20,5 @@ inline bool is_delimiter(char elem);
 size_t skip_delimiters(MyString* string, size_t offset);
 
 size_t get_lexem_offset(MyString* string, size_t offset);
+
+#endif

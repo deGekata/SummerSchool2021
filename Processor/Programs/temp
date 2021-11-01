@@ -1,28 +1,2 @@
-
-PUSH 10000
-POP ax
-
-begin:
-
-PUSH 0    
-PUSH ax   
-
-JLE skipToRet
-
-    PUSH ax
-    PUSH ex
-    ADD
-    POP bx
-    PUSH 756895
-    POP [bx]
-    PUSH 1
-    PUSH ax
-    SUB
-    POP ax
-
-    JMP begin
-
-skipToRet:
-        DRAW
-        HLT
+PUSH [ax]]]]]
 

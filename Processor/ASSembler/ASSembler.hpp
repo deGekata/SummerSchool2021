@@ -1,3 +1,6 @@
+#ifndef PROCESSOR_ASSEMBLER_ASSEMBLER
+#define PROCESSOR_ASSEMBLER_ASSEMBLER
+
 #include "Lexer.hpp"
 #include <string.h>
 // #include "../config.hpp"
@@ -32,7 +35,7 @@ void parse_write_control_transfer(MyString* program,
 
 bool is_args_mathing(int64_t command, uint8_t flags);
 
-void write_command(MyString* programm, size_t prev_ip_command, int command_id, uint8_t command_flags);
+void write_command(MyString* programm, size_t prev_ip_command, int64_t command_id, uint8_t command_flags);
 
 void write_args(MyString* programm, size_t* ip_offset, command_args* command_arg);
 
@@ -40,3 +43,4 @@ void add_mark(MyString* strings, size_t *offset, int ip_command);
 
 void parse_write_db_arg(MyString* program, MyString* string, size_t* offset, size_t* ip_command);
 
+#endif
