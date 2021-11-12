@@ -140,6 +140,9 @@ void link_labels(MyString* program) {
     }
 }
 
+//params for future
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 void parse_write_control_transfer(MyString* program,
                                   int64_t   command,
                                   int8_t    args_cunt, 
@@ -164,6 +167,7 @@ void parse_write_control_transfer(MyString* program,
 
     return;
 }
+#pragma GCC diagnostic pop
 
 
 void parse_write_args(MyString* program,

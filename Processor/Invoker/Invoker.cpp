@@ -1,10 +1,15 @@
 #include "Invoker.hpp"
-#include <math.h>
+#include <math.h> 
 
-#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code) \
+#define DEF_CMD(cmd, NUM, ARGS_CUNT, ARGS_TYPE, code) \     
     bool instruction_ ## cmd (Invoker* invoker, char Cmd) code
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+
 #include "../Shared/CMD_DEF.hpp"
+
+#pragma GCC diagnostic pop
 
 #undef DEF_CMD
 
